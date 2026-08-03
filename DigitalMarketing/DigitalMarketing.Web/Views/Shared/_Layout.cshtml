@@ -6,8 +6,7 @@
     <title>@ViewData["Title"] - DigitalMarketing</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DigitalMarketing.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -37,9 +36,25 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="custom-footer">
         <div class="container">
-            &copy; 2026 - DigitalMarketing - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="footer-content">
+                <div>
+                    <h5>DigitalMarketing</h5>
+                    <p>
+                        ارائه خدمات دیجیتال مارکتینگ و توسعه وب
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                    <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2026 DigitalMarketing - All Rights Reserved
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
