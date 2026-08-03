@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DigitalMarketing.Admin/DigitalMarketing.Admin.csproj" />
+  <Project Path="DigitalMarketing/DigitalMarketing.csproj" />
+</Solution>
