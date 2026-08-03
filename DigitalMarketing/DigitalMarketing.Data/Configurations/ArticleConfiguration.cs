@@ -22,6 +22,9 @@ namespace DigitalMarketing.DigitalMarketing.Data.Configurations
                 .WithMany(a => a.Articles)
                 .HasForeignKey(x => x.ArticleCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.ToTable("Articles");
         }
     }
 }
