@@ -10,7 +10,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Interfaces
         Task<ArticleCategoryDto?> GetBySlugAsync(string slug);
 
         Task<ServiceResult> CreateAsync(CreateArticleCategoryDto dto);
-        Task<ServiceResult> UpdateAsync(UpdateArticleCategoryDto dto);
+        Task<ServiceResult> UpdateAsync(int id , UpdateArticleCategoryDto dto);
         Task<ServiceResult> DeleteAsync(int id);
     }
 }

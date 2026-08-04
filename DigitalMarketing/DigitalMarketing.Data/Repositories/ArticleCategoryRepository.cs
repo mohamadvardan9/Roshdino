@@ -36,8 +36,8 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
 
         public async Task AddAsync(ArticleCategory category) => await _dbContext.ArticleCategories.AddAsync(category);
-        public void UpdateAsync(ArticleCategory category) => _dbContext.ArticleCategories.Update(category);
-        public void DeleteAsync(ArticleCategory category)
+        public void Update(ArticleCategory category) => _dbContext.ArticleCategories.Update(category);
+        public void Delete(ArticleCategory category)
         {
             category.IsDeleted = true;
             _dbContext.ArticleCategories.Update(category);
@@ -51,7 +51,9 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
         public async Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
             => await _dbContext.ArticleCategories
-            .AnyAsync(x => x.Slug == slug && (excludeId == null || x.Id !=  excludeId));
+            // Checks if a category with the same slug exists,
+            // excluding the current category during update.
+            .AnyAsync(x => x.Slug == slug && (excludeId == null || x.Id !=  excludeId)); // رکورد شماره فلان را در این بررسی نادیده بگیر
         public async Task<bool> HasArticlesAsync(int categoryId)
             => await _dbContext.Articles
             .AnyAsync(x => x.ArticleCategoryId == categoryId);

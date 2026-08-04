@@ -30,6 +30,7 @@ namespace DigitalMarketing.Admin.Controllers
         // GET: /ArticleCategories/Create
         public IActionResult Create()
         {
+            // وقتی یک شی خالی به ویو میفرستیم, تضمین میکنیم که مدل هیچ وقت نال نباشد
             return View(new CreateArticleCategoryDto());
         }
 
@@ -38,6 +39,9 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateArticleCategoryDto model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
+
             var resut = await _service.CreateAsync(model);
             if(!resut.Success)
             {
@@ -64,8 +68,7 @@ namespace DigitalMarketing.Admin.Controllers
 
             var model = new UpdateArticleCategoryDto
             {
-                Id = id,
-                Name = category.Name,
+                Name = category.Name
             };
 
             return View(model);
@@ -76,11 +79,11 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateArticleCategoryDto model)
         {
-            if (id != model.Id) return BadRequest();
+            if (!ModelState.IsValid)
+                return View(model);
 
 
-
-            var result = await _service.UpdateAsync(model);
+            var result = await _service.UpdateAsync(id,model);
             if (!result.Success)
             {
                 foreach (var error in result.Errors)

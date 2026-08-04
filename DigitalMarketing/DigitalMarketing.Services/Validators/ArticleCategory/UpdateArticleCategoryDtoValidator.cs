@@ -7,8 +7,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Validators.ArticleCategory
     {
         public UpdateArticleCategoryDtoValidator()
         {
-            RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("شناسه نامعتبر است.");
+            //RuleFor(x => x.Id)
+            //    .GreaterThan(0).WithMessage("شناسه نامعتبر است.");
 
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("نام دسته‌بندی الزامی است.")

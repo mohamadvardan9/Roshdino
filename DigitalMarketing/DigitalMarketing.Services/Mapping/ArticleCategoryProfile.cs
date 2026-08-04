@@ -11,7 +11,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Mapping
             CreateMap<ArticleCategory, ArticleCategoryDto>();
 
             CreateMap<CreateArticleCategoryDto, ArticleCategory>()
-                .ForMember(dest => dest.Slug, opt => opt.Ignore());
+                .ForMember(dest => dest.Slug, opt => opt.Ignore()) // چون همونجا در لایه سروسیس تولید میشه :)
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow));
         }
     }
 }

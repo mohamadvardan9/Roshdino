@@ -66,7 +66,6 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var category = _mapper.Map<ArticleCategory>(dto);
             category.Slug = slug;
-            category.CreatedAt = DateTime.UtcNow;
 
             await _repo.AddAsync(category);
             await _repo.SaveChangesAsync();
@@ -74,24 +73,28 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             return ServiceResult.Ok();
         }
 
-        public async Task<ServiceResult> UpdateAsync(UpdateArticleCategoryDto dto)
+        public async Task<ServiceResult> UpdateAsync(int id , UpdateArticleCategoryDto dto)
         {
             var validator = await _updateValidator.ValidateAsync(dto);
             if (!validator.IsValid)
                 return ServiceResult.Fail(validator.Errors.Select(e => e.ErrorMessage).ToArray());
 
-            var category = await _repo.GetByIdAsync(dto.Id);
+            var category = await _repo.GetByIdAsync(id);
             if(category == null) return ServiceResult.Fail("دسته‌بندی پیدا نشد.");
 
-
             var slug = SlugHelper.GenerateSlug(dto.Name);
-            if(await _repo.SlugExistsAsync(slug,excludeId: dto.Id))
+            if(await _repo.SlugExistsAsync(slug,excludeId: id))
                 return ServiceResult.Fail("دسته‌بندی‌ای با این نام قبلاً ثبت شده.");
 
+            // چون فیلدهاش زیاد نبود اتومپر نزدم براش
             category.Name = dto.Name;
+            
+
             category.Slug = slug;
 
-            _repo.UpdateAsync(category);
+
+
+            _repo.Update(category);
             await _repo.SaveChangesAsync();
 
             return ServiceResult.Ok();
@@ -106,7 +109,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             if(await _repo.HasArticlesAsync(id))
                 return ServiceResult.Fail("این دسته‌بندی مقاله داره؛ اول مقالات رو جابه‌جا یا حذف کن.");
 
-            _repo.DeleteAsync(caategory);
+            _repo.Delete(caategory);
             await _repo.SaveChangesAsync();
 
             return ServiceResult.Ok();
