@@ -36,18 +36,14 @@ namespace DigitalMarketing.Admin.Controllers
         public async Task <IActionResult> Create()
         {
             await LoadCategoriesAsync();
-            return View(new CreateProductDto());
+            return View(new CreateProductRequest());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateProductDto model, List<IFormFile> images)
+        public async Task<IActionResult> Create(CreateProductRequest request)
         {
-            model.Images = images
-                .Where(x => x.Length > 0)
-                .ToList();
-
-            var result = await _productService.CreateAsync(model);
+            var result = await _productService.CreateAsync(request);
 
             if (!result.Success)
             {
@@ -55,7 +51,7 @@ namespace DigitalMarketing.Admin.Controllers
                     ModelState.AddModelError(string.Empty, error);
 
                 await LoadCategoriesAsync();
-                return View(model);
+                return View(request);
             }
 
             TempData["Success"] = "محصول با موفقیت ثبت شد.";

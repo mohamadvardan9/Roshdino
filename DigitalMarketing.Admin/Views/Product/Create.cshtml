@@ -1,7 +1,7 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
 @using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 
-@model CreateProductDto
+@model CreateProductRequest
 
 @{
     ViewData["Title"] = "محصول جدید";
@@ -51,7 +51,7 @@
 
     <div class="mb-3">
         <label class="form-label">تصاویر محصول</label>
-        <input type="file" name="images" multiple accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+        <input asp-for="Images" type="file" name="images" multiple accept=".jpg,.jpeg,.png,.webp" class="form-control" />
         <small class="text-muted">اولین تصویر به‌عنوان تصویر اصلی انتخاب می‌شود.</small>
     </div>
 
