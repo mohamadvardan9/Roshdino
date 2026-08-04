@@ -21,7 +21,6 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
         // new added
         Task<ProductImage?> GetImageByIdAsync(int imageId);
         void RemoveImage(ProductImage image);
-        Task AddImageAsync(ProductImage image);
         Task SetMainImageAsync(int productId ,int imageId);
     }
 }

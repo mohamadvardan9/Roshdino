@@ -1,0 +1,82 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
+
+
+
+@model List<ProductDto>
+
+@{
+    ViewData["Title"] = "محصولات";
+}
+
+<h2>محصولات</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="Create" class="btn btn-primary mb-3">+ محصول جدید</a>
+
+<table class="table table-bordered align-middle">
+    <thead>
+        <tr>
+            <th>تصویر</th>
+            <th>عنوان</th>
+            <th>دسته‌بندی</th>
+            <th>قیمت</th>
+            <th>وضعیت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            var mainImage = product.Images.FirstOrDefault(i => i.IsMain) ?? product.Images.FirstOrDefault();
+            <tr>
+                <td>
+                    @if (mainImage != null)
+                    {
+                        <img src="@mainImage.ImageUrl" width="60" height="60" style="object-fit:cover" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">بدون تصویر</span>
+                    }
+                </td>
+                <td>@product.Title</td>
+                <td>@product.ProductCategoryNAme</td>
+                <td>@(product.Price?.ToString("N0") ?? "-")</td>
+                <td>
+                    @if (product.IsPublished)
+                    {
+                        <span class="badge bg-success">منتشرشده</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">پیش‌نویس</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-secondary">ویرایش</a>
+
+                    <form asp-action="TogglePublish" asp-route-id="@product.Id" method="post" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                            @(product.IsPublished ? "پیش‌نویس کن" : "منتشر کن")
+                        </button>
+                    </form>
+
+                    <form asp-action="Delete" asp-route-id="@product.Id" method="post" style="display:inline"
+                          onsubmit="return confirm('مطمئنی می‌خوای این محصول رو حذف کنی؟');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,62 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
+@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
+
+@model CreateProductDto
+
+@{
+    ViewData["Title"] = "محصول جدید";
+    var categories = ViewBag.Categories as List<ProductCategoryDto>;
+}
+
+<h2>محصول جدید</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">عنوان محصول</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ShortDescription" class="form-label">توضیح کوتاه</label>
+        <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">توضیحات کامل</label>
+        <textarea asp-for="Description" class="form-control" rows="6" id="description-editor"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">قیمت (اختیاری)</label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProductCategoryId" class="form-label">دسته‌بندی</label>
+        <select asp-for="ProductCategoryId" class="form-select">
+            <option value="">-- انتخاب کنید --</option>
+            @if (categories != null)
+            {
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">تصاویر محصول</label>
+        <input type="file" name="images" multiple accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+        <small class="text-muted">اولین تصویر به‌عنوان تصویر اصلی انتخاب می‌شود.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ثبت محصول</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>
+
+@* اگه بعداً TinyMCE/CKEditor رو برای Description اضافه کردیم، اینجا Script میاد *@

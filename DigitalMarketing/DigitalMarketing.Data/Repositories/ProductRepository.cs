@@ -27,8 +27,6 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
                 .ToListAsync();
         }
 
-
-
         public async Task<List<Product>> GetPublishedAsync()
         {
             return await _dbContext.Products
@@ -39,7 +37,6 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
                 .ToListAsync();
         }
 
-
         public async Task<Product?> GetByIdAsync(int id)
         {
             return await _dbContext.Products
@@ -48,7 +45,6 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-
         public async Task<Product?> GetBySlugAsync(string slug)
         {
             return await _dbContext.Products
@@ -56,7 +52,6 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Slug == slug && p.IsPublished);
         }
-
 
         public async Task<List<Product>> GetByCategoryAsync(int categoryId)
         {
@@ -72,57 +67,63 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
 
 
-
-        public async Task AddAsync(Product product) => await _dbContext.Products.AddAsync(product);
-        public void Update(Product product) => _dbContext.Products.Update(product);
-        public void Delete(Product product)
+        public async Task AddAsync(Product product)
         {
-            product.IsDeleted = true;    // soft delete brother :)
+            await _dbContext.Products.AddAsync(product);
+        }
+
+        public void Update(Product product)
+        {
             _dbContext.Products.Update(product);
         }
 
-
-
-
-
+        public void Delete(Product product)
+        {
+            product.IsDeleted = true;
+            _dbContext.Products.Update(product);
+        }
 
         public async Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
-            => await _dbContext.Products.AnyAsync(p => p.Slug == slug && (excludeId == null || p.Id != excludeId));
-        public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
+        {
+            return await _dbContext.Products
+                .AnyAsync(p => p.Slug == slug && (excludeId == null || p.Id != excludeId));
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
 
 
 
 
 
+        // --- Image Management ---
 
-
-        // new added
         public async Task<ProductImage?> GetImageByIdAsync(int imageId)
-            => await _dbContext.ProductImages
-            .FirstOrDefaultAsync(x => x.Id == imageId);
+        {
+            return await _dbContext.ProductImages
+                .FirstOrDefaultAsync(i => i.Id == imageId);
+        }
 
         public void RemoveImage(ProductImage image)
         {
-            image.IsDeleted = true;
-            _dbContext.ProductImages.Update(image);
+            // Hard Delete واقعی، چون فایل فیزیکی هم پاک می‌شه و نگه‌داشتن رکورد فایده‌ای ندارد
+            _dbContext.ProductImages.Remove(image);
         }
 
-        public async Task AddImageAsync(ProductImage image)
-            => await _dbContext.ProductImages.AddAsync(image);
-
-        public async Task SetMainImageAsync(int productId ,int imageId)
+        public async Task SetMainImageAsync(int productId, int imageId)
         {
             var images = await _dbContext.ProductImages
-                .Where(x => x.ProductId == productId)
+                .Where(i => i.ProductId == productId)
                 .ToListAsync();
-            if (!images.Any())
-                return;
 
-
-            foreach (var image in images)
-            {
-                image.IsMain = image.Id == imageId;
-            }
+            foreach (var img in images)
+                img.IsMain = (img.Id == imageId);
         }
+
+        //public async Task AddImageAsync(ProductImage image)
+        //    => await _dbContext.ProductImages.AddAsync(image);
+
     }
 }

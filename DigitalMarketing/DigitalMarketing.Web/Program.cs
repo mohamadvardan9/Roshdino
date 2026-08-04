@@ -43,7 +43,7 @@ builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository
 // Services
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
-
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 
@@ -60,6 +60,7 @@ builder.Services.AddAutoMapper(am =>
 {
     am.AddMaps(typeof(ProductCategoryProfile));
     am.AddMaps(typeof(ArticleCategoryProfile));
+    am.AddMaps(typeof(ProductProfile));
 });
 
 
