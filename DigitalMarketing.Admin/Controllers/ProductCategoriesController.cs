@@ -98,6 +98,21 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
+        // POST : /ProductCategories/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _service.DeleteAsync(id);
+            if(!result.Success)
+                TempData["Error"] = string.Join(" ", result.Errors);
+            else
+                TempData["Success"] = "دسته‌بندی حذف شد.";
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
 
