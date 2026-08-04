@@ -69,6 +69,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var caategory = _mapper.Map<ProductCategory>(dto);
             caategory.Slug = slug;
+            caategory.CreatedAt = DateTime.UtcNow;
 
 
 
@@ -91,7 +92,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
             var slug = SlugHelper.GenerateSlug(dto.Name);
-            if(await _repository.SlugExistsAsync(slug))
+            if(await _repository.SlugExistsAsync(slug, excludeId: dto.Id))
                 return ServiceResult.Fail("دسته بندی ای با این نام یا مشابه ثبلا ثبت شده است");
 
 

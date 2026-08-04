@@ -1,0 +1,23 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+@model UpdateArticleCategoryDto
+
+@{
+    ViewData["Title"] = "ویرایش دسته‌بندی";
+}
+
+<h2>ویرایش دسته‌بندی</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>

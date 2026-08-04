@@ -32,6 +32,7 @@ builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository
 
 // Services
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 
 
 
@@ -48,6 +49,7 @@ builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing"));
 builder.Services.AddAutoMapper(am =>
 {
     am.AddMaps(typeof(ProductCategoryProfile));
+    am.AddMaps(typeof(ArticleCategoryProfile));
 });
 
 

@@ -1,0 +1,22 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+@model CreateArticleCategoryDto
+
+@{
+    ViewData["Title"] = "دسته‌بندی جدید";
+}
+
+<h2>دسته‌بندی جدید</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">ثبت</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>
