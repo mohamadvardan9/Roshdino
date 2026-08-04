@@ -16,14 +16,12 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
         private readonly IProductCategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateProductDto> _createValidator;
-        private readonly IValidator<CreateProductRequest> _createRequestValidator;
         private readonly IValidator<UpdateProductDto> _updateValidator;
         private readonly IFileService _fileService;
 
         public ProductService(IProductRepository repository, IProductCategoryRepository categoryRepository
             , IMapper mapper
             , IValidator<CreateProductDto> createValidator
-            , IValidator<CreateProductRequest> createRequestValidator
             , IValidator<UpdateProductDto> updateValidator
             , IFileService fileService)
         {
@@ -31,7 +29,6 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _createValidator = createValidator;
-            _createRequestValidator = createRequestValidator;
             _updateValidator = updateValidator;
             _fileService = fileService;
 
@@ -89,18 +86,18 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
 
-        public async Task<ServiceResult> CreateAsync(CreateProductRequest request)
+        public async Task<ServiceResult> CreateAsync(CreateProductDto dto)
         {
-            var validation = await _createRequestValidator.ValidateAsync(request);
+            var validation = await _createValidator.ValidateAsync(dto);
             if (!validation.IsValid)
                 return ServiceResult.Fail(validation.Errors.Select(e => e.ErrorMessage).ToArray());
 
             var categoryExists = await _categoryRepository
-                .GetByIdAsync(request.ProductCategoryId);
+                .GetByIdAsync(dto.ProductCategoryId);
             if (categoryExists == null)
                 return ServiceResult.Fail("دسته‌بندی انتخاب‌شده معتبر نیست.");
 
-            var slug = SlugHelper.GenerateSlug(request.Title);
+            var slug = SlugHelper.GenerateSlug(dto.Title);
             if (await _repository.SlugExistsAsync(slug))
                 return ServiceResult.Fail("محصولی با این عنوان (یا مشابه) قبلاً ثبت شده.");
 
@@ -108,16 +105,16 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
             
-            var product = _mapper.Map<Product>(request);
+            var product = _mapper.Map<Product>(dto);
             product.Slug = slug;
 
 
 
             // Upload Images
             // Set fist Image as main by default
-            if (request.Images != null && request.Images.Any())
+            if (dto.Images != null && dto.Images.Any())
             {
-                foreach (var image in request.Images)
+                foreach (var image in dto.Images)
                 {
                     var imagePath = await _fileService.UploadImageAsync(
                         image,
@@ -145,7 +142,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
 
-
+        // از اینجا شروع به خواندن کن
         public async Task<ServiceResult> UpdateAsync(UpdateProductDto dto)
         {
             var validation = await _updateValidator.ValidateAsync(dto);

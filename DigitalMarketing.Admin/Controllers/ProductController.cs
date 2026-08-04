@@ -2,8 +2,6 @@
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DigitalMarketing.Admin.Controllers
 {
@@ -36,14 +34,14 @@ namespace DigitalMarketing.Admin.Controllers
         public async Task <IActionResult> Create()
         {
             await LoadCategoriesAsync();
-            return View(new CreateProductRequest());
+            return View(new CreateProductDto());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateProductRequest request)
+        public async Task<IActionResult> Create(CreateProductDto dto)
         {
-            var result = await _productService.CreateAsync(request);
+            var result = await _productService.CreateAsync(dto);
 
             if (!result.Success)
             {
@@ -51,7 +49,7 @@ namespace DigitalMarketing.Admin.Controllers
                     ModelState.AddModelError(string.Empty, error);
 
                 await LoadCategoriesAsync();
-                return View(request);
+                return View(dto);
             }
 
             TempData["Success"] = "محصول با موفقیت ثبت شد.";

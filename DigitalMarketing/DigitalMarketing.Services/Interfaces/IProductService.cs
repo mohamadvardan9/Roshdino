@@ -14,7 +14,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Interfaces
 
 
 
-        Task<ServiceResult> CreateAsync(CreateProductRequest request);
+
+        Task<ServiceResult> CreateAsync(CreateProductDto dto);
         Task<ServiceResult> UpdateAsync(UpdateProductDto dto);
         Task<ServiceResult> DeleteAsync(int id);
 
