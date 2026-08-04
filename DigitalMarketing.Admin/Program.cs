@@ -61,6 +61,13 @@ builder.Services.AddAutoMapper(am =>
 
 
 
+// Test in other diveces
+// http://10.218.61.209:5079
+//builder.WebHost.ConfigureKestrel(opt =>
+//{
+//    opt.ListenAnyIP(5079);
+//});
+
 
 
 var app = builder.Build();

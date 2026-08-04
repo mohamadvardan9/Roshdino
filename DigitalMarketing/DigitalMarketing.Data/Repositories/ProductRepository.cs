@@ -83,6 +83,12 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
             _dbContext.Products.Update(product);
         }
 
+
+
+
+
+
+
         public async Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
         {
             return await _dbContext.Products
@@ -98,7 +104,7 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
 
 
-        // --- Image Management ---
+        // --- Image Management --- //
 
         public async Task<ProductImage?> GetImageByIdAsync(int imageId)
         {
@@ -121,9 +127,6 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
             foreach (var img in images)
                 img.IsMain = (img.Id == imageId);
         }
-
-        //public async Task AddImageAsync(ProductImage image)
-        //    => await _dbContext.ProductImages.AddAsync(image);
 
     }
 }
