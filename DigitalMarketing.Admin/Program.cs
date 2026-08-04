@@ -1,7 +1,14 @@
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Data;
 using DigitalMarketing.DigitalMarketing.Data.Repositories;
+using DigitalMarketing.DigitalMarketing.Services.Implementations;
+using DigitalMarketing.DigitalMarketing.Services.Interfaces;
+using DigitalMarketing.DigitalMarketing.Services.Mapping;
+using DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +27,28 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
+
+
+
+// Services
+builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+
+
+
+
+
+// Fluent Validations
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
+
+
+
+
+
+// AutoMapper Profiles
+builder.Services.AddAutoMapper(am =>
+{
+    am.AddMaps(typeof(ProductCategoryProfile));
+});
 
 
 
