@@ -1,6 +1,7 @@
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Data;
 using DigitalMarketing.DigitalMarketing.Data.Repositories;
+using DigitalMarketing.DigitalMarketing.Services.Helpers.GetFile;
 using DigitalMarketing.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
@@ -62,6 +63,12 @@ builder.Services.AddAutoMapper(am =>
     am.AddMaps(typeof(ArticleCategoryProfile));
     am.AddMaps(typeof(ProductProfile));
 });
+
+
+
+
+// Helpers
+builder.Services.AddScoped<IFileService, FileService>();
 
 
 

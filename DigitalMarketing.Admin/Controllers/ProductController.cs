@@ -43,17 +43,9 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductDto model, List<IFormFile> images)
         {
-            foreach (var file in images.Where(f => f.Length > 0))
-            {
-                var (success, path, error) = await _fileUpload.SaveProductImageAsync(file);
-                if (!success)
-                {
-                    ModelState.AddModelError(string.Empty, error!);
-                    await LoadCategoriesAsync();
-                    return View(model);
-                }
-                model.ImagePaths.Add(path!);
-            }
+            model.Images = images
+                .Where(x => x.Length > 0)
+                .ToList();
 
             var result = await _productService.CreateAsync(model);
 

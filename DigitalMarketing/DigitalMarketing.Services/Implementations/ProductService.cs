@@ -4,6 +4,7 @@ using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Common;
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos;
 using DigitalMarketing.DigitalMarketing.Services.Helpers;
+using DigitalMarketing.DigitalMarketing.Services.Helpers.GetFile;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using FluentValidation;
 
@@ -16,18 +17,22 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
         private readonly IMapper _mapper;
         private readonly IValidator<CreateProductDto> _createValidator;
         private readonly IValidator<UpdateProductDto> _updateValidator;
+        private readonly IFileService _fileService;
 
         public ProductService(IProductRepository repository, IProductCategoryRepository categoryRepository
             , IMapper mapper
             , IValidator<CreateProductDto> createValidator
-            , IValidator<UpdateProductDto> updateValidator)
+            , IValidator<UpdateProductDto> updateValidator
+            , IFileService fileService)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
-            
+            _fileService = fileService;
+
+
         }
 
 
@@ -67,10 +72,14 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             return _mapper.Map<List<ProductDto>>(products);
         }
 
-        
-        
 
-        
+
+
+
+
+
+
+
 
 
 
@@ -83,40 +92,54 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             if (!validation.IsValid)
                 return ServiceResult.Fail(validation.Errors.Select(e => e.ErrorMessage).ToArray());
 
-
-            var category = await _categoryRepository.GetByIdAsync(dto.ProductCategoryId);
-            if(category == null)
+            var categoryExists = await _categoryRepository
+                .GetByIdAsync(dto.ProductCategoryId);
+            if (categoryExists == null)
                 return ServiceResult.Fail("دسته‌بندی انتخاب‌شده معتبر نیست.");
 
-
             var slug = SlugHelper.GenerateSlug(dto.Title);
-            if(await _repository.SlugExistsAsync(slug))
+            if (await _repository.SlugExistsAsync(slug))
                 return ServiceResult.Fail("محصولی با این عنوان (یا مشابه) قبلاً ثبت شده.");
 
 
+
+
+            
             var product = _mapper.Map<Product>(dto);
             product.Slug = slug;
-            product.CreatedAt = DateTime.UtcNow;
 
 
-            // اولین عکس به صورت پیشفرض Main میشه
-            for (int i = 0; i < dto.ImagePaths.Count; i++)
+
+            // Upload Images
+            // Set fist Image as main by default
+            if (dto.Images != null && dto.Images.Any())
             {
-                product.Images.Add(new ProductImage
+                foreach (var image in dto.Images)
                 {
-                    ImageUrl = dto.ImagePaths[i],
-                    IsMain = i == 0
-                });
+                    var imagePath = await _fileService.UploadImageAsync(
+                        image,
+                        "products"
+                    );
+
+
+                    product.Images.Add(new ProductImage
+                    {
+                        ImageUrl = imagePath,
+                        IsMain = product.Images.Count == 0
+                    });
+                }
             }
 
 
-
+            // Save Product
             await _repository.AddAsync(product);
             await _repository.SaveChangesAsync();
 
 
             return ServiceResult.Ok();
         }
+
+
 
 
 

@@ -9,9 +9,6 @@ namespace DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
         public string Description { get; set; } = null!;
         public decimal? Price { get; set; }
         public int ProductCategoryId { get; set; }
-
-
-        // مسیرهای عکس که Controller قبلاً ذخیره کرده و اینجا فقط پاسشون میده
-        public List<string> ImagePaths { get; set; } = new();
+        public List<IFormFile> Images { get; set; } = new();
     }
 }

@@ -11,9 +11,16 @@ namespace DigitalMarketing.DigitalMarketing.Services.Interfaces
         Task<ProductDto?> GetBySlugAsync(string slug);
         Task<List<ProductDto>> GetByCategoryAsync(int categoryId);
 
+
+
+
         Task<ServiceResult> CreateAsync(CreateProductDto dto);
         Task<ServiceResult> UpdateAsync(UpdateProductDto dto);
         Task<ServiceResult> DeleteAsync(int id);
+
+
+
+
 
         Task<ServiceResult> RemoveImageAsync(int imageId, int productId, Action<string> deleteFileCallback);
         Task<ServiceResult> SetMainImageAsync(int productId, int imageId);
