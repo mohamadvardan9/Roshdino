@@ -57,6 +57,9 @@ namespace DigitalMarketing.DigitalMarketing.Data
             {
                 if (entry.State == EntityState.Modified)
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
+
+                if(entry.State == EntityState.Added)
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
             }
         }
 
