@@ -100,7 +100,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             category.Slug = slug;
 
 
-            _repository.UpdateAsync(category);
+            _repository.Update(category);
             await _repository.SaveChangesAsync();
 
 
@@ -119,7 +119,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                 return ServiceResult.Fail("این دسته‌بندی محصول داره؛ اول محصولات رو جابه‌جا یا حذف کن.");
 
 
-            _repository.DeleteAsync(category);
+            _repository.Delete(category);
             await _repository.SaveChangesAsync();
 
 

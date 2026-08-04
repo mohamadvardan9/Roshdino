@@ -38,8 +38,8 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
 
         public async Task AddAsync(ProductCategory category) => await _dbContext.AddAsync(category);
-        public void UpdateAsync(ProductCategory category) => _dbContext.Update(category);
-        public void DeleteAsync(ProductCategory category)
+        public void Update(ProductCategory category) => _dbContext.Update(category);
+        public void Delete(ProductCategory category)
         {
             category.IsDeleted = true;
             _dbContext.Update(category);
