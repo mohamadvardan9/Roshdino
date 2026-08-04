@@ -6,10 +6,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory
     public class UpdateProductCategoryDtoValidator : AbstractValidator<UpdateProductCategoryDto>
     {
         public UpdateProductCategoryDtoValidator()
-        {
-            RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("شناسه نامعتبر است.");
-
+        { 
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("نام دسته‌بندی الزامی است.")
                 .MaximumLength(150).WithMessage("نام دسته‌بندی نباید بیشتر از ۱۵۰ کاراکتر باشد.");

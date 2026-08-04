@@ -39,6 +39,10 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductCategoryDto model)
         {
+            if(!ModelState.IsValid)
+                return View(model);
+
+
             var result = await _service.CreateAsync(model);
             if (!result.Success)
             {
@@ -65,7 +69,6 @@ namespace DigitalMarketing.Admin.Controllers
 
             var model = new UpdateProductCategoryDto
             {
-                Id = id,
                 Name = category.Name,
             };
 
@@ -77,10 +80,11 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateProductCategoryDto model)
         {
-            if (id != model.Id) return BadRequest();
+            if (!ModelState.IsValid)
+                return View(model);
 
 
-            var result = await _service.UpdateAsync(model);
+            var result = await _service.UpdateAsync(id , model);
             if (!result.Success)
             {
                 foreach (var error in result.Errors)

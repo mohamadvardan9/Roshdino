@@ -61,15 +61,12 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             var validation = await _createValidator.ValidateAsync(dto);
             if (!validation.IsValid) return ServiceResult.Fail(validation.Errors.Select(e => e.ErrorMessage).ToArray());
             
-            
             var slug = SlugHelper.GenerateSlug(dto.Name);
             if (await _repository.SlugExistsAsync(slug))
                 return ServiceResult.Fail("دسته بندی ای با این نام یا مشابه ثبلا ثبت شده است");
 
-
             var caategory = _mapper.Map<ProductCategory>(dto);
             caategory.Slug = slug;
-            caategory.CreatedAt = DateTime.UtcNow;
 
 
 
@@ -81,18 +78,18 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
         }
 
 
-        public async Task<ServiceResult> UpdateAsync(UpdateProductCategoryDto dto)
+        public async Task<ServiceResult> UpdateAsync(int id , UpdateProductCategoryDto dto)
         {
             var validation = await _updateValidator.ValidateAsync(dto);
             if (!validation.IsValid) return ServiceResult.Fail(validation.Errors.Select(e => e.ErrorMessage).ToArray());
 
 
-            var category = await _repository.GetByIdAsync(dto.Id);
+            var category = await _repository.GetByIdAsync(id);
             if (category == null) return ServiceResult.Fail("دسته بندی پیدا نشد");
 
 
             var slug = SlugHelper.GenerateSlug(dto.Name);
-            if(await _repository.SlugExistsAsync(slug, excludeId: dto.Id))
+            if(await _repository.SlugExistsAsync(slug, excludeId: id))
                 return ServiceResult.Fail("دسته بندی ای با این نام یا مشابه ثبلا ثبت شده است");
 
 

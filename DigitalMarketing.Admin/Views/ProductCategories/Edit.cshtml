@@ -9,9 +9,8 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+<form asp-action="Edit" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="Id" />
 
     <div class="mb-3">
         <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
