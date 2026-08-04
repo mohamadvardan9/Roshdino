@@ -40,7 +40,7 @@ namespace DigitalMarketing.Admin.Controllers
         public async Task<IActionResult> Create(CreateProductCategoryDto model)
         {
             var result = await _service.CreateAsync(model);
-            if(!result.Success)
+            if (!result.Success)
             {
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error);
@@ -53,6 +53,66 @@ namespace DigitalMarketing.Admin.Controllers
             TempData["Success"] = "دسته‌بندی با موفقیت ثبت شد.";
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+        // GET : /ProductCategories/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _service.GetByIdAsync(id);
+            if (category == null) return NotFound();
+
+            var model = new UpdateProductCategoryDto
+            {
+                Id = id,
+                Name = category.Name,
+            };
+
+            return View(model);
+        }
+
+        // POST : /ProductCategories/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, UpdateProductCategoryDto model)
+        {
+            if (id != model.Id) return BadRequest();
+
+
+            var result = await _service.UpdateAsync(model);
+            if (!result.Success)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error);
+
+                return View(model);
+            }
+
+
+            TempData["Success"] = "دسته‌بندی با موفقیت ویرایش شد.";
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
