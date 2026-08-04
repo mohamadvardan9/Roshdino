@@ -48,7 +48,7 @@ builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
 
 // Fluent Validations
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing"));
 
 
 

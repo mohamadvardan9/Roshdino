@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DigitalMarketing.DigitalMarketing.Web.Views.ProductCategory
+namespace DigitalMarketing.Admin.Views.ProductCategories
 {
     public class IndexModel : PageModel
     {

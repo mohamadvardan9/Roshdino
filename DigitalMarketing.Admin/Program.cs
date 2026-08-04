@@ -38,7 +38,7 @@ builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
 
 // Fluent Validations
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing"));
 
 
 
@@ -73,7 +73,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=ProductCategories}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

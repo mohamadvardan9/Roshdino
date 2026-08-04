@@ -1,0 +1,47 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
+@model List<ProductCategoryDto>
+
+@{
+    ViewData["Title"] = "دسته‌بندی محصولات";
+}
+
+<h2>دسته‌بندی محصولات</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="Create" class="btn btn-primary mb-3">+ دسته‌بندی جدید</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>Slug</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Slug</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-secondary">ویرایش</a>
+
+                    <form asp-action="Delete" asp-route-id="@category.Id" method="post" style="display:inline"
+                          onsubmit="return confirm('مطمئنی می‌خوای این دسته‌بندی رو حذف کنی؟');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
