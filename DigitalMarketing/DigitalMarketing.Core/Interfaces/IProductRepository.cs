@@ -16,5 +16,12 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
 
         Task<bool> SlugExistsAsync(string slug, int? excludeId = null);
         Task SaveChangesAsync();
+
+
+        // new added
+        Task<ProductImage?> GetImageByIdAsync(int imageId);
+        void RemoveImage(ProductImage image);
+        Task AddImageAsync(ProductImage image);
+        Task SetMainImageAsync(int productId ,int imageId);
     }
 }

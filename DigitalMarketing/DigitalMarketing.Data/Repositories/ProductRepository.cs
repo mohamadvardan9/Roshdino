@@ -1,6 +1,7 @@
 ﻿using DigitalMarketing.DigitalMarketing.Core.Entities;
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.X86;
 
 namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 {
@@ -88,5 +89,40 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
         public async Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
             => await _dbContext.Products.AnyAsync(p => p.Slug == slug && (excludeId == null || p.Id != excludeId));
         public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
+
+
+
+
+
+
+
+        // new added
+        public async Task<ProductImage?> GetImageByIdAsync(int imageId)
+            => await _dbContext.ProductImages
+            .FirstOrDefaultAsync(x => x.Id == imageId);
+
+        public void RemoveImage(ProductImage image)
+        {
+            image.IsDeleted = true;
+            _dbContext.ProductImages.Update(image);
+        }
+
+        public async Task AddImageAsync(ProductImage image)
+            => await _dbContext.ProductImages.AddAsync(image);
+
+        public async Task SetMainImageAsync(int productId ,int imageId)
+        {
+            var images = await _dbContext.ProductImages
+                .Where(x => x.ProductId == productId)
+                .ToListAsync();
+            if (!images.Any())
+                return;
+
+
+            foreach (var image in images)
+            {
+                image.IsMain = image.Id == imageId;
+            }
+        }
     }
 }
