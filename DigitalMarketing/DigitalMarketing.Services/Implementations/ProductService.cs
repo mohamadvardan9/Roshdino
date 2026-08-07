@@ -224,7 +224,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
         {
             var image = await _repository.GetImageByIdAsync(imageId);
 
-            if (image == null || image.ProductId != productId)
+            if (image == null)
                 return ServiceResult.Fail("تصویر یافت نشد.");
             if (image.ProductId != productId)
                 return ServiceResult.Fail("این تصویر متعلق به محصول مشخص شده نیست");

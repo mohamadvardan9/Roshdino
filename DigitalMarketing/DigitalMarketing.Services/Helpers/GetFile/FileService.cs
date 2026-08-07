@@ -41,9 +41,15 @@
 
         public async Task DeleteAsync(string path)
         {
-            if (File.Exists(path))
+            if (string.IsNullOrWhiteSpace(path)) return;
+
+            var fullPath = Path.Combine(_environment.WebRootPath, path.TrimStart('/'));
+
+
+
+            if (File.Exists(fullPath))
             {
-                File.Delete(path);
+                File.Delete(fullPath);
             }
         }
 
