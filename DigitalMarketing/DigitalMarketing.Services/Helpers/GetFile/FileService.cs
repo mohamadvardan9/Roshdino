@@ -8,6 +8,7 @@
             _environment = environment;
         }
 
+        
 
         public async Task<string> UploadImageAsync(IFormFile file, string folderName)
         {
@@ -36,5 +37,17 @@
 
 
         }
+
+
+        public async Task DeleteAsync(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+
+
     }
 }

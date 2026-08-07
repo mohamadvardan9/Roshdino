@@ -219,14 +219,17 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
 
-        public async Task<ServiceResult> RemoveImageAsync(int imageId, int productId, Action<string> deleteFileCallback)
+        public async Task<ServiceResult> RemoveImageAsync(int imageId, int productId)
         {
             var image = await _repository.GetImageByIdAsync(imageId);
 
             if (image == null || image.ProductId != productId)
-                return ServiceResult.Fail("تصویر معتبر نیست.");
+                return ServiceResult.Fail("تصویر یافت نشد.");
+            if (image.ProductId != productId)
+                return ServiceResult.Fail("این تصویر متعلق به محصول مشخص شده نیست");
 
-            deleteFileCallback(image.ImageUrl);
+
+            await _fileService.DeleteAsync(image.ImageUrl);
 
             _repository.RemoveImage(image);
             await _repository.SaveChangesAsync();
