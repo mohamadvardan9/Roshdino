@@ -111,8 +111,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
             // Upload Images
-            // Set fist Image as main by default
-            if (dto.Images != null && dto.Images.Any())
+            if (dto.Images != null && dto.Images.Any()) // لیست تصاویر ارسالی دال نباشد و حداقل یک فایل داخل لیست وجود داشته باشد
             {
                 foreach (var image in dto.Images)
                 {
@@ -122,10 +121,11 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                     );
 
 
+                    var isMainImage = product.Images.Count == 0; // calculate for the first image, if the image is first,set it as main
                     product.Images.Add(new ProductImage
                     {
                         ImageUrl = imagePath,
-                        IsMain = product.Images.Count == 0
+                        IsMain = isMainImage // if it be first image this will be true
                     });
                 }
             }
@@ -164,26 +164,27 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
 
-            // اینا باید به AutoMapper اضافه بشن
-            product.Title = dto.Title;
+            
+            _mapper.Map(dto, product);
             product.Slug = slug;
-            product.ShortDescription = dto.ShortDescription;
-            product.Description = dto.Description;
-            product.Price = dto.Price;
-            product.ProductCategoryId = dto.ProductCategoryId;
-            product.IsPublished = dto.IsPublished;
-            //product.UpdatedAt = DateTime.UtcNow;
+            product.UpdatedAt = DateTime.UtcNow;
 
 
 
+
+            // Image Logic
             // عکس‌های جدید اضافه می‌شن (بدون حذف قبلی‌ها؛ حذف جدا مدیریت می‌شه)
-            bool hasExistingMain = product.Images.Any(i => i.IsMain);
+
+            bool hasExistingMain = product.Images.Any(i => i.IsMain); // this product has main photo or not ?
+
+            var firstImagePath = dto.NewImagePaths.FirstOrDefault();
+
             foreach (var path in dto.NewImagePaths)
             {
                 product.Images.Add(new ProductImage
                 {
                     ImageUrl = path,
-                    IsMain = !hasExistingMain && dto.NewImagePaths.First() == path
+                    IsMain = !hasExistingMain && path == firstImagePath
                 });
             }
 

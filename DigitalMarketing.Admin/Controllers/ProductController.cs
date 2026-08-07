@@ -156,8 +156,6 @@ namespace DigitalMarketing.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveImage(int imageId, int productId)
         {
-            //var result = await _productService.RemoveImageAsync(
-            //    imageId, productId, _fileUpload.DeleteProductImage);
 
             var result = await _productService.RemoveImageAsync(imageId, productId);
 
