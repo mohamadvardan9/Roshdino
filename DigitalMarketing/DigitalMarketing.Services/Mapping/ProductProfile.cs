@@ -24,6 +24,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Mapping
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.Images, opt => opt.Ignore());
 
+            CreateMap<ProductDto, UpdateProductDto>(); // new added
+
         }
     }
 }
