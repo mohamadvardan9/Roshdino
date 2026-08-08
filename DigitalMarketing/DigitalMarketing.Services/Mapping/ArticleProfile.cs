@@ -20,6 +20,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Mapping
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.CoverImageUrl, opt => opt.Ignore());
 
+            CreateMap<ArticleDto, UpdateArticleDto>();
+
         }
     }
 }

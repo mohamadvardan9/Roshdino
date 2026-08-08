@@ -1,4 +1,5 @@
-﻿using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos;
+﻿using AutoMapper;
+using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,13 @@ namespace DigitalMarketing.Admin.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly IArticleCategoryService _categoryService;
-        public ArticlesController(IArticleService articleService, IArticleCategoryService categoryService)
+        private readonly IMapper _mapper;
+        public ArticlesController(IArticleService articleService, IArticleCategoryService categoryService,
+            IMapper mapper)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
 
@@ -80,19 +84,12 @@ namespace DigitalMarketing.Admin.Controllers
 
             await LoadCategoriesAsync();
 
-            var dto = new UpdateArticleDto
-            {
-                Id = article.Id,
-                Title = article.Title,
-                Summary = article.Summary,
-                Content = article.Content,
-                ArticleCategoryId = article.ArticleCategoryId,
-                IsPublished = article.IsPublished
-            };
+
+            var dtoo = _mapper.Map<UpdateArticleDto>(article);
 
 
             ViewBag.CurrentCoverImage = article.CoverImageUrl;
-            return View(dto);
+            return View(dtoo);
         }
 
 
