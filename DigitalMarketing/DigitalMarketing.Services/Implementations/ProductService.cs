@@ -4,7 +4,7 @@ using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Common;
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos;
 using DigitalMarketing.DigitalMarketing.Services.Helpers;
-using DigitalMarketing.DigitalMarketing.Services.Helpers.GetFile;
+using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using FluentValidation;
 
@@ -17,20 +17,21 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
         private readonly IMapper _mapper;
         private readonly IValidator<CreateProductDto> _createValidator;
         private readonly IValidator<UpdateProductDto> _updateValidator;
-        private readonly IFileService _fileService;
+        private readonly IFileUploadHelper _fileUploadHelper;
+
 
         public ProductService(IProductRepository repository, IProductCategoryRepository categoryRepository
             , IMapper mapper
             , IValidator<CreateProductDto> createValidator
             , IValidator<UpdateProductDto> updateValidator
-            , IFileService fileService)
+            , IFileUploadHelper fileUploadHelper)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
-            _fileService = fileService;
+            _fileUploadHelper = fileUploadHelper;
 
 
         }
@@ -115,7 +116,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             {
                 foreach (var image in dto.Images)
                 {
-                    var imagePath = await _fileService.UploadImageAsync(
+                    var imagePath = await _fileUploadHelper.SaveImageAsync(
                         image,
                         "products"
                     );
@@ -124,7 +125,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                     var isMainImage = product.Images.Count == 0; // calculate for the first image, if the image is first,set it as main
                     product.Images.Add(new ProductImage
                     {
-                        ImageUrl = imagePath,
+                        ImageUrl = imagePath.Path!,
                         IsMain = isMainImage // if it be first image this will be true
                     });
                 }
@@ -162,9 +163,25 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                 return ServiceResult.Fail("محصولی با این عنوان قبلاً ثبت شده.");
 
 
+            // -------------------------
+            // Upload New Images
+            // -------------------------
+
+            if (dto.NewImages != null && dto.NewImages.Any())
+            {
+                foreach (var file in dto.NewImages.Where(f => f.Length > 0))
+                {
+                    var (success, path, error) =
+                        await _fileUploadHelper.SaveImageAsync(file, "products");
+
+                    if (!success)
+                        return ServiceResult.Fail(error!);
+
+                    dto.NewImagePaths.Add(path!);
+                }
+            }
 
 
-            
             _mapper.Map(dto, product);
             product.Slug = slug;
             product.UpdatedAt = DateTime.UtcNow;
@@ -230,7 +247,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                 return ServiceResult.Fail("این تصویر متعلق به محصول مشخص شده نیست");
 
 
-            await _fileService.DeleteAsync(image.ImageUrl);
+            _fileUploadHelper.DeleteImage(image.ImageUrl);
 
             _repository.RemoveImage(image);
             await _repository.SaveChangesAsync();

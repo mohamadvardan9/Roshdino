@@ -1,4 +1,4 @@
-﻿using DigitalMarketing.Admin.Helpers;
+﻿using AutoMapper;
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +9,14 @@ namespace DigitalMarketing.Admin.Controllers
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _categoryService;
-        private readonly FileUploadHelper _fileUpload;
+        private readonly IMapper _mapper;
 
         public ProductController(IProductService productService,IProductCategoryService categoryService,
-            FileUploadHelper fileUpload)
+            IMapper mapper)
         {
             _productService = productService;
             _categoryService = categoryService;
-            _fileUpload = fileUpload;
+            _mapper = mapper;
         }
 
 
@@ -76,17 +76,8 @@ namespace DigitalMarketing.Admin.Controllers
 
             await LoadCategoriesAsync();
 
-            var dto = new UpdateProductDto
-            {
-                Id = product.Id,
-                Title = product.Title,
-                ShortDescription = product.ShortDescription,
-                Description = product.Description,
-                Price = product.Price,
-                ProductCategoryId = product.ProductCategoryId,
-                IsPublished = product.IsPublished,
-                Images = product.Images,
-            };
+            var dto = _mapper.Map<UpdateProductDto>(product);
+
 
             ViewBag.ExistingImages = product.Images; // برای نمایش تو View و مدیریت حذف/Main
             return View(dto);
@@ -99,18 +90,6 @@ namespace DigitalMarketing.Admin.Controllers
         {
             if (id != dto.Id)
                 return BadRequest();
-
-            foreach (var file in newImages.Where(f => f.Length > 0))
-            {
-                var (success, path, error) = await _fileUpload.SaveProductImageAsync(file);
-                if (!success)
-                {
-                    ModelState.AddModelError(string.Empty, error!);
-                    await LoadCategoriesAsync();
-                    return View(dto);
-                }
-                dto.NewImagePaths.Add(path!);
-            }
 
             var result = await _productService.UpdateAsync(dto);
 
