@@ -12,7 +12,8 @@
             _environment = environment;
         }
 
-        public async Task<(bool Success, string? Path, string? Error)> SaveProductImageAsync(IFormFile file)
+        public async Task<(bool Success, string? Path, string? Error)> SaveImageAsync(IFormFile file,
+            string subFolder)
         {
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
@@ -22,7 +23,7 @@
             if (file.Length > MaxFileSize)
                 return (false, null, "حجم فایل نباید بیشتر از ۵ مگابایت باشد.");
 
-            var folder = Path.Combine(_environment.WebRootPath, "uploads", "products");
+            var folder = Path.Combine(_environment.WebRootPath, "uploads", subFolder);
             Directory.CreateDirectory(folder);
 
             var fileName = $"{Guid.NewGuid()}{extension}";
@@ -31,10 +32,10 @@
             using var stream = new FileStream(fullPath, FileMode.Create);
             await file.CopyToAsync(stream);
 
-            return (true, $"/uploads/products/{fileName}", null);
+            return (true, $"/uploads/{subFolder}/{fileName}", null);
         }
 
-        public void DeleteProductImage(string imageUrl)
+        public void DeleteImage(string imageUrl)
         {
             var fullPath = Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
             if (File.Exists(fullPath))
