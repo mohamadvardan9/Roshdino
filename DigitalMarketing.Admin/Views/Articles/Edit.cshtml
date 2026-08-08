@@ -1,0 +1,76 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
+
+
+
+@model UpdateArticleDto
+
+
+@{
+    ViewData["Title"] = "ویرایش مقاله";
+    var categories = ViewBag.Categories as List<ArticleCategoryDto>;
+    var currentCover = ViewBag.CurrentCoverImage as string;
+}
+
+<h2>ویرایش مقاله</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">عنوان مقاله</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Summary" class="form-label">خلاصه مقاله</label>
+        <textarea asp-for="Summary" class="form-control" rows="2"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">متن کامل مقاله</label>
+        <textarea asp-for="Content" class="form-control" rows="8"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ArticleCategoryId" class="form-label">دسته‌بندی</label>
+        <select asp-for="ArticleCategoryId" class="form-select">
+            @if (categories != null)
+            {
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id" selected="@(category.Id == Model.ArticleCategoryId)">
+                        @category.Name
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsPublished" class="form-check-input" type="checkbox" />
+        <label asp-for="IsPublished" class="form-check-label">منتشر شود</label>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">تصویر شاخص فعلی</label><br />
+        @if (!string.IsNullOrEmpty(currentCover))
+        {
+            <img src="@currentCover" width="150" height="150" style="object-fit:cover" class="mb-2 d-block" />
+        }
+        else
+        {
+            <p class="text-muted">تصویری ثبت نشده.</p>
+        }
+
+        <label class="form-label">جایگزینی تصویر (اختیاری)</label>
+        <input type="file" name="NewCoverImage" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+        <small class="text-muted">اگه فایل جدید انتخاب کنی، تصویر قبلی جایگزین می‌شه.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>

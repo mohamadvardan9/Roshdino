@@ -1,8 +1,7 @@
-using DigitalMarketing.Admin.Helpers;
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Data;
 using DigitalMarketing.DigitalMarketing.Data.Repositories;
-using DigitalMarketing.DigitalMarketing.Services.Helpers.GetFile;
+using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
 using DigitalMarketing.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
@@ -32,17 +31,18 @@ builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository
 
 
 
+
 // Services
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
 
 
 
 
 
-// Helpers
-builder.Services.AddScoped<FileUploadHelper>();
+
 
 
 // Fluent Validations
@@ -58,13 +58,16 @@ builder.Services.AddAutoMapper(am =>
     am.AddMaps(typeof(ProductCategoryProfile));
     am.AddMaps(typeof(ArticleCategoryProfile));
     am.AddMaps(typeof(ProductProfile));
+    am.AddMaps(typeof(ArticleProfile));
 });
 
 
 
 
 // Helpers
-builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
+
+
 
 
 

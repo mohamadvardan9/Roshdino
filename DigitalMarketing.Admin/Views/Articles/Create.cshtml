@@ -1,0 +1,58 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
+
+
+
+
+@model CreateArticleDto
+
+
+@{
+    ViewData["Title"] = "مقاله جدید";
+    var categories = ViewBag.Categories as List<ArticleCategoryDto>;
+}
+
+<h2>مقاله جدید</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">عنوان مقاله</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Summary" class="form-label">خلاصه مقاله</label>
+        <textarea asp-for="Summary" class="form-control" rows="2"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">متن کامل مقاله</label>
+        <textarea asp-for="Content" class="form-control" rows="8"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ArticleCategoryId" class="form-label">دسته‌بندی</label>
+        <select asp-for="ArticleCategoryId" class="form-select">
+            <option value="">-- انتخاب کنید --</option>
+            @if (categories != null)
+            {
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">تصویر شاخص</label>
+        <input type="file" name="coverImage" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">ثبت مقاله</button>
+    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+</form>

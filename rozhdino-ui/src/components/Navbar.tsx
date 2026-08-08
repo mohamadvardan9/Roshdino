@@ -49,8 +49,22 @@ export default function Navbar() {
             bg-white/80
             backdrop-blur-md
             border-b
+            border-purple-400
             "
     >
+      <div
+        className="
+              absolute
+              bottom-0
+              left-0
+              w-full
+              h-[2px]
+              bg-gradient-to-r
+              from-purple-600
+              to-green-400
+              "
+      ></div>
+
       <Container>
         <div
           className="
@@ -147,20 +161,151 @@ export default function Navbar() {
                         text-gray-700
                         "
           >
-            <Link to="/">خانه</Link>
+            <Link
+              to="/"
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
+              خانه
+              <span
+                className="
+                          absolute
+                          -bottom-2
+                          right-0
+                          h-[2px]
+                          w-0
+                          bg-purple-600
+                          transition-all
+                          duration-300
+                          group-hover:w-full
+                      "
+              />
+            </Link>
 
-            <Link to="/services">خدمات</Link>
+            <Link
+              to="/services"
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
+              خدمات
+              <span
+                className="
+                          absolute
+                          -bottom-2
+                          right-0
+                          h-[2px]
+                          w-0
+                          bg-purple-600
+                          transition-all
+                          duration-300
+                          group-hover:w-full
+                      "
+              />
+            </Link>
 
-            <Link to="/portfolio">نمونه کارها</Link>
+            <Link
+              to="/portfolio"
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
+              نمونه کارها
+              <span
+                className="
+                          absolute
+                          -bottom-2
+                          right-0
+                          h-[2px]
+                          w-0
+                          bg-purple-600
+                          transition-all
+                          duration-300
+                          group-hover:w-full
+                      "
+              />
+            </Link>
 
-            <Link to="/about">درباره ما</Link>
+            <Link
+              to="/about"
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
+              درباره ما
+              <span
+                className="
+                          absolute
+                          -bottom-2
+                          right-0
+                          h-[2px]
+                          w-0
+                          bg-purple-600
+                          transition-all
+                          duration-300
+                          group-hover:w-full
+                      "
+              />
+            </Link>
 
-            <Link to="/contact">تماس</Link>
+            <Link
+              to="/contact"
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
+              تماس
+              <span
+                className="
+                          absolute
+                          -bottom-2
+                          right-0
+                          h-[2px]
+                          w-0
+                          bg-purple-600
+                          transition-all
+                          duration-300
+                          group-hover:w-full
+                      "
+              />
+            </Link>
           </nav>
 
           {/* Desktop Button */}
 
           <button
+            name="startR"
             className="
                         hidden
                         md:block
@@ -176,7 +321,8 @@ export default function Navbar() {
                         transition-all
                         duration-300
                         hover:scale-110
-                        hover:text-white-600
+                        hover:text-purple-700
+                        hover:bg-white
                         "
           >
             شروع همکاری
@@ -221,26 +367,167 @@ export default function Navbar() {
                             flex
                             flex-col
                             gap-5
+                            border-purple-400
                             "
           >
-            <Link to="/" onClick={() => setOpen(false)}>
+            <Link
+              to="/"
+              onClick={() => setOpen(false)}
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
               خانه
+              <span
+                className="
+                          absolute
+                          -bottom-[1px]
+                          left-1/2
+                          h-[2px]
+                          w-0
+                          bg-gradient-to-r
+                          bg-purple-600
+                          to-green-400
+                          transition-all
+                          duration-300
+                          -translate-x-1/2
+                          group-hover:w-full
+                      "
+              />
             </Link>
 
-            <Link to="/services" onClick={() => setOpen(false)}>
+            <Link
+              to="/services"
+              onClick={() => setOpen(false)}
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
               خدمات
+              <span
+                className="
+                          absolute
+                          -bottom-[1px]
+                          left-1/2
+                          h-[2px]
+                          w-0
+                          bg-gradient-to-r
+                          bg-purple-600
+                          to-green-400
+                          transition-all
+                          duration-300
+                          -translate-x-1/2
+                          group-hover:w-full
+                      "
+              />
             </Link>
 
-            <Link to="/portfolio" onClick={() => setOpen(false)}>
+            <Link
+              to="/portfolio"
+              onClick={() => setOpen(false)}
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
               نمونه کارها
+              <span
+                className="
+                          absolute
+                          -bottom-[1px]
+                          left-1/2
+                          h-[2px]
+                          w-0
+                          bg-gradient-to-r
+                          bg-purple-600
+                          to-green-400
+                          transition-all
+                          duration-300
+                          -translate-x-1/2
+                          group-hover:w-full
+                      "
+              />
             </Link>
 
-            <Link to="/about" onClick={() => setOpen(false)}>
+            <Link
+              to="/about"
+              onClick={() => setOpen(false)}
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
               درباره ما
+              <span
+                className="
+                          absolute
+                          -bottom-[1px]
+                          left-1/2
+                          h-[2px]
+                          w-0
+                          bg-gradient-to-r
+                          bg-purple-600
+                          to-green-400
+                          transition-all
+                          duration-300
+                          -translate-x-1/2
+                          group-hover:w-full
+                      "
+              />
             </Link>
 
-            <Link to="/contact" onClick={() => setOpen(false)}>
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className="
+                      relative
+                      text-gray-700
+                      font-medium
+                      transition-colors
+                      duration-300
+                      hover:text-purple-600
+                      group
+                  "
+            >
               تماس
+              <span
+                className="
+                          absolute
+                          -bottom-[1px]
+                          left-1/2
+                          h-[2px]
+                          w-0
+                          bg-gradient-to-r
+                          bg-purple-600
+                          to-green-400
+                          transition-all
+                          duration-300
+                          -translate-x-1/2
+                          group-hover:w-full
+                      "
+              />
             </Link>
 
             <Link
