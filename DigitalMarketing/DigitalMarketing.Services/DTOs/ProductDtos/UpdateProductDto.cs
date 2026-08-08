@@ -12,9 +12,12 @@
 
 
         // new added
+        // تصاویر فعلی
         public List<ProductImageDto> Images { get; set; } = new();
 
-        // عکس‌های جدیدی که تو همین ویرایش اضافه شدن (اختیاری)
+        public List<IFormFile> NewImages { get; set; } = new();
+
+        // مسیر تصاویر جدید بعد از آپلود
         public List<string> NewImagePaths { get; set; } = new();
     }
 }
