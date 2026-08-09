@@ -40,7 +40,7 @@ namespace DigitalMarketing.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateArticleDto dto, IFormFile? coverImage)
+        public async Task<IActionResult> Create(CreateArticleDto dto)
         {
 
             var result = await _articleService.CreateAsync(dto);
@@ -84,7 +84,6 @@ namespace DigitalMarketing.Admin.Controllers
 
             await LoadCategoriesAsync();
 
-
             var dtoo = _mapper.Map<UpdateArticleDto>(article);
 
 
@@ -97,7 +96,7 @@ namespace DigitalMarketing.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int id, UpdateArticleDto dto, IFormFile? coverImage)
+        public async Task<IActionResult> Edit(int id, UpdateArticleDto dto)
         {
             if (id != dto.Id)
                 return BadRequest();

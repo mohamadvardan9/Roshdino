@@ -26,4 +26,8 @@
     <ProjectReference Include="..\DigitalMarketing\DigitalMarketing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\article\" />
+  </ItemGroup>
+
 </Project>

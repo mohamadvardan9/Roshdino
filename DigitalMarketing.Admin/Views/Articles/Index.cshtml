@@ -5,74 +5,270 @@
     ViewData["Title"] = "مقالات";
 }
 
-<h2>مقالات</h2>
+<div class="articles-page">
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+    <div class="articles-header">
+        <div>
+            <h2>مدیریت مقالات</h2>
+            <p>مقالات سایت را مدیریت، ویرایش و منتشر کنید.</p>
+        </div>
 
-<a asp-action="Create" class="btn btn-primary mb-3">+ مقاله جدید</a>
+        <a asp-action="Create" class="article-create-btn">
+            <i class="bi bi-plus-lg"></i>
+            مقاله جدید
+        </a>
+    </div>
 
-<table class="table table-bordered align-middle">
-    <thead>
-        <tr>
-            <th>تصویر شاخص</th>
-            <th>عنوان</th>
-            <th>دسته‌بندی</th>
-            <th>تاریخ انتشار</th>
-            <th>وضعیت</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var article in Model)
+    @if (TempData["Success"] != null)
+    {
+        <div class="article-alert success">
+            <i class="bi bi-check-circle-fill"></i>
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="article-alert error">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="article-stats">
+
+        <div class="stat-card">
+            <div>
+                <span>کل مقالات</span>
+                <strong>@Model.Count</strong>
+            </div>
+
+            <div class="stat-icon blue">
+                <i class="bi bi-file-text"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <span>منتشرشده</span>
+                <strong>@Model.Count(x => x.IsPublished)</strong>
+            </div>
+
+            <div class="stat-icon green">
+                <i class="bi bi-check-circle"></i>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <span>پیش‌نویس</span>
+                <strong>@Model.Count(x => !x.IsPublished)</strong>
+            </div>
+
+            <div class="stat-icon gray">
+                <i class="bi bi-file-earmark"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="articles-card">
+
+        <div class="articles-card-header">
+            <div>
+                <h5>لیست مقالات</h5>
+                <span>مدیریت تمام مقالات سایت</span>
+            </div>
+
+            <i class="bi bi-list-ul"></i>
+        </div>
+
+
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(article.CoverImageUrl))
-                    {
-                        <img src="@article.CoverImageUrl" width="60" height="60" style="object-fit:cover" />
-                    }
-                    else
-                    {
-                        <span class="text-muted">بدون تصویر</span>
-                    }
-                </td>
-                <td>@article.Title</td>
-                <td>@article.ArticleCategoryName</td>
-                <td>@article.PublishedAt.ToString("yyyy/MM/dd")</td>
-                <td>
-                    @if (article.IsPublished)
-                    {
-                        <span class="badge bg-success">منتشرشده</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">پیش‌نویس</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@article.Id" class="btn btn-sm btn-secondary">ویرایش</a>
+            <div class="articles-table-wrapper">
 
-                    <form asp-action="TogglePublish" asp-route-id="@article.Id" method="post" style="display:inline">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline-primary">
-                            @(article.IsPublished ? "پیش‌نویس کن" : "منتشر کن")
-                        </button>
-                    </form>
+                <table class="articles-table">
 
-                    <form asp-action="Delete" asp-route-id="@article.Id" method="post" style="display:inline"
-                          onsubmit="return confirm('مطمئنی می‌خوای این مقاله رو حذف کنی؟');">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
-                    </form>
-                </td>
-            </tr>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>عنوان مقاله</th>
+                            <th>وضعیت</th>
+                            <th>آخرین بروزرسانی</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var article in Model)
+                        {
+                            <tr>
+
+                                <td data-label="#">
+                                    <span class="article-id">
+                                        #@article.Id
+                                    </span>
+                                </td>
+
+
+                                <td data-label="عنوان">
+
+                                    <div class="article-title">
+
+                                        <div class="article-icon">
+                                            <i class="bi bi-file-richtext"></i>
+                                        </div>
+
+                                        <div class="article-title-content">
+
+                                            <strong>
+                                                @article.Title
+                                            </strong>
+
+                                            @if (!string.IsNullOrEmpty(article.Slug))
+                                            {
+                                                <small>
+                                                    /@article.Slug
+                                                </small>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td data-label="وضعیت">
+
+                                    @if (article.IsPublished)
+                                    {
+                                        <span class="status published">
+                                            <span></span>
+                                            منتشرشده
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status draft">
+                                            <span></span>
+                                            پیش‌نویس
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td data-label="بروزرسانی">
+
+                                    @if (article.UpdatedAt == null)
+                                    {
+                                        <span class="not-updated">
+                                            هنوز بروزرسانی نشده
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="updated-date">
+                                            @article.UpdatedAt.Value.ToString("yyyy/MM/dd")
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td data-label="عملیات">
+
+                                    <div class="article-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@article.Id"
+                                           class="action edit"
+                                           title="ویرایش">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </a>
+
+
+                                        <form asp-action="TogglePublish"
+                                              asp-route-id="@article.Id"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="action publish"
+                                                    title="@(article.IsPublished ? "پیش‌نویس کن" : "منتشر کن")">
+
+                                                <i class="bi @(article.IsPublished
+                                                                                                       ? "bi-eye-slash"
+                                                                                                       : "bi-send")"></i>
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <form asp-action="Delete"
+                                              asp-route-id="@article.Id"
+                                              method="post"
+                                              onsubmit="return confirm('مطمئنی می‌خوای این مقاله رو حذف کنی؟');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="action delete"
+                                                    title="حذف">
+
+                                                <i class="bi bi-trash3"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="articles-empty">
+
+                <div class="empty-icon">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+
+                <h4>هنوز مقاله‌ای وجود ندارد</h4>
+
+                <p>اولین مقاله خود را ایجاد کنید.</p>
+
+                <a asp-action="Create" class="article-create-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    ایجاد مقاله
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@section Styles {
+
+    <link rel="stylesheet" href="~/css/article/article.css" asp-append-version="true" />
+
+}

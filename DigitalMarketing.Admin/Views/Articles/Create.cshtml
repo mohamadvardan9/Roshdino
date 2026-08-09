@@ -1,58 +1,449 @@
-﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
-@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
-
-
-
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
 
 @model CreateArticleDto
 
-
 @{
     ViewData["Title"] = "مقاله جدید";
-    var categories = ViewBag.Categories as List<ArticleCategoryDto>;
 }
 
-<h2>مقاله جدید</h2>
+<div class="create-article-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Header -->
+    <div class="create-article-header">
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
+        <div>
+            <div class="breadcrumb-text">
+                <a asp-action="Index">
+                    مقالات
+                </a>
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label">عنوان مقاله</label>
-        <input asp-for="Title" class="form-control" />
+                <i class="bi bi-chevron-left"></i>
+
+                <span>مقاله جدید</span>
+            </div>
+
+            <h1>ایجاد مقاله جدید</h1>
+
+            <p>
+                یک مقاله جدید ایجاد کنید و آن را برای انتشار آماده کنید.
+            </p>
+        </div>
+
+        <a asp-action="Index" class="back-btn">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به مقالات
+        </a>
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Summary" class="form-label">خلاصه مقاله</label>
-        <textarea asp-for="Summary" class="form-control" rows="2"></textarea>
+
+    <!-- Validation -->
+    <div asp-validation-summary="ModelOnly"
+         class="validation-summary">
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Content" class="form-label">متن کامل مقاله</label>
-        <textarea asp-for="Content" class="form-control" rows="8"></textarea>
-    </div>
 
-    <div class="mb-3">
-        <label asp-for="ArticleCategoryId" class="form-label">دسته‌بندی</label>
-        <select asp-for="ArticleCategoryId" class="form-select">
-            <option value="">-- انتخاب کنید --</option>
-            @if (categories != null)
-            {
-                @foreach (var category in categories)
-                {
-                    <option value="@category.Id">@category.Name</option>
-                }
-            }
-        </select>
-    </div>
+    <!-- Form -->
+    <form asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
 
-    <div class="mb-3">
-        <label class="form-label">تصویر شاخص</label>
-        <input type="file" name="coverImage" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
-    </div>
+        <div class="create-article-layout">
 
-    <button type="submit" class="btn btn-primary">ثبت مقاله</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+
+            <!-- =========================
+                 Main Content
+            ========================== -->
+
+            <div class="article-main-column">
+
+                <!-- Basic Information -->
+                <div class="article-form-card">
+
+                    <div class="form-card-header">
+
+                        <div class="form-card-icon">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+
+                        <div>
+                            <h3>اطلاعات مقاله</h3>
+                            <p>
+                                اطلاعات اصلی مقاله را وارد کنید.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-card-body">
+
+                        <!-- Title -->
+                        <div class="form-group">
+
+                            <label asp-for="Title">
+                                عنوان مقاله
+                                <span>*</span>
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="article-input"
+                                   placeholder="مثلاً: راهنمای کامل طراحی سایت حرفه‌ای" />
+
+                            <span asp-validation-for="Title"
+                                  class="field-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Summary -->
+                        <div class="form-group">
+
+                            <div class="label-row">
+
+                                <label asp-for="Summary">
+                                    خلاصه مقاله
+                                </label>
+
+                                <span>
+                                    توضیح کوتاه
+                                </span>
+
+                            </div>
+
+                            <textarea asp-for="Summary"
+                                      class="article-textarea summary-textarea"
+                                      rows="4"
+                                      placeholder="خلاصه‌ای کوتاه و جذاب از محتوای مقاله بنویسید..."></textarea>
+
+                            <span asp-validation-for="Summary"
+                                  class="field-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Content -->
+                        <div class="form-group">
+
+                            <div class="label-row">
+
+                                <label asp-for="Content">
+                                    متن کامل مقاله
+                                    <span>*</span>
+                                </label>
+
+                                <span>
+                                    محتوای اصلی
+                                </span>
+
+                            </div>
+
+                            <textarea asp-for="Content"
+                                      class="article-textarea content-textarea"
+                                      rows="15"
+                                      placeholder="متن کامل مقاله را اینجا بنویسید..."></textarea>
+
+                            <span asp-validation-for="Content"
+                                  class="field-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Category -->
+                <div class="article-form-card">
+
+                    <div class="form-card-header">
+
+                        <div class="form-card-icon purple">
+                            <i class="bi bi-folder2-open"></i>
+                        </div>
+
+                        <div>
+                            <h3>دسته‌بندی</h3>
+                            <p>
+                                مقاله را در یک دسته‌بندی قرار دهید.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-card-body">
+
+                        <div class="form-group">
+
+                            <label asp-for="ArticleCategoryId">
+                                دسته‌بندی مقاله
+                                <span>*</span>
+                            </label>
+
+                            <select asp-for="ArticleCategoryId"
+                                    class="article-select">
+
+                                <option value="">
+                                    انتخاب دسته‌بندی
+                                </option>
+
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.Id">
+                                            @category.Name
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="ArticleCategoryId"
+                                  class="field-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Sidebar
+            ========================== -->
+
+            <div class="article-sidebar">
+
+                <!-- Cover Image -->
+                <div class="article-form-card">
+
+                    <div class="form-card-header">
+
+                        <div class="form-card-icon green">
+                            <i class="bi bi-image"></i>
+                        </div>
+
+                        <div>
+                            <h3>تصویر شاخص</h3>
+                            <p>
+                                تصویر اصلی مقاله
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-card-body">
+
+                        <label class="cover-upload">
+
+                            <input type="file"
+                                   name="coverImage"
+                                   id="coverImage"
+                                   accept=".jpg,.jpeg,.png,.webp" />
+
+                            <div class="upload-placeholder"
+                                 id="uploadPlaceholder">
+
+                                <div class="upload-icon">
+                                    <i class="bi bi-cloud-arrow-up"></i>
+                                </div>
+
+                                <strong>
+                                    تصویر را انتخاب کنید
+                                </strong>
+
+                                <span>
+                                    JPG, PNG یا WEBP
+                                </span>
+
+                                <small>
+                                    برای آپلود کلیک کنید
+                                </small>
+
+                            </div>
+
+
+                            <div class="image-preview"
+                                 id="imagePreview">
+
+                                <img id="previewImage"
+                                     src=""
+                                     alt="Preview" />
+
+                                <div class="remove-image"
+                                     id="removeImage">
+
+                                    <i class="bi bi-x"></i>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+
+                        <div class="upload-info">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            <span>
+                                پیشنهاد می‌شود تصویر با نسبت 16:9
+                                انتخاب کنید.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Publishing Info -->
+                <div class="article-form-card">
+
+                    <div class="form-card-header">
+
+                        <div class="form-card-icon orange">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+
+                        <div>
+                            <h3>نکات انتشار</h3>
+                            <p>
+                                قبل از ثبت مقاله
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tips-list">
+
+                        <div class="tip-item">
+                            <i class="bi bi-check-circle"></i>
+                            <span>
+                                عنوان واضح و جذاب انتخاب کنید.
+                            </span>
+                        </div>
+
+                        <div class="tip-item">
+                            <i class="bi bi-check-circle"></i>
+                            <span>
+                                خلاصه مقاله کوتاه و کاربردی باشد.
+                            </span>
+                        </div>
+
+                        <div class="tip-item">
+                            <i class="bi bi-check-circle"></i>
+                            <span>
+                                تصویر شاخص باکیفیت انتخاب کنید.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             Bottom Actions
+        ========================== -->
+
+        <div class="article-form-actions">
+
+            <a asp-action="Index"
+               class="cancel-btn">
+
+                انصراف
+
+            </a>
+
+            <button type="submit"
+                    class="submit-article-btn">
+
+                <i class="bi bi-check-lg"></i>
+
+                ثبت مقاله
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/article/article-create.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const coverInput = document.getElementById("coverImage");
+        const preview = document.getElementById("imagePreview");
+        const previewImage = document.getElementById("previewImage");
+        const placeholder = document.getElementById("uploadPlaceholder");
+        const removeImage = document.getElementById("removeImage");
+
+        coverInput.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            if (!file)
+                return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                previewImage.src = e.target.result;
+
+                placeholder.style.display = "none";
+                preview.style.display = "block";
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+        removeImage.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            coverInput.value = "";
+
+            previewImage.src = "";
+
+            preview.style.display = "none";
+            placeholder.style.display = "flex";
+
+        });
+
+    </script>
+
+}

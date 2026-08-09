@@ -4,8 +4,8 @@
     {
         public string Title { get; set; } = null!;
         public string Slug { get; set; } = null!;
-        public string Summary { get; set; } = null!;
-        public string Content { get; set; } = null!;      // HTML از Rich Text Editor
+        public string Summary { get; set; } = null!;   // خلاصه مقاله
+        public string Content { get; set; } = null!;      // HTML از Rich Text Editor (توضیحات مقاله)
         public string? CoverImageUrl { get; set; }
         public DateTime PublishedAt { get; set; } = DateTime.UtcNow;
         public bool IsPublished { get; set; } = true;

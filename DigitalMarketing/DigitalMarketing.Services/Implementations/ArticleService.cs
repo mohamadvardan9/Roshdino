@@ -97,16 +97,13 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var slug = SlugHelper.GenerateSlug(dto.Title);
             if(await _repository.SlugExistsAsync(slug))
-                return ServiceResult.Fail("دسته‌بندی انتخاب‌شده معتبر نیست.");
+                return ServiceResult.Fail("این اسلاگ قبلا وجود داشته است.");
 
 
             // Upload Cover Image
             if (dto.CoverImage is { Length: > 0 })
             {
-                var (success, path, error) =
-                    await _fileUploadHelper.SaveImageAsync(
-                        dto.CoverImage,
-                        "articles");
+                var (success, path, error) = await _fileUploadHelper.SaveImageAsync(dto.CoverImage,"articles");
 
                 if (!success)
                     return ServiceResult.Fail(error!);
@@ -119,6 +116,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             var article = _mapper.Map<Article>(dto);
             article.Slug = slug;
             article.PublishedAt = DateTime.UtcNow;
+            article.UpdatedAt = null;
 
             
 
@@ -146,12 +144,12 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var slug = SlugHelper.GenerateSlug(dto.Title);
             if (await _repository.SlugExistsAsync(slug, excludeId: dto.Id))
-                return ServiceResult.Fail("این سلاگ قبلا وجود داشته است.");
+                return ServiceResult.Fail("این اسلاگ قبلا وجود داشته است.");
 
 
 
 
-            // عکس قبلی را قبل از هر تغییری نگه می‌داریم
+            // keep old image before any change
             var oldCoverImage = article.CoverImageUrl;
 
             // -------------------------
@@ -161,7 +159,6 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             _mapper.Map(dto, article);
 
             article.Slug = slug;
-            article.UpdatedAt = DateTime.UtcNow;
 
             // -------------------------
             // Upload New Cover
@@ -177,10 +174,10 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                 if (!success)
                     return ServiceResult.Fail(error!);
 
-                // عکس جدید
+                // new image
                 article.CoverImageUrl = path;
 
-                // حذف عکس قبلی
+                // delete old image 
                 if (!string.IsNullOrEmpty(oldCoverImage))
                 {
                     _fileUploadHelper.DeleteImage(oldCoverImage);
@@ -224,6 +221,8 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
                 return ServiceResult.Fail("مقاله پیدا نشد.");
 
             article.IsPublished = !article.IsPublished;
+            if (article.IsPublished == true)
+                article.PublishedAt = DateTime.UtcNow;
             
 
             _repository.Update(article);

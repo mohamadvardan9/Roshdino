@@ -1,76 +1,705 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
 @using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
 
-
-
 @model UpdateArticleDto
-
 
 @{
     ViewData["Title"] = "ویرایش مقاله";
+
     var categories = ViewBag.Categories as List<ArticleCategoryDto>;
     var currentCover = ViewBag.CurrentCoverImage as string;
 }
 
-<h2>ویرایش مقاله</h2>
+<div class="edit-article-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- =========================
+         Header
+    ========================== -->
 
-<form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="Id" />
+    <div class="edit-article-header">
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label">عنوان مقاله</label>
-        <input asp-for="Title" class="form-control" />
+        <div>
+
+            <div class="edit-breadcrumb">
+
+                <a asp-action="Index">
+                    مقالات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>ویرایش مقاله</span>
+
+            </div>
+
+            <h1>
+                ویرایش مقاله
+            </h1>
+
+            <p>
+                اطلاعات مقاله را ویرایش و تغییرات را ذخیره کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="edit-back-btn">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به مقالات
+
+        </a>
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Summary" class="form-label">خلاصه مقاله</label>
-        <textarea asp-for="Summary" class="form-control" rows="2"></textarea>
+
+    <!-- =========================
+         Validation
+    ========================== -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="edit-validation-summary">
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Content" class="form-label">متن کامل مقاله</label>
-        <textarea asp-for="Content" class="form-control" rows="8"></textarea>
-    </div>
 
-    <div class="mb-3">
-        <label asp-for="ArticleCategoryId" class="form-label">دسته‌بندی</label>
-        <select asp-for="ArticleCategoryId" class="form-select">
-            @if (categories != null)
-            {
-                @foreach (var category in categories)
+    <!-- =========================
+         Form
+    ========================== -->
+
+    <form asp-action="Edit"
+          asp-route-id="@Model.Id"
+          method="post"
+          enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" type="hidden" />
+
+
+        <div class="edit-article-layout">
+
+
+            <!-- =========================
+                 Main Column
+            ========================== -->
+
+            <div class="edit-main-column">
+
+
+                <!-- Article Information -->
+
+                <div class="edit-card">
+
+                    <div class="edit-card-header">
+
+                        <div class="edit-card-icon blue">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+
+                        <div>
+                            <h3>
+                                اطلاعات مقاله
+                            </h3>
+
+                            <p>
+                                عنوان، خلاصه و محتوای مقاله
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-card-body">
+
+
+                        <!-- Title -->
+
+                        <div class="edit-form-group">
+
+                            <label asp-for="Title">
+                                عنوان مقاله
+                                <span>*</span>
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="edit-input"
+                                   placeholder="عنوان مقاله را وارد کنید..." />
+
+                            <span asp-validation-for="Title"
+                                  class="edit-field-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Summary -->
+
+                        <div class="edit-form-group">
+
+                            <div class="edit-label-row">
+
+                                <label asp-for="Summary">
+                                    خلاصه مقاله
+                                </label>
+
+                                <span>
+                                    توضیح کوتاه مقاله
+                                </span>
+
+                            </div>
+
+                            <textarea asp-for="Summary"
+                                      class="edit-textarea edit-summary"
+                                      rows="4"
+                                      placeholder="خلاصه مقاله را وارد کنید..."></textarea>
+
+                            <span asp-validation-for="Summary"
+                                  class="edit-field-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Content -->
+
+                        <div class="edit-form-group">
+
+                            <div class="edit-label-row">
+
+                                <label asp-for="Content">
+                                    محتوای مقاله
+                                    <span>*</span>
+                                </label>
+
+                                <span>
+                                    متن کامل مقاله
+                                </span>
+
+                            </div>
+
+
+                            <div class="edit-editor-container">
+
+                                <textarea asp-for="Content"
+                                          class="edit-content-textarea"
+                                          placeholder="محتوای مقاله را وارد کنید..."></textarea>
+
+                            </div>
+
+
+                            <span asp-validation-for="Content"
+                                  class="edit-field-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="edit-card">
+
+                    <div class="edit-card-header">
+
+                        <div class="edit-card-icon purple">
+                            <i class="bi bi-folder2-open"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                دسته‌بندی
+                            </h3>
+
+                            <p>
+                                دسته‌بندی مقاله را مشخص کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-card-body">
+
+                        <div class="edit-form-group">
+
+                            <label asp-for="ArticleCategoryId">
+                                دسته‌بندی
+                                <span>*</span>
+                            </label>
+
+                            <select asp-for="ArticleCategoryId"
+                                    class="edit-select">
+
+                                <option value="">
+                                    انتخاب دسته‌بندی
+                                </option>
+
+                                @if (categories != null)
+                                {
+                                    foreach (var category in categories)
+                                    {
+                                        <option value="@category.Id">
+                                            @category.Name
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="ArticleCategoryId"
+                                  class="edit-field-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Publishing Status -->
+
+                <div class="edit-card">
+
+                    <div class="edit-card-header">
+
+                        <div class="edit-card-icon green">
+                            <i class="bi bi-broadcast"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                وضعیت انتشار
+                            </h3>
+
+                            <p>
+                                وضعیت نمایش مقاله در سایت را انتخاب کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-card-body">
+
+                        <label class="publish-switch">
+
+                            <div class="publish-switch-content">
+
+                                <div class="publish-status-icon
+                                    @(Model.IsPublished ? "published" : "draft")">
+
+                                    <i class="bi @(Model.IsPublished
+                                                                               ? "bi-eye"
+                                                                               : "bi-eye-slash")">
+                                    </i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong id="publishStatusText">
+                                        @(Model.IsPublished
+                                            ? "مقاله منتشر شده است"
+                                            : "مقاله به صورت پیش‌نویس است")
+                                    </strong>
+
+                                    <span id="publishDescription">
+                                        @(Model.IsPublished
+                                            ? "این مقاله در سایت برای کاربران قابل مشاهده است."
+                                            : "این مقاله در سایت عمومی نمایش داده نمی‌شود.")
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <input asp-for="IsPublished"
+                                   type="checkbox"
+                                   id="isPublished" />
+
+                            <span class="custom-switch"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Sidebar
+            ========================== -->
+
+            <div class="edit-sidebar">
+
+
+                <!-- Cover -->
+
+                <div class="edit-card">
+
+                    <div class="edit-card-header">
+
+                        <div class="edit-card-icon orange">
+                            <i class="bi bi-image"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                تصویر شاخص
+                            </h3>
+
+                            <p>
+                                تصویر اصلی مقاله
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-card-body">
+
+
+                        <div class="cover-editor">
+
+                            <input type="file"
+                                   asp-for="NewCoverImage"
+                                   id="newCoverImage"
+                                   accept=".jpg,.jpeg,.png,.webp" />
+
+
+                            <!-- Current / Preview Image -->
+
+                            <div class="cover-preview"
+                                 id="coverPreview">
+
+                                @if (!string.IsNullOrEmpty(currentCover))
+                                {
+                                    <img id="coverPreviewImage"
+                                         src="@currentCover"
+                                         alt="تصویر شاخص مقاله" />
+                                }
+                                else
+                                {
+                                    <div class="no-cover"
+                                         id="noCover">
+
+                                        <i class="bi bi-image"></i>
+
+                                        <span>
+                                            تصویر شاخص وجود ندارد
+                                        </span>
+
+                                    </div>
+                                }
+
+                                <button type="button"
+                                        class="remove-preview"
+                                        id="removePreview"
+                                        title="حذف انتخاب جدید">
+
+                                    <i class="bi bi-x"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- Upload -->
+
+                            <label for="newCoverImage"
+                                   class="change-cover-btn">
+
+                                <i class="bi bi-cloud-arrow-up"></i>
+
+                                انتخاب تصویر جدید
+
+                            </label>
+
+
+                            <p class="cover-hint">
+
+                                فرمت‌های مجاز:
+                                JPG، PNG، WEBP
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Article Info -->
+
+                <div class="edit-card">
+
+                    <div class="edit-card-header">
+
+                        <div class="edit-card-icon gray">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                اطلاعات
+                            </h3>
+
+                            <p>
+                                وضعیت فعلی مقاله
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="article-info-list">
+
+                        <div class="article-info-item">
+
+                            <span>
+                                شناسه مقاله
+                            </span>
+
+                            <strong>
+                                #@Model.Id
+                            </strong>
+
+                        </div>
+
+
+                        <div class="article-info-item">
+
+                            <span>
+                                وضعیت
+                            </span>
+
+                            <strong class="info-status
+                                @(Model.IsPublished ? "active" : "inactive")">
+
+                                @(Model.IsPublished
+                                    ? "منتشرشده"
+                                    : "پیش‌نویس")
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             Bottom Actions
+        ========================== -->
+
+        <div class="edit-actions">
+
+            <a asp-action="Index"
+               class="edit-cancel-btn">
+
+                انصراف
+
+            </a>
+
+
+            <button type="submit"
+                    class="edit-save-btn">
+
+                <i class="bi bi-check-lg"></i>
+
+                ذخیره تغییرات
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/article/article-edit.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const coverInput =
+            document.getElementById("newCoverImage");
+
+        const previewImage =
+            document.getElementById("coverPreviewImage");
+
+        const removePreview =
+            document.getElementById("removePreview");
+
+        const coverPreview =
+            document.getElementById("coverPreview");
+
+
+        /*
+         * Preview new image
+         */
+
+        coverInput.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            if (!file)
+                return;
+
+
+            const reader = new FileReader();
+
+
+            reader.onload = function (e) {
+
+                let image = document.getElementById("coverPreviewImage");
+
+                if (!image)
                 {
-                    <option value="@category.Id" selected="@(category.Id == Model.ArticleCategoryId)">
-                        @category.Name
-                    </option>
+                    image = document.createElement("img");
+
+                    image.id = "coverPreviewImage";
+
+                    image.alt = "تصویر جدید";
+
+                    coverPreview.innerHTML = "";
+
+                    coverPreview.appendChild(image);
+
+                    coverPreview.appendChild(removePreview);
                 }
+
+
+                image.src = e.target.result;
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+        /*
+         * Remove selected new image
+         */
+
+        removePreview.addEventListener("click", function () {
+
+            coverInput.value = "";
+
+            @if (!string.IsNullOrEmpty(currentCover))
+            {
+                    <text>
+                        previewImage.src = "@currentCover";
+                    </text>
             }
-        </select>
-    </div>
+            else
+            {
+                    <text>
 
-    <div class="form-check mb-3">
-        <input asp-for="IsPublished" class="form-check-input" type="checkbox" />
-        <label asp-for="IsPublished" class="form-check-label">منتشر شود</label>
-    </div>
+                        coverPreview.innerHTML = `
+                            <div class="no-cover" id="noCover">
+                                    <i class="bi bi-image"></i>
+                                    <span>تصویر شاخص وجود ندارد</span>
+                            </div>
+                        `;
 
-    <div class="mb-3">
-        <label class="form-label">تصویر شاخص فعلی</label><br />
-        @if (!string.IsNullOrEmpty(currentCover))
-        {
-            <img src="@currentCover" width="150" height="150" style="object-fit:cover" class="mb-2 d-block" />
-        }
-        else
-        {
-            <p class="text-muted">تصویری ثبت نشده.</p>
-        }
+                        coverPreview.appendChild(removePreview);
 
-        <label class="form-label">جایگزینی تصویر (اختیاری)</label>
-        <input type="file" name="NewCoverImage" accept=".jpg,.jpeg,.png,.webp" class="form-control" />
-        <small class="text-muted">اگه فایل جدید انتخاب کنی، تصویر قبلی جایگزین می‌شه.</small>
-    </div>
+                    </text>
+            }
 
-    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+        });
+
+
+        /*
+         * Publish switch
+         */
+
+        const publishCheckbox =
+            document.getElementById("isPublished");
+
+        const publishStatusText =
+            document.getElementById("publishStatusText");
+
+        const publishDescription =
+            document.getElementById("publishDescription");
+
+
+        publishCheckbox.addEventListener("change", function () {
+
+            const icon =
+                document.querySelector(".publish-status-icon");
+
+
+            if (this.checked)
+            {
+                publishStatusText.textContent =
+                    "مقاله منتشر شده است";
+
+                publishDescription.textContent =
+                    "این مقاله در سایت برای کاربران قابل مشاهده است.";
+
+                icon.classList.remove("draft");
+
+                icon.classList.add("published");
+
+                icon.innerHTML =
+                    '<i class="bi bi-eye"></i>';
+            }
+            else
+            {
+                publishStatusText.textContent =
+                    "مقاله به صورت پیش‌نویس است";
+
+                publishDescription.textContent =
+                    "این مقاله در سایت عمومی نمایش داده نمی‌شود.";
+
+                icon.classList.remove("published");
+
+                icon.classList.add("draft");
+
+                icon.innerHTML =
+                    '<i class="bi bi-eye-slash"></i>';
+            }
+
+        });
+
+    </script>
+
+}

@@ -18,6 +18,9 @@ namespace DigitalMarketing.DigitalMarketing.Data.Configurations
             builder.HasIndex(x => x.Slug).IsUnique();
 
 
+            // relation with ArticleCategory
+            // Article 1=> Category
+            // ArticleCategory n=> Article
             builder.HasOne(x => x.ArticleCategory)
                 .WithMany(a => a.Articles)
                 .HasForeignKey(x => x.ArticleCategoryId)
