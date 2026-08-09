@@ -41,7 +41,30 @@ a {
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
+
+/*Sidebar Scrole*/
+
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
 
 
 /* Logo */
@@ -254,6 +277,8 @@ a {
 
 .sidebar-bottom {
     margin-top: auto;
+    padding-top: 18px;
+    flex-shrink: 0;
 }
 
 .support-box {
@@ -307,6 +332,160 @@ a {
         background: rgba(239,68,68,.08);
     }
 
+/* =========================================
+   Developer Box - Sidebar
+========================================= */
+
+.support-boxes {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 64px;
+    padding: 10px 12px;
+    gap: 11px;
+    background: linear-gradient( 135deg, rgba(124, 58, 237, 0.12), rgba(99, 102, 241, 0.05) );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+
+    /* خط نور بالای کارت */
+
+    .support-boxes::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 18px;
+        left: 18px;
+        height: 1px;
+        background: linear-gradient( 90deg, transparent, rgba(167, 139, 250, .45), transparent );
+        opacity: .7;
+    }
+
+
+    /* Hover */
+
+    .support-boxes:hover {
+        background: linear-gradient( 135deg, rgba(124, 58, 237, 0.18), rgba(99, 102, 241, 0.08) );
+        border-color: rgba(167, 139, 250, .18);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(0, 0, 0, .15);
+    }
+
+
+/* =========================================
+   Icon
+========================================= */
+
+.support-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: rgba(124, 58, 237, .18);
+    border: 1px solid rgba(167, 139, 250, .12);
+    color: #a78bfa;
+    font-size: 17px;
+    transition: background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+
+.support-boxes:hover .support-icon {
+    background: linear-gradient( 135deg, #7c3aed, #6366f1 );
+    color: #fff;
+    transform: scale(1.06);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, .30);
+}
+
+
+/* =========================================
+   Content
+========================================= */
+
+.support-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+}
+
+
+.support-label {
+    color: #64748b;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
+.support-name {
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================
+   Status
+========================================= */
+
+.support-status {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+
+    .support-status span {
+        width: 7px;
+        height: 7px;
+        display: block;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, .08), 0 0 10px rgba(34, 197, 94, .35);
+    }
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 767px) {
+
+    .support-boxes {
+        min-height: 60px;
+        padding: 9px 11px;
+    }
+
+    .support-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .support-label {
+        font-size: 8px;
+    }
+
+    .support-name {
+        font-size: 11px;
+    }
+}
 
 /* =========================
    Main

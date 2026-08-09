@@ -283,7 +283,7 @@
 
                 </div>
 
-                <a asp-controller="Article"
+                <a asp-controller="Articles"
                    asp-action="Index">
 
                     مشاهده همه
@@ -566,33 +566,6 @@
 
                 <div class="activity-item">
 
-                    <div class="activity-icon green">
-
-                        <i class="bi bi-person-plus"></i>
-
-                    </div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            کاربر جدید ثبت‌نام کرد
-                        </strong>
-
-                        <span>
-                            Ali Ahmadi
-                        </span>
-
-                        <small>
-                            ۳۵ دقیقه پیش
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
                     <div class="activity-icon blue">
 
                         <i class="bi bi-pencil"></i>
@@ -679,7 +652,7 @@
 
         <div class="col-md-3 col-6">
 
-            <a asp-controller="Article"
+            <a asp-controller="Articles"
                asp-action="Create"
                class="quick-card">
 
@@ -700,11 +673,32 @@
 
         <div class="col-md-3 col-6">
 
+            <a asp-controller="ArticleCategories"
+               asp-action="Create"
+               class="quick-card">
+
+                <div class="quick-icon green">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                </div>
+
+                <span>
+                    دسته‌بندی مقاله جدید
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-3 col-6">
+
             <a asp-controller="Product"
                asp-action="Create"
                class="quick-card">
 
-                <div class="quick-icon blue">
+                <div class="quick-icon purple">
 
                     <i class="bi bi-box-seam"></i>
 
@@ -721,45 +715,23 @@
 
         <div class="col-md-3 col-6">
 
-            <a asp-controller="ArticleCategory"
+            <a asp-controller="ProductCategories"
                asp-action="Create"
                class="quick-card">
 
                 <div class="quick-icon green">
 
-                    <i class="bi bi-folder-plus"></i>
+                    <i class="bi bi-box-seam"></i>
 
                 </div>
 
                 <span>
-                    دسته‌بندی جدید
+                    دسته‌بندی محصول جدید
                 </span>
 
             </a>
 
         </div>
-
-
-        <div class="col-md-3 col-6">
-
-            <a asp-controller="User"
-               asp-action="Create"
-               class="quick-card">
-
-                <div class="quick-icon orange">
-
-                    <i class="bi bi-person-plus"></i>
-
-                </div>
-
-                <span>
-                    کاربر جدید
-                </span>
-
-            </a>
-
-        </div>
-
 
     </div>
 
