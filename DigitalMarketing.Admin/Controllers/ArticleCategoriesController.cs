@@ -68,6 +68,7 @@ namespace DigitalMarketing.Admin.Controllers
 
             var model = new UpdateArticleCategoryDto
             {
+                Id = category.Id,
                 Name = category.Name
             };
 

@@ -1,22 +1,273 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+
 @model UpdateArticleCategoryDto
 
 @{
     ViewData["Title"] = "ویرایش دسته‌بندی";
 }
 
-<h2>ویرایش دسته‌بندی</h2>
+<div class="category-edit-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Header -->
+    <div class="category-edit-header">
 
-<form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken()
+        <div>
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
-        <input asp-for="Name" class="form-control" />
+            <div class="category-edit-breadcrumb">
+
+                <a asp-action="Index">
+                    دسته‌بندی مقالات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>
+                    ویرایش دسته‌بندی
+                </span>
+
+            </div>
+
+            <h1>
+                ویرایش دسته‌بندی
+            </h1>
+
+            <p>
+                اطلاعات دسته‌بندی را ویرایش و تغییرات را ذخیره کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="category-back-btn">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
     </div>
 
-    <button type="submit" class="btn btn-primary">ذخیره</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+
+    <!-- Validation -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="category-validation">
+    </div>
+
+
+    <!-- Form -->
+
+    <form asp-action="Edit"
+          asp-route-id="@Model.Id"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" type="hidden" />
+
+
+        <div class="category-edit-layout">
+
+
+            <!-- Main Form -->
+
+            <div class="category-edit-card">
+
+                <div class="category-edit-card-header">
+
+                    <div class="category-edit-icon">
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            اطلاعات دسته‌بندی
+                        </h2>
+
+                        <p>
+                            نام دسته‌بندی را ویرایش کنید.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="category-edit-card-body">
+
+
+                    <!-- Name -->
+
+                    <div class="category-form-group">
+
+                        <label asp-for="Name">
+
+                            نام دسته‌بندی
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <div class="category-input-wrapper">
+
+                            <i class="bi bi-folder"></i>
+
+                            <input asp-for="Name"
+                                   class="category-input"
+                                   placeholder="مثلاً آموزش برنامه‌نویسی..." />
+
+                        </div>
+
+
+                        <span asp-validation-for="Name"
+                              class="category-field-error">
+                        </span>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="category-edit-actions">
+
+                        <a asp-action="Index"
+                           class="category-cancel-btn">
+
+                            <i class="bi bi-x-lg"></i>
+
+                            انصراف
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="category-save-btn">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            ذخیره تغییرات
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Sidebar -->
+
+            <div class="category-edit-sidebar">
+
+
+                <!-- Info Card -->
+
+                <div class="category-info-card">
+
+                    <div class="category-info-header">
+
+                        <div class="category-info-icon">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                اطلاعات دسته‌بندی
+                            </h3>
+
+                            <p>
+                                مشخصات فعلی
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="category-info-body">
+
+                        <div class="category-info-item">
+
+                            <span>
+                                شناسه
+                            </span>
+
+                            <strong>
+                                #@Model.Id
+                            </strong>
+
+                        </div>
+
+
+                        <div class="category-info-item">
+
+                            <span>
+                                وضعیت
+                            </span>
+
+                            <strong class="category-active-status">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                فعال
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Tip Card -->
+
+                <div class="category-tip-card">
+
+                    <div class="category-tip-icon">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            نکته
+                        </strong>
+
+                        <p>
+                            نام دسته‌بندی را کوتاه، واضح و مرتبط با محتوای مقالات انتخاب کنید.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/article-category/article-edit.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

@@ -1,22 +1,324 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleCategoryDtos
+
 @model CreateArticleCategoryDto
 
 @{
     ViewData["Title"] = "دسته‌بندی جدید";
 }
 
-<h2>دسته‌بندی جدید</h2>
+<div class="category-create-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Header -->
+    <div class="category-create-header">
 
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
+        <div>
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
-        <input asp-for="Name" class="form-control" />
+            <div class="category-create-breadcrumb">
+
+                <a asp-action="Index">
+                    دسته‌بندی مقالات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>
+                    دسته‌بندی جدید
+                </span>
+
+            </div>
+
+            <h1>
+                ایجاد دسته‌بندی جدید
+            </h1>
+
+            <p>
+                یک دسته‌بندی جدید برای سازماندهی بهتر مقالات ایجاد کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="category-back-btn">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
     </div>
 
-    <button type="submit" class="btn btn-primary">ثبت</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+
+    <!-- Validation -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="category-validation">
+    </div>
+
+
+    <!-- Main Layout -->
+
+    <div class="category-create-layout">
+
+
+        <!-- Form Card -->
+
+        <div class="category-create-card">
+
+            <div class="category-create-card-header">
+
+                <div class="category-create-icon">
+                    <i class="bi bi-folder-plus"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        اطلاعات دسته‌بندی
+                    </h2>
+
+                    <p>
+                        اطلاعات دسته‌بندی جدید را وارد کنید.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="category-create-card-body">
+
+
+                    <!-- Name -->
+
+                    <div class="category-form-group">
+
+                        <label asp-for="Name">
+
+                            نام دسته‌بندی
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <div class="category-input-wrapper">
+
+                            <i class="bi bi-folder"></i>
+
+                            <input asp-for="Name"
+                                   class="category-input"
+                                   placeholder="مثلاً آموزش برنامه‌نویسی..." />
+
+                        </div>
+
+
+                        <span asp-validation-for="Name"
+                              class="category-field-error">
+                        </span>
+
+
+                        <small class="category-input-hint">
+
+                            نامی واضح و مرتبط با موضوع مقالات انتخاب کنید.
+
+                        </small>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="category-create-actions">
+
+                        <a asp-action="Index"
+                           class="category-cancel-btn">
+
+                            <i class="bi bi-x-lg"></i>
+
+                            انصراف
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="category-save-btn">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                            ایجاد دسته‌بندی
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Sidebar -->
+
+        <div class="category-create-sidebar">
+
+
+            <!-- Preview -->
+
+            <div class="category-preview-card">
+
+                <div class="category-preview-header">
+
+                    <div class="category-preview-icon">
+                        <i class="bi bi-eye"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            پیش‌نمایش
+                        </h3>
+
+                        <p>
+                            ظاهر دسته‌بندی
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="category-preview-body">
+
+                    <div class="preview-category">
+
+                        <div class="preview-folder">
+
+                            <i class="bi bi-folder-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong id="categoryPreviewName">
+                                نام دسته‌بندی
+                            </strong>
+
+                            <span>
+                                دسته‌بندی مقاله
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tip -->
+
+            <div class="category-tip-card">
+
+                <div class="category-tip-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        نکته
+                    </strong>
+
+                    <p>
+                        نام دسته‌بندی باید کوتاه، واضح و مرتبط با محتوای مقالات باشد.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Guide -->
+
+            <div class="category-guide-card">
+
+                <div class="category-guide-title">
+
+                    <i class="bi bi-stars"></i>
+
+                    پیشنهاد
+
+                </div>
+
+                <ul>
+
+                    <li>
+                        از نام‌های کوتاه استفاده کنید.
+                    </li>
+
+                    <li>
+                        دسته‌بندی‌های مشابه ایجاد نکنید.
+                    </li>
+
+                    <li>
+                        نام دسته‌بندی باید برای کاربر قابل فهم باشد.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/article-category/article-create.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const categoryNameInput =
+            document.getElementById("Name");
+
+        const categoryPreviewName =
+            document.getElementById("categoryPreviewName");
+
+        if (categoryNameInput && categoryPreviewName) {
+
+            categoryNameInput.addEventListener("input", function () {
+
+                const value = this.value.trim();
+
+                categoryPreviewName.textContent =
+                    value || "نام دسته‌بندی";
+
+            });
+
+        }
+
+    </script>
+
+}
+m>
