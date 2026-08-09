@@ -13,6 +13,11 @@ a {
     text-decoration: none;
 }
 
+:root {
+    --sidebar-bg: #111827;
+    --sidebar-primary: #7c3aed;
+    --sidebar-secondary: #6366f1;
+}
 
 /* =========================
    Layout
@@ -31,7 +36,7 @@ a {
 .sidebar {
     width: 265px;
     min-height: 100vh;
-    background: #111827;
+    background: var(--sidebar-bg);
     color: #fff;
     padding: 24px 16px;
     position: fixed;
@@ -139,9 +144,11 @@ a {
     }
 
     .menu-item.active {
+        position: relative;
         color: #fff;
-        background: linear-gradient( 135deg, rgba(124,58,237,.9), rgba(99,102,241,.9) );
+        background: linear-gradient( 135deg, var(--sidebar-primary), var(--sidebar-secondary) );
         box-shadow: 0 8px 20px rgba(99,102,241,.2);
+        border: 1px solid rgba(167, 139, 250, .12);
     }
 
 .menu-badge {
@@ -569,27 +576,77 @@ a {
 }
 
 .profile-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
-    background: linear-gradient(135deg,#7c3aed,#6366f1);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient( 135deg, #8b5cf6 0%, #6366f1 55%, #4f46e5 100% );
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 800;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25), 0 0 0 4px rgba(99, 102, 241, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
 }
+
+    .profile-avatar:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 7px 18px rgba(99, 102, 241, 0.30), 0 0 0 5px rgba(99, 102, 241, 0.10);
+    }
+
+    .profile-avatar::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -70%;
+        width: 60%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.18);
+        transform: rotate(25deg);
+        transition: left .5s ease;
+    }
+
+    .profile-avatar:hover::before {
+        left: 120%;
+    }
+
+.profile-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25), 0 0 0 4px rgba(99, 102, 241, 0.08);
+    transition: .25s ease;
+}
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+    }
 
 .profile-info strong {
     display: block;
     font-size: 12px;
+    font-weight: 800;
+    color: #7c3aed;
+    transition: color .25s ease;
 }
 
 .profile-info small {
     display: block;
+    margin-top: 3px;
     color: #94a3b8;
     font-size: 10px;
-    margin-top: 2px;
 }
 
 .profile-arrow {
@@ -1070,3 +1127,146 @@ a {
         justify-content: flex-start;
     }
 }
+
+
+/* =========================================
+   Theme Settings
+========================================= */
+
+.theme-settings {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+
+/* Settings button */
+
+.theme-toggle {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: right;
+    position: relative;
+}
+
+
+.theme-arrow {
+    margin-right: auto;
+    font-size: 10px;
+    color: #64748b;
+    transition: transform .25s ease;
+}
+
+
+.theme-settings.open .theme-arrow {
+    transform: rotate(-90deg);
+}
+
+
+/* =========================================
+   Theme Panel
+========================================= */
+
+.theme-panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 12px;
+    transition: max-height .3s ease, opacity .25s ease, padding .3s ease;
+}
+
+
+.theme-settings.open .theme-panel {
+    max-height: 180px;
+    opacity: 1;
+    padding: 10px 12px 12px;
+}
+
+
+/* =========================================
+   Panel Title
+========================================= */
+
+.theme-panel-title {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 11px;
+}
+
+
+    .theme-panel-title strong {
+        color: #e2e8f0;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+
+    .theme-panel-title span {
+        color: #64748b;
+        font-size: 8px;
+    }
+
+
+/* =========================================
+   Colors
+========================================= */
+
+.theme-colors {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 7px;
+}
+
+
+.theme-color {
+    width: 26px;
+    height: 26px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+
+    .theme-color:hover {
+        transform: scale(1.12);
+    }
+
+
+    .theme-color.active {
+        border-color: #fff;
+        box-shadow: 0 0 0 2px rgba(255,255,255,.18);
+    }
+
+
+    /* =========================================
+   Theme Colors
+========================================= */
+
+    .theme-color.dark {
+        background: #111827;
+    }
+
+    .theme-color.purple {
+        background: #4c1d95;
+    }
+
+    .theme-color.blue {
+        background: #0f172a;
+    }
+
+    .theme-color.green {
+        background: #064e3b;
+    }
+
+    .theme-color.red {
+        background: #450a0a;
+    }
+
+    .theme-color.slate {
+        background: #1e293b;
+    }

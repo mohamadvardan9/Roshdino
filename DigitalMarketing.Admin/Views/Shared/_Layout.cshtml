@@ -82,20 +82,18 @@
 
                 <a asp-controller="Main"
                    asp-action="Index"
-                   class="menu-item active">
+                   class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Main" ? "active" : "")">
 
-                    <i class="bi bi-house-door"></i>
+                    <i class="bi bi-grid"></i>
 
-                    <span>
-                        داشبورد
-                    </span>
+                    <span>داشبورد</span>
 
                 </a>
 
 
                 <a asp-controller="Articles"
                    asp-action="Index"
-                   class="menu-item">
+                   class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Articles" ? "active" : "")">
 
                     <i class="bi bi-file-earmark-text"></i>
 
@@ -108,7 +106,7 @@
 
                 <a asp-controller="ArticleCategories"
                    asp-action="Index"
-                   class="menu-item">
+                   class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "ArticleCategories" ? "active" : "")">
 
                     <i class="bi bi-folder"></i>
 
@@ -121,7 +119,7 @@
 
                 <a asp-controller="Product"
                    asp-action="Index"
-                   class="menu-item">
+                   class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" ? "active" : "")">
 
                     <i class="bi bi-box-seam"></i>
 
@@ -134,7 +132,7 @@
 
                 <a asp-controller="ProductCategories"
                    asp-action="Index"
-                   class="menu-item">
+                   class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "ProductCategories" ? "active" : "")">
 
                     <i class="bi bi-tags"></i>
 
@@ -163,16 +161,71 @@
                 </a>
 
 
-                <a href="#"
-                   class="menu-item">
 
-                    <i class="bi bi-gear"></i>
 
-                    <span>
-                        تنظیمات
-                    </span>
+                
+                @*Change Dashboard Theme Color*@
 
-                </a>
+                <div class="theme-settings">
+
+                    <button type="button" class="menu-item theme-toggle">
+
+                        <i class="bi bi-gear"></i>
+
+                        <span>
+                            تنظیمات
+                        </span>
+
+                        <i class="bi bi-chevron-left theme-arrow"></i>
+
+                    </button>
+
+
+                    <div class="theme-panel">
+
+                        <div class="theme-panel-title">
+                            <strong>رنگ سایدبار</strong>
+                            <span>تم مورد علاقه خود را انتخاب کنید</span>
+                        </div>
+
+
+                        <div class="theme-colors">
+
+                            <button class="theme-color dark"
+                                    data-theme="dark"
+                                    title="مشکی">
+                            </button>
+
+                            <button class="theme-color purple"
+                                    data-theme="purple"
+                                    title="بنفش">
+                            </button>
+
+                            <button class="theme-color blue"
+                                    data-theme="blue"
+                                    title="آبی">
+                            </button>
+
+                            <button class="theme-color green"
+                                    data-theme="green"
+                                    title="سبز">
+                            </button>
+
+                            <button class="theme-color red"
+                                    data-theme="red"
+                                    title="قرمز">
+                            </button>
+
+                            <button class="theme-color slate"
+                                    data-theme="slate"
+                                    title="خاکستری">
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -273,7 +326,7 @@
                     <div class="admin-profile">
 
                         <div class="profile-avatar">
-                            ت
+                            <img src="~/T/Tprofile.jpg" />
                         </div>
 
                         <div class="profile-info">
@@ -317,6 +370,152 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+
+        const themeSettings = document.querySelector(".theme-settings");
+        const themeToggle = document.querySelector(".theme-toggle");
+        const themeColors = document.querySelectorAll(".theme-color");
+
+        const themes = {
+
+        dark: {
+        bg: "#111827",
+        primary: "#7c3aed",
+        secondary: "#6366f1"
+        },
+
+        purple: {
+        bg: "#2e1065",
+        primary: "#8b5cf6",
+        secondary: "#7c3aed"
+        },
+
+        blue: {
+        bg: "#0f172a",
+        primary: "#2563eb",
+        secondary: "#3b82f6"
+        },
+
+        green: {
+        bg: "#064e3b",
+        primary: "#059669",
+        secondary: "#10b981"
+        },
+
+        red: {
+        bg: "#450a0a",
+        primary: "#dc2626",
+        secondary: "#ef4444"
+        },
+
+        slate: {
+        bg: "#1e293b",
+        primary: "#475569",
+        secondary: "#64748b"
+        }
+
+        };
+
+
+        /* Open / Close */
+
+        themeToggle.addEventListener("click", function () {
+
+        themeSettings.classList.toggle("open");
+
+        });
+
+
+        /* Change Theme */
+
+        themeColors.forEach(color => {
+
+        color.addEventListener("click", function () {
+
+        const themeName = this.dataset.theme;
+
+        const theme = themes[themeName];
+
+        document.documentElement.style.setProperty(
+        "--sidebar-bg",
+        theme.bg
+        );
+
+        document.documentElement.style.setProperty(
+        "--sidebar-primary",
+        theme.primary
+        );
+
+        document.documentElement.style.setProperty(
+        "--sidebar-secondary",
+        theme.secondary
+        );
+
+
+        /* Save */
+
+        localStorage.setItem(
+        "sidebarTheme",
+        themeName
+        );
+
+
+        /* Active */
+
+        themeColors.forEach(item => {
+
+        item.classList.remove("active");
+
+        });
+
+        this.classList.add("active");
+
+        });
+
+        });
+
+
+        /* Load Saved Theme */
+
+        const savedTheme =
+        localStorage.getItem("sidebarTheme");
+
+
+        if (savedTheme && themes[savedTheme]) {
+
+        const theme = themes[savedTheme];
+
+        document.documentElement.style.setProperty(
+        "--sidebar-bg",
+        theme.bg
+        );
+
+        document.documentElement.style.setProperty(
+        "--sidebar-primary",
+        theme.primary
+        );
+
+        document.documentElement.style.setProperty(
+        "--sidebar-secondary",
+        theme.secondary
+        );
+
+
+        const activeColor =
+        document.querySelector(
+        `[data-theme="${savedTheme}"]`
+        );
+
+        if (activeColor) {
+
+        activeColor.classList.add("active");
+
+        }
+
+        }
+
+    </script>
 
 </body>
 
