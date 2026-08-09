@@ -11,6 +11,11 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
+
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MyDbContext>(opt =>
@@ -20,6 +25,7 @@ opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 
 
@@ -72,6 +78,10 @@ builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
 
 
+
+
+
+
 // Test in other diveces
 // http://10.218.61.209:5079
 //builder.WebHost.ConfigureKestrel(opt =>
@@ -83,6 +93,9 @@ builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
 var app = builder.Build();
 
+
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -92,6 +105,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles(); // new added
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -100,7 +116,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=ProductCategories}/{action=Index}/{id?}")
+    pattern: "{controller=Main}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 
