@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\article\" />
     <Folder Include="wwwroot\T\" />
   </ItemGroup>
 

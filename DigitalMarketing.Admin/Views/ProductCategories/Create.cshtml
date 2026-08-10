@@ -1,22 +1,285 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
+
 @model CreateProductCategoryDto
 
 @{
-    ViewData["Title"] = "دسته‌بندی جدید";
+    ViewData["Title"] = "دسته‌بندی محصول جدید";
 }
 
-<h2>دسته‌بندی جدید</h2>
+<div class="product-category-create-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Header -->
+    <div class="product-category-header">
 
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
+        <div>
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
-        <input asp-for="Name" class="form-control" />
+            <div class="product-category-breadcrumb">
+
+                <a asp-action="Index">
+                    دسته‌بندی محصولات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>
+                    دسته‌بندی جدید
+                </span>
+
+            </div>
+
+            <h1>
+                ایجاد دسته‌بندی محصول
+            </h1>
+
+            <p>
+                برای سازماندهی بهتر محصولات، یک دسته‌بندی جدید ایجاد کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="product-category-back-btn">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
     </div>
 
-    <button type="submit" class="btn btn-primary">ثبت</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+
+    <!-- Validation -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="product-category-validation">
+    </div>
+
+
+    <!-- Content -->
+
+    <div class="product-category-layout">
+
+
+        <!-- Form -->
+
+        <div class="product-category-card">
+
+            <div class="product-category-card-header">
+
+                <div class="product-category-icon">
+                    <i class="bi bi-folder-plus"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        اطلاعات دسته‌بندی
+                    </h2>
+
+                    <p>
+                        نام دسته‌بندی محصول را وارد کنید.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="product-category-card-body">
+
+
+                    <div class="product-category-field">
+
+                        <label asp-for="Name">
+
+                            نام دسته‌بندی
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <div class="product-category-input-wrapper">
+
+                            <i class="bi bi-folder"></i>
+
+                            <input asp-for="Name"
+                                   class="product-category-input"
+                                   placeholder="مثلاً لپ‌تاپ، موبایل، لوازم جانبی..." />
+
+                        </div>
+
+
+                        <span asp-validation-for="Name"
+                              class="product-category-error">
+                        </span>
+
+
+                        <small>
+                            نامی کوتاه، واضح و مرتبط با محصولات انتخاب کنید.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="product-category-actions">
+
+                        <a asp-action="Index"
+                           class="product-category-cancel">
+
+                            <i class="bi bi-x-lg"></i>
+
+                            انصراف
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="product-category-submit">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                            ایجاد دسته‌بندی
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Sidebar -->
+
+        <div class="product-category-sidebar">
+
+
+            <!-- Preview -->
+
+            <div class="product-category-preview-card">
+
+                <div class="product-category-sidebar-header">
+
+                    <div class="product-category-sidebar-icon">
+                        <i class="bi bi-eye"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            پیش‌نمایش
+                        </strong>
+
+                        <span>
+                            نمایش دسته‌بندی محصول
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-category-preview">
+
+                    <div class="product-category-preview-icon">
+
+                        <i class="bi bi-box-seam"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong id="productCategoryPreview">
+                            نام دسته‌بندی
+                        </strong>
+
+                        <span>
+                            دسته‌بندی محصولات
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tip -->
+
+            <div class="product-category-tip">
+
+                <div class="product-category-tip-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        نکته
+                    </strong>
+
+                    <p>
+                        دسته‌بندی‌ها را طوری انتخاب کنید که مشتری بتواند محصولات را سریع‌تر پیدا کند.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/product-category/product-category-create.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const nameInput =
+            document.getElementById("Name");
+
+        const preview =
+            document.getElementById("productCategoryPreview");
+
+        if (nameInput && preview) {
+
+            nameInput.addEventListener("input", function () {
+
+                const value = this.value.trim();
+
+                preview.textContent =
+                    value || "نام دسته‌بندی";
+
+            });
+
+        }
+
+    </script>
+
+}
