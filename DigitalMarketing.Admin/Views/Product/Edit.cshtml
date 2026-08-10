@@ -1,112 +1,698 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
 @using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 
-
-
 @model UpdateProductDto
 
 @{
     ViewData["Title"] = "ویرایش محصول";
-    var categories = ViewBag.Categories as List<ProductCategoryDto>;
-    var existingImages = ViewBag.ExistingImages as List<ProductImageDto>;
+
+    var categories =
+        ViewBag.Categories as List<ProductCategoryDto>;
 }
 
-<h2>ویرایش محصول</h2>
 
-<div asp-validation-summary="All" class="text-danger"></div>
+<div class="edit-product-page">
 
-<form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="Id" />
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label">عنوان محصول</label>
-        <input asp-for="Title" class="form-control" />
-    </div>
+    <!-- ================= HEADER ================= -->
 
-    <div class="mb-3">
-        <label asp-for="ShortDescription" class="form-label">توضیح کوتاه</label>
-        <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
-    </div>
+    <div class="edit-product-header">
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">توضیحات کامل</label>
-        <textarea asp-for="Description" class="form-control" rows="6"></textarea>
-    </div>
+        <div>
 
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label">قیمت (اختیاری)</label>
-        <input asp-for="Price" class="form-control" type="number" step="0.01" />
-    </div>
+            <div class="edit-product-breadcrumb">
 
-    <div class="mb-3">
-        <label asp-for="ProductCategoryId" class="form-label">دسته‌بندی</label>
-        <select asp-for="ProductCategoryId" class="form-select">
-            @if (categories != null)
-            {
-                @foreach (var category in categories)
-                {
-                    <option value="@category.Id" selected="@(category.Id == Model.ProductCategoryId)">
-                        @category.Name
-                    </option>
-                }
-            }
-        </select>
-    </div>
+                <a asp-action="Index">
+                    محصولات
+                </a>
 
-    <div class="form-check mb-3">
-        <input asp-for="IsPublished" class="form-check-input" type="checkbox" />
-        <label asp-for="IsPublished" class="form-check-label">منتشر شود</label>
-    </div>
+                <i class="bi bi-chevron-left"></i>
 
-    <div class="mb-3">
-        <label class="form-label">تصاویر جدید (افزودن)</label>
-        <input type="file" name="newImages" multiple accept=".jpg,.jpeg,.png,.webp" class="form-control" />
-    </div>
+                <span>
+                    ویرایش محصول
+                </span>
 
-    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
-
-<hr />
-
-<h4>تصاویر فعلی</h4>
-<div class="d-flex flex-wrap gap-3">
-    @if (existingImages != null)
-    {
-        @foreach (var image in existingImages)
-        {
-            <div class="border p-2 text-center" style="width:150px">
-                <img src="@image.ImageUrl" width="130" height="130" style="object-fit:cover" />
-
-                @if (image.IsMain)
-                {
-                    <div class="badge bg-primary mt-1">تصویر اصلی</div>
-                }
-                else
-                {
-                    <form asp-action="SetMainImage" method="post" class="mt-1">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="imageId" value="@image.Id" />
-                        <input type="hidden" name="productId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-sm btn-outline-primary">
-                            تصویر اصلی کن
-                        </button>
-                    </form>
-                }
-
-                <form asp-action="RemoveImage" method="post" class="mt-1"
-                      onsubmit="return confirm('این تصویر حذف شود؟');">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="imageId" value="@image.Id" />
-                    <input type="hidden" name="productId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-sm btn-danger">حذف</button>
-                </form>
             </div>
-        }
-    }
-    else
-    {
-        <p class="text-muted">هیچ تصویری ثبت نشده.</p>
-    }
+
+
+            <div class="edit-product-title">
+
+                <div class="edit-product-title-icon">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                </div>
+
+                <div>
+
+                    <h1>
+                        ویرایش محصول
+                    </h1>
+
+                    <p>
+                        اطلاعات محصول، تصاویر و تنظیمات انتشار را مدیریت کنید.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="edit-product-back">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به محصولات
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= VALIDATION ================= -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="edit-product-validation">
+    </div>
+
+
+    <!-- ================= FORM ================= -->
+
+    <form asp-action="Edit"
+          method="post"
+          enctype="multipart/form-data">
+
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" type="hidden" />
+
+
+        <div class="edit-product-layout">
+
+
+            <!-- ================= MAIN ================= -->
+
+            <div class="edit-product-main">
+
+
+                <!-- Product Information -->
+
+                <div class="edit-product-card">
+
+                    <div class="edit-product-card-header">
+
+                        <div class="edit-product-card-icon">
+
+                            <i class="bi bi-box-seam"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                اطلاعات محصول
+                            </h2>
+
+                            <p>
+                                اطلاعات اصلی محصول را ویرایش کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-product-card-body">
+
+
+                        <!-- Title -->
+
+                        <div class="edit-product-field">
+
+                            <label asp-for="Title">
+
+                                عنوان محصول
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="edit-product-input">
+
+                                <i class="bi bi-type"></i>
+
+                                <input asp-for="Title"
+                                       placeholder="عنوان محصول" />
+
+                            </div>
+
+
+                            <span asp-validation-for="Title"
+                                  class="edit-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Short Description -->
+
+                        <div class="edit-product-field">
+
+                            <label asp-for="ShortDescription">
+
+                                توضیح کوتاه
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <textarea asp-for="ShortDescription"
+                                      class="edit-product-textarea"
+                                      rows="3"
+                                      placeholder="توضیح کوتاه محصول..."></textarea>
+
+
+                            <span asp-validation-for="ShortDescription"
+                                  class="edit-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Description -->
+
+                        <div class="edit-product-field">
+
+                            <label asp-for="Description">
+
+                                توضیحات کامل
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <textarea asp-for="Description"
+                                      class="edit-product-textarea edit-product-description"
+                                      rows="9"
+                                      placeholder="توضیحات کامل محصول..."></textarea>
+
+
+                            <span asp-validation-for="Description"
+                                  class="edit-product-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= EXISTING IMAGES ================= -->
+
+                <div class="edit-product-card">
+
+                    <div class="edit-product-card-header">
+
+                        <div class="edit-product-card-icon image-icon">
+
+                            <i class="bi bi-images"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                تصاویر محصول
+                            </h2>
+
+                            <p>
+                                تصاویر فعلی را مدیریت کنید یا تصاویر جدید اضافه کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-product-card-body">
+
+
+                        @if (Model.Images != null && Model.Images.Any())
+                        {
+
+                            <div class="edit-existing-images">
+
+                                @foreach (var image in Model.Images)
+                                {
+
+                                    <div class="edit-image-item">
+
+
+                                        <div class="edit-image-wrapper">
+
+                                            <img src="@image.ImageUrl"
+                                                 alt="@Model.Title" />
+
+
+                                            @if (image.IsMain)
+                                            {
+                                                <span class="main-image-label">
+
+                                                    <i class="bi bi-star-fill"></i>
+
+                                                    تصویر اصلی
+
+                                                </span>
+                                            }
+
+                                        </div>
+
+
+                                        <div class="edit-image-actions">
+
+                                            @if (!image.IsMain)
+                                            {
+                                                <button type="button"
+                                                        class="image-action main"
+                                                        onclick="setMainImage(@image.Id, @Model.Id)">
+                                                    <i class="bi bi-star"></i>
+                                                    تصویر اصلی
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <span class="main-image-active">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    تصویر اصلی
+                                                </span>
+                                            }
+
+                                            <button type="button"
+                                                    class="image-action delete"
+                                                    onclick="removeImage(@image.Id, @Model.Id)">
+                                                <i class="bi bi-trash3"></i>
+                                                حذف
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                }
+
+                            </div>
+
+                        }
+                        else
+                        {
+
+                            <div class="no-product-images">
+
+                                <div>
+
+                                    <i class="bi bi-image"></i>
+
+                                </div>
+
+                                <strong>
+                                    تصویری برای این محصول ثبت نشده است.
+                                </strong>
+
+                                <span>
+                                    می‌توانید تصاویر جدید اضافه کنید.
+                                </span>
+
+                            </div>
+
+                        }
+
+
+                        <!-- ================= NEW IMAGES ================= -->
+
+                        <div class="new-images-section">
+
+                            <div class="new-images-title">
+
+                                <i class="bi bi-cloud-arrow-up"></i>
+
+                                <div>
+
+                                    <strong>
+                                        افزودن تصاویر جدید
+                                    </strong>
+
+                                    <span>
+                                        می‌توانید چند تصویر را همزمان انتخاب کنید.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label for="newProductImages"
+                                   class="new-images-upload">
+
+                                <i class="bi bi-plus-lg"></i>
+
+                                انتخاب تصاویر جدید
+
+                            </label>
+
+
+                            <input asp-for="NewImages"
+                                   id="newProductImages"
+                                   type="file"
+                                   name="newImages"
+                                   multiple
+                                   accept=".jpg,.jpeg,.png,.webp"
+                                   hidden />
+
+
+                            <div id="newImagesPreview"
+                                 class="new-images-preview">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= SIDEBAR ================= -->
+
+            <div class="edit-product-sidebar">
+
+
+                <!-- Save -->
+
+                <div class="edit-product-side-card">
+
+                    <div class="edit-product-side-header">
+
+                        <i class="bi bi-save2"></i>
+
+                        <strong>
+                            ذخیره تغییرات
+                        </strong>
+
+                    </div>
+
+
+                    <div class="edit-product-side-body">
+
+                        <p>
+                            تغییرات محصول را ذخیره کنید.
+                        </p>
+
+
+                        <button type="submit"
+                                class="edit-product-submit">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            ذخیره تغییرات
+
+                        </button>
+
+
+                        <a asp-action="Index"
+                           class="edit-product-cancel">
+
+                            انصراف
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Product Settings -->
+
+                <div class="edit-product-side-card">
+
+                    <div class="edit-product-side-header">
+
+                        <i class="bi bi-sliders"></i>
+
+                        <strong>
+                            تنظیمات محصول
+                        </strong>
+
+                    </div>
+
+
+                    <div class="edit-product-side-body">
+
+
+                        <!-- Category -->
+
+                        <div class="edit-product-side-field">
+
+                            <label asp-for="ProductCategoryId">
+
+                                دسته‌بندی
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select asp-for="ProductCategoryId"
+                                    class="form-select edit-product-select">
+
+                                <option value="">
+                                    -- انتخاب دسته‌بندی --
+                                </option>
+
+                                @if (categories != null)
+                                {
+                                    foreach (var category in categories)
+                                    {
+                                        <option value="@category.Id">
+                                            @category.Name
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+
+                            <span asp-validation-for="ProductCategoryId"
+                                  class="edit-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Price -->
+
+                        <div class="edit-product-side-field">
+
+                            <label asp-for="Price">
+                                قیمت
+                            </label>
+
+
+                            <div class="edit-product-price">
+
+                                <input asp-for="Price"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0" />
+
+                                <span>
+                                    تومان
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                در صورت رایگان بودن محصول، خالی بگذارید.
+                            </small>
+
+                        </div>
+
+
+                        <!-- Publish -->
+
+                        <div class="publish-setting">
+
+                            <div>
+
+                                <strong>
+                                    وضعیت انتشار
+                                </strong>
+
+                                <span>
+                                    نمایش محصول در سایت
+                                </span>
+
+                            </div>
+
+
+                            <label class="publish-switch">
+
+                                <input asp-for="IsPublished"
+                                       type="checkbox" />
+
+                                <span></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Product ID -->
+
+                <div class="product-id-box">
+
+                    <span>
+                        شناسه محصول
+                    </span>
+
+                    <strong>
+                        #@Model.Id
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
 </div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/product/product-edit.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        const imageInput =
+            document.getElementById("newProductImages");
+
+        const preview =
+            document.getElementById("newImagesPreview");
+
+
+        if (imageInput) {
+
+            imageInput.addEventListener("change", function () {
+
+                preview.innerHTML = "";
+
+
+                Array.from(this.files).forEach(file => {
+
+                    if (!file.type.startsWith("image/"))
+                        return;
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload = function (e) {
+
+                        const item =
+                            document.createElement("div");
+
+                        item.className =
+                            "new-image-preview-item";
+
+
+                        item.innerHTML = `
+
+                            <img src="${e.target.result}"
+                                 alt="تصویر جدید">
+
+                        `;
+
+
+                        preview.appendChild(item);
+
+                    };
+
+
+                    reader.readAsDataURL(file);
+
+                });
+
+            });
+
+        }
+
+
+        const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        function removeImage(imageId, productId) {
+            if (!confirm('آیا از حذف این تصویر مطمئن هستید؟')) return;
+
+            fetch('/Product/RemoveImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    imageId: imageId,
+                    productId: productId,
+                    __RequestVerificationToken: antiForgeryToken
+                })
+            }).then(() => {
+                location.reload();
+            });
+        }
+
+        function setMainImage(imageId, productId) {
+            fetch('/Product/SetMainImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    imageId: imageId,
+                    productId: productId,
+                    __RequestVerificationToken: antiForgeryToken
+                })
+            }).then(() => {
+                location.reload();
+            });
+        }
+
+    </script>
+
+}

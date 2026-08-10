@@ -86,7 +86,7 @@ namespace DigitalMarketing.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, UpdateProductDto dto, List<IFormFile> newImages)
+        public async Task<IActionResult> Edit(int id, UpdateProductDto dto)
         {
             if (id != dto.Id)
                 return BadRequest();

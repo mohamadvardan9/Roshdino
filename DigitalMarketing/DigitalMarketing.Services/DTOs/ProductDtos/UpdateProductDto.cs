@@ -11,13 +11,11 @@
         public bool IsPublished { get; set; }
 
 
-        // new added
-        // تصاویر فعلی
+        
+        // تصاویر فعلی محصول در دیتابیس
         public List<ProductImageDto> Images { get; set; } = new();
 
+        // فایل های تصویری جدیدی که کابر برای اضافه کردن اتخاب کرده 
         public List<IFormFile> NewImages { get; set; } = new();
-
-        // مسیر تصاویر جدید بعد از آپلود
-        public List<string> NewImagePaths { get; set; } = new();
     }
 }

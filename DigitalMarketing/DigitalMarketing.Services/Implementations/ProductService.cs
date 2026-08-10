@@ -143,71 +143,117 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
 
 
-        // از اینجا شروع به خواندن کن
+        
         public async Task<ServiceResult> UpdateAsync(UpdateProductDto dto)
         {
+            // -------------------------
+            // Validation
+            // -------------------------
+
             var validation = await _updateValidator.ValidateAsync(dto);
+
             if (!validation.IsValid)
-                return ServiceResult.Fail(validation.Errors.Select(e => e.ErrorMessage).ToArray());
+                return ServiceResult.Fail(
+                    validation.Errors
+                        .Select(e => e.ErrorMessage)
+                        .ToArray());
+
+
+            // -------------------------
+            // Get Product
+            // -------------------------
 
             var product = await _repository.GetByIdAsync(dto.Id);
+
             if (product == null)
                 return ServiceResult.Fail("محصول پیدا نشد.");
 
+
+            // -------------------------
+            // Validate Category
+            // -------------------------
+
             var category = await _categoryRepository.GetByIdAsync(dto.ProductCategoryId);
+
             if (category == null)
                 return ServiceResult.Fail("دسته‌بندی انتخاب‌شده معتبر نیست.");
 
+
+            // -------------------------
+            // Generate Slug
+            // -------------------------
+
             var slug = SlugHelper.GenerateSlug(dto.Title);
-            if (await _repository.SlugExistsAsync(slug, excludeId: dto.Id))
+
+            if (await _repository.SlugExistsAsync(slug,excludeId: dto.Id))
                 return ServiceResult.Fail("محصولی با این عنوان قبلاً ثبت شده.");
 
 
             // -------------------------
-            // Upload New Images
+            // Image Logic
             // -------------------------
+
+            // آیا محصول قبل از اضافه شدن تصاویر جدید،
+            // تصویر اصلی دارد؟
+            var hasExistingMainImage = product.Images.Any(i => i.IsMain);
+
+
+            // مشخص می‌کند اولین تصویر جدید هستیم
+            var isFirstNewImage = true;
+
 
             if (dto.NewImages != null && dto.NewImages.Any())
             {
-                foreach (var file in dto.NewImages.Where(f => f.Length > 0))
+                foreach (var file in dto.NewImages.Where(f => f != null && f.Length > 0))
                 {
-                    var (success, path, error) =
-                        await _fileUploadHelper.SaveImageAsync(file, "products");
+                    // Upload
+                    var (success, path, error) = await _fileUploadHelper.SaveImageAsync(file,"products");
+
 
                     if (!success)
                         return ServiceResult.Fail(error!);
 
-                    dto.NewImagePaths.Add(path!);
+
+                    // اگر محصول تصویر اصلی نداشته باشد،
+                    // اولین تصویر جدید را تصویر اصلی قرار می‌دهیم.
+                    var isMain = !hasExistingMainImage && isFirstNewImage;
+
+
+                    product.Images.Add(new ProductImage
+                    {
+                        ProductId = product.Id,
+
+                        ImageUrl = path!,
+
+                        IsMain = isMain
+                    });
+
+
+                    isFirstNewImage = false;
                 }
             }
 
 
+            // -------------------------
+            // Update Product Information
+            // -------------------------
+
             _mapper.Map(dto, product);
+
+
             product.Slug = slug;
+
             product.UpdatedAt = DateTime.UtcNow;
 
 
-
-
-            // Image Logic
-            // عکس‌های جدید اضافه می‌شن (بدون حذف قبلی‌ها؛ حذف جدا مدیریت می‌شه)
-
-            bool hasExistingMain = product.Images.Any(i => i.IsMain); // this product has main photo or not ?
-
-            var firstImagePath = dto.NewImagePaths.FirstOrDefault();
-
-            foreach (var path in dto.NewImagePaths)
-            {
-                product.Images.Add(new ProductImage
-                {
-                    ImageUrl = path,
-                    IsMain = !hasExistingMain && path == firstImagePath
-                });
-            }
-
+            // -------------------------
+            // Save
+            // -------------------------
 
             _repository.Update(product);
+
             await _repository.SaveChangesAsync();
+
 
             return ServiceResult.Ok();
         }
@@ -239,21 +285,41 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
         public async Task<ServiceResult> RemoveImageAsync(int imageId, int productId)
         {
-            var image = await _repository.GetImageByIdAsync(imageId);
 
+            var product = await _repository.GetByIdAsync(productId);
+            if (product == null)
+                return ServiceResult.Fail("محصول پیدا نشد.");
+
+            var image = await _repository.GetImageByIdAsync(imageId);
             if (image == null)
                 return ServiceResult.Fail("تصویر یافت نشد.");
-            if (image.ProductId != productId)
-                return ServiceResult.Fail("این تصویر متعلق به محصول مشخص شده نیست");
 
 
+
+
+            // بررسی می‌کنیم آیا تصویر حذف‌شده Main بوده
+            var wasMain = image.IsMain;
+            
             _fileUploadHelper.DeleteImage(image.ImageUrl);
+
+            // حذف تصویر از Collection
+            product.Images.Remove(image);
+
+            // اگه تصویر اصلی حذف شذ و هنوز تصویر دیگری وجود داشت :
+            if(wasMain && product.Images.Any())
+            {
+                var newMainImage = product.Images.First();
+
+                newMainImage.IsMain = true;
+            }
 
             _repository.RemoveImage(image);
             await _repository.SaveChangesAsync();
 
             return ServiceResult.Ok();
         }
+
+
 
         public async Task<ServiceResult> SetMainImageAsync(int productId, int imageId)
         {
