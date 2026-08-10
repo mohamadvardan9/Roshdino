@@ -1,22 +1,372 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos
+
 @model UpdateProductCategoryDto
 
 @{
-    ViewData["Title"] = "ویرایش دسته‌بندی";
+    ViewData["Title"] = "ویرایش دسته‌بندی محصول";
 }
 
-<h2>ویرایش دسته‌بندی</h2>
+<div class="product-category-edit-page">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+    <!-- Header -->
+    <div class="product-category-edit-header">
 
-<form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken()
+        <div>
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">نام دسته‌بندی</label>
-        <input asp-for="Name" class="form-control" />
+            <div class="product-category-edit-breadcrumb">
+
+                <a asp-action="Index">
+                    دسته‌بندی محصولات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>
+                    ویرایش دسته‌بندی
+                </span>
+
+            </div>
+
+            <h1>
+                ویرایش دسته‌بندی محصول
+            </h1>
+
+            <p>
+                اطلاعات دسته‌بندی را بررسی و تغییرات موردنظر را ذخیره کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="product-category-edit-back">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به دسته‌بندی‌ها
+
+        </a>
+
     </div>
 
-    <button type="submit" class="btn btn-primary">ذخیره</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+
+    <!-- Validation -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="product-category-edit-validation">
+    </div>
+
+
+    <!-- Main Layout -->
+
+    <div class="product-category-edit-layout">
+
+
+        <!-- Form Card -->
+
+        <div class="product-category-edit-card">
+
+            <div class="product-category-edit-card-header">
+
+                <div class="product-category-edit-icon">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>
+                        ویرایش اطلاعات
+                    </h2>
+
+                    <p>
+                        نام دسته‌بندی محصول را تغییر دهید.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="Id"
+                       type="hidden" />
+
+
+                <div class="product-category-edit-card-body">
+
+
+                    <!-- Name -->
+
+                    <div class="product-category-edit-field">
+
+                        <label asp-for="Name">
+
+                            نام دسته‌بندی
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <div class="product-category-edit-input-wrapper">
+
+                            <i class="bi bi-folder"></i>
+
+                            <input asp-for="Name"
+                                   class="product-category-edit-input"
+                                   placeholder="نام دسته‌بندی محصول..." />
+
+                        </div>
+
+
+                        <span asp-validation-for="Name"
+                              class="product-category-edit-error">
+                        </span>
+
+
+                        <small>
+                            نام دسته‌بندی باید واضح و مرتبط با محصولات آن باشد.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="product-category-edit-actions">
+
+                        <a asp-action="Index"
+                           class="product-category-edit-cancel">
+
+                            <i class="bi bi-x-lg"></i>
+
+                            انصراف
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="product-category-edit-submit">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            ذخیره تغییرات
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Sidebar -->
+
+        <div class="product-category-edit-sidebar">
+
+
+            <!-- Current Information -->
+
+            <div class="product-category-info-card">
+
+                <div class="product-category-info-header">
+
+                    <div class="product-category-info-icon">
+
+                        <i class="bi bi-box-seam"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            اطلاعات دسته‌بندی
+                        </strong>
+
+                        <span>
+                            اطلاعات فعلی
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-category-info-body">
+
+
+                    <div class="product-category-info-item">
+
+                        <span>
+                            شناسه
+                        </span>
+
+                        <strong>
+                            #@Model.Id
+                        </strong>
+
+                    </div>
+
+
+                    <div class="product-category-info-item">
+
+                        <span>
+                            نام فعلی
+                        </span>
+
+                        <strong id="currentCategoryName">
+                            @Model.Name
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Preview -->
+
+            <div class="product-category-edit-preview-card">
+
+                <div class="product-category-info-header">
+
+                    <div class="product-category-preview-icon">
+
+                        <i class="bi bi-eye"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            پیش‌نمایش
+                        </strong>
+
+                        <span>
+                            نتیجه تغییرات
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-category-edit-preview">
+
+                    <div class="product-category-preview-folder">
+
+                        <i class="bi bi-folder-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong id="categoryPreviewName">
+                            @Model.Name
+                        </strong>
+
+                        <span>
+                            دسته‌بندی محصولات
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tip -->
+
+            <div class="product-category-edit-tip">
+
+                <div class="product-category-edit-tip-icon">
+
+                    <i class="bi bi-lightbulb"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        نکته
+                    </strong>
+
+                    <p>
+                        تغییر نام دسته‌بندی روی محصولات مرتبط با آن تأثیر نمی‌گذارد.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/product-category/product-category-edit.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const categoryNameInput =
+            document.getElementById("Name");
+
+        const categoryPreview =
+            document.getElementById("categoryPreviewName");
+
+        const currentCategoryName =
+            document.getElementById("currentCategoryName");
+
+
+        if (categoryNameInput) {
+
+            categoryNameInput.addEventListener("input", function () {
+
+                const value = this.value.trim();
+
+                if (categoryPreview) {
+
+                    categoryPreview.textContent =
+                        value || "نام دسته‌بندی";
+
+                }
+
+                if (currentCategoryName) {
+
+                    currentCategoryName.textContent =
+                        value || "بدون نام";
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+}

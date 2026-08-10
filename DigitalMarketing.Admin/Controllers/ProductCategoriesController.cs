@@ -69,7 +69,8 @@ namespace DigitalMarketing.Admin.Controllers
 
             var model = new UpdateProductCategoryDto
             {
-                Name = category.Name,
+                Id = category.Id,
+                Name = category.Name
             };
 
             return View(model);
