@@ -5,58 +5,566 @@
 
 @{
     ViewData["Title"] = "محصول جدید";
-    var categories = ViewBag.Categories as List<ProductCategoryDto>;
+
+    var categories =
+        ViewBag.Categories as List<ProductCategoryDto>;
 }
 
-<h2>محصول جدید</h2>
 
-<div asp-validation-summary="All" class="text-danger"></div>
+<div class="create-product-page">
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label">عنوان محصول</label>
-        <input asp-for="Title" class="form-control" />
+    <!-- ================= HEADER ================= -->
+
+    <div class="create-product-header">
+
+        <div>
+
+            <div class="create-product-breadcrumb">
+
+                <a asp-action="Index">
+                    محصولات
+                </a>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span>
+                    محصول جدید
+                </span>
+
+            </div>
+
+
+            <h1>
+                ایجاد محصول جدید
+            </h1>
+
+            <p>
+                اطلاعات محصول، قیمت، دسته‌بندی و تصاویر محصول را وارد کنید.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Index"
+           class="create-product-back">
+
+            <i class="bi bi-arrow-right"></i>
+
+            بازگشت به محصولات
+
+        </a>
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="ShortDescription" class="form-label">توضیح کوتاه</label>
-        <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
+
+    <!-- ================= VALIDATION ================= -->
+
+    <div asp-validation-summary="ModelOnly"
+         class="create-product-validation">
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">توضیحات کامل</label>
-        <textarea asp-for="Description" class="form-control" rows="6" id="description-editor"></textarea>
-    </div>
 
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label">قیمت (اختیاری)</label>
-        <input asp-for="Price" class="form-control" type="number" step="0.01" />
-    </div>
+    <!-- ================= FORM ================= -->
 
-    <div class="mb-3">
-        <label asp-for="ProductCategoryId" class="form-label">دسته‌بندی</label>
-        <select asp-for="ProductCategoryId" class="form-select">
-            <option value="">-- انتخاب کنید --</option>
-            @if (categories != null)
-            {
-                @foreach (var category in categories)
-                {
-                    <option value="@category.Id">@category.Name</option>
-                }
-            }
-        </select>
-    </div>
+    <form asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
 
-    <div class="mb-3">
-        <label class="form-label">تصاویر محصول</label>
-        <input asp-for="Images" type="file" name="images" multiple accept=".jpg,.jpeg,.png,.webp" class="form-control" />
-        <small class="text-muted">اولین تصویر به‌عنوان تصویر اصلی انتخاب می‌شود.</small>
-    </div>
 
-    <button type="submit" class="btn btn-primary">ثبت محصول</button>
-    <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-</form>
+        @Html.AntiForgeryToken()
 
-@* اگه بعداً TinyMCE/CKEditor رو برای Description اضافه کردیم، اینجا Script میاد *@
+
+        <div class="create-product-layout">
+
+
+            <!-- ================= MAIN ================= -->
+
+            <div class="create-product-main">
+
+
+                <!-- Product Information -->
+
+                <div class="create-product-card">
+
+                    <div class="create-product-card-header">
+
+                        <div class="create-product-card-icon">
+
+                            <i class="bi bi-box-seam"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                اطلاعات محصول
+                            </h2>
+
+                            <p>
+                                اطلاعات اصلی محصول را وارد کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="create-product-card-body">
+
+
+                        <!-- Title -->
+
+                        <div class="create-product-field">
+
+                            <label asp-for="Title">
+
+                                عنوان محصول
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="create-product-input">
+
+                                <i class="bi bi-type"></i>
+
+                                <input asp-for="Title"
+                                       placeholder="مثلاً طراحی سایت فروشگاهی" />
+
+                            </div>
+
+
+                            <span asp-validation-for="Title"
+                                  class="create-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Short Description -->
+
+                        <div class="create-product-field">
+
+                            <label asp-for="ShortDescription">
+
+                                توضیح کوتاه
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <textarea asp-for="ShortDescription"
+                                      class="create-product-textarea"
+                                      rows="3"
+                                      placeholder="یک توضیح کوتاه و جذاب درباره محصول بنویسید..."></textarea>
+
+
+                            <span asp-validation-for="ShortDescription"
+                                  class="create-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Description -->
+
+                        <div class="create-product-field">
+
+                            <label asp-for="Description">
+
+                                توضیحات کامل
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <textarea asp-for="Description"
+                                      id="description-editor"
+                                      class="create-product-textarea create-product-description"
+                                      rows="9"
+                                      placeholder="توضیحات کامل محصول را وارد کنید..."></textarea>
+
+
+                            <span asp-validation-for="Description"
+                                  class="create-product-error">
+                            </span>
+
+                            <small>
+                                توضیحات کامل محصول را با جزئیات مناسب وارد کنید.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Images -->
+
+                <div class="create-product-card">
+
+                    <div class="create-product-card-header">
+
+                        <div class="create-product-card-icon image-icon">
+
+                            <i class="bi bi-images"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                تصاویر محصول
+                            </h2>
+
+                            <p>
+                                تصاویر محصول را انتخاب کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="create-product-card-body">
+
+
+                        <div class="product-upload-area"
+                             id="uploadArea">
+
+
+                            <div class="product-upload-icon">
+
+                                <i class="bi bi-cloud-arrow-up"></i>
+
+                            </div>
+
+
+                            <h3>
+                                تصاویر محصول را انتخاب کنید
+                            </h3>
+
+
+                            <p>
+                                می‌توانید چند تصویر را همزمان انتخاب کنید.
+                            </p>
+
+
+                            <label for="productImages"
+                                   class="product-upload-button">
+
+                                <i class="bi bi-folder2-open"></i>
+
+                                انتخاب تصاویر
+
+                            </label>
+
+
+                            <input asp-for="Images"
+                                   id="productImages"
+                                   type="file"
+                                   name="images"
+                                   multiple
+                                   accept=".jpg,.jpeg,.png,.webp"
+                                   hidden />
+
+
+                            <small>
+                                JPG، JPEG، PNG و WEBP
+                            </small>
+
+                        </div>
+
+
+                        <div id="imagePreview"
+                             class="product-image-preview">
+                        </div>
+
+
+                        <div class="product-image-hint">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            اولین تصویر انتخاب‌شده به‌عنوان تصویر اصلی محصول در نظر گرفته می‌شود.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= SIDEBAR ================= -->
+
+            <div class="create-product-sidebar">
+
+
+                <!-- Publish -->
+
+                <div class="create-product-side-card">
+
+                    <div class="create-product-side-header">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                        <strong>
+                            ثبت محصول
+                        </strong>
+
+                    </div>
+
+
+                    <div class="create-product-side-body">
+
+                        <p>
+                            بعد از تکمیل اطلاعات، محصول را ثبت کنید.
+                        </p>
+
+
+                        <button type="submit"
+                                class="create-product-submit">
+
+                            <i class="bi bi-plus-lg"></i>
+
+                            ثبت محصول
+
+                        </button>
+
+
+                        <a asp-action="Index"
+                           class="create-product-cancel">
+
+                            انصراف
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Category & Price -->
+
+                <div class="create-product-side-card">
+
+                    <div class="create-product-side-header">
+
+                        <i class="bi bi-sliders"></i>
+
+                        <strong>
+                            تنظیمات محصول
+                        </strong>
+
+                    </div>
+
+
+                    <div class="create-product-side-body">
+
+
+                        <!-- Category -->
+
+                        <div class="create-product-side-field">
+
+                            <label asp-for="ProductCategoryId">
+
+                                دسته‌بندی
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select asp-for="ProductCategoryId"
+                                    class="form-select create-product-select">
+
+                                <option value="">
+                                    -- انتخاب دسته‌بندی --
+                                </option>
+
+                                @if (categories != null)
+                                {
+                                    foreach (var category in categories)
+                                    {
+                                        <option value="@category.Id">
+                                            @category.Name
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+
+                            <span asp-validation-for="ProductCategoryId"
+                                  class="create-product-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Price -->
+
+                        <div class="create-product-side-field">
+
+                            <label asp-for="Price">
+
+                                قیمت
+
+                            </label>
+
+
+                            <div class="create-product-price-input">
+
+                                <input asp-for="Price"
+                                       type="number"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0" />
+
+                                <span>
+                                    تومان
+                                </span>
+
+                            </div>
+
+
+                            <span asp-validation-for="Price"
+                                  class="create-product-error">
+                            </span>
+
+
+                            <small>
+                                در صورت رایگان بودن محصول، این قسمت را خالی بگذارید.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Tips -->
+
+                <div class="create-product-tip">
+
+                    <div class="create-product-tip-icon">
+
+                        <i class="bi bi-lightbulb"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            نکته
+                        </strong>
+
+                        <p>
+                            برای نمایش بهتر محصول، تصاویر باکیفیت و مرتبط انتخاب کنید.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/product/product-create.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        const imageInput =
+            document.getElementById("productImages");
+
+        const preview =
+            document.getElementById("imagePreview");
+
+
+        if (imageInput) {
+
+            imageInput.addEventListener("change", function () {
+
+                preview.innerHTML = "";
+
+
+                const files =
+                    Array.from(this.files);
+
+
+                files.forEach((file, index) => {
+
+                    if (!file.type.startsWith("image/"))
+                        return;
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload = function (e) {
+
+                        const item =
+                            document.createElement("div");
+
+                        item.className =
+                            "product-preview-item";
+
+
+                        item.innerHTML = `
+
+                            <img src="${e.target.result}"
+                                 alt="تصویر محصول">
+
+
+                            ${index === 0
+                                ? '<span class="main-image-badge">تصویر اصلی</span>'
+                                : ''}
+
+                        `;
+
+
+                        preview.appendChild(item);
+
+                    };
+
+
+                    reader.readAsDataURL(file);
+
+                });
+
+            });
+
+        }
+
+    </script>
+
+}
