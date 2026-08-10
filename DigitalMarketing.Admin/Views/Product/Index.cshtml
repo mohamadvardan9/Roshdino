@@ -1,82 +1,517 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 
-
-
 @model List<ProductDto>
 
 @{
     ViewData["Title"] = "محصولات";
 }
 
-<h2>محصولات</h2>
+<div class="products-page">
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+    <!-- ================= HEADER ================= -->
 
-<a asp-action="Create" class="btn btn-primary mb-3">+ محصول جدید</a>
+    <div class="products-header">
 
-<table class="table table-bordered align-middle">
-    <thead>
-        <tr>
-            <th>تصویر</th>
-            <th>عنوان</th>
-            <th>دسته‌بندی</th>
-            <th>قیمت</th>
-            <th>وضعیت</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            var mainImage = product.Images.FirstOrDefault(i => i.IsMain) ?? product.Images.FirstOrDefault();
-            <tr>
-                <td>
-                    @if (mainImage != null)
+        <div>
+
+            @* <div class="products-breadcrumb">
+
+                <span>
+                    مدیریت فروشگاه
+                </span>
+
+                <i class="bi bi-chevron-left"></i>
+
+                <strong>
+                    محصولات
+                </strong>
+
+            </div> *@
+
+            <h1>
+                محصولات
+            </h1>
+
+            <p>
+                مدیریت، ویرایش و کنترل وضعیت محصولات فروشگاه
+            </p>
+
+        </div>
+
+
+        <a asp-action="Create"
+           class="products-create-btn">
+
+            <i class="bi bi-plus-lg"></i>
+
+            محصول جدید
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= ALERT ================= -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="products-alert products-alert-success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="products-alert products-alert-error">
+
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+    <!-- ================= STATS ================= -->
+
+    <div class="products-stats">
+
+        <div class="product-stat-card">
+
+            <div class="product-stat-icon">
+                <i class="bi bi-box-seam"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    کل محصولات
+                </span>
+
+                <strong>
+                    @(Model?.Count ?? 0)
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="product-stat-card">
+
+            <div class="product-stat-icon published">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    منتشر شده
+                </span>
+
+                <strong>
+                    @(Model?.Count(x => x.IsPublished) ?? 0)
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="product-stat-card">
+
+            <div class="product-stat-icon draft">
+                <i class="bi bi-file-earmark"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    پیش‌نویس
+                </span>
+
+                <strong>
+                    @(Model?.Count(x => !x.IsPublished) ?? 0)
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TABLE CARD ================= -->
+
+    <div class="products-table-card">
+
+
+        <!-- Table Header -->
+
+        <div class="products-table-header">
+
+            <div>
+
+                <h2>
+                    لیست محصولات
+                </h2>
+
+                <span>
+                    مدیریت محصولات فروشگاه
+                </span>
+
+            </div>
+
+
+            <div class="products-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="productSearch"
+                       placeholder="جستجوی محصول..." />
+
+            </div>
+
+        </div>
+
+
+        <!-- Table -->
+
+        <div class="products-table-wrapper">
+
+            <table class="products-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            محصول
+                        </th>
+
+                        <th>
+                            دسته‌بندی
+                        </th>
+
+                        <th>
+                            قیمت
+                        </th>
+
+                        <th>
+                            وضعیت
+                        </th>
+
+                        <th>
+                            عملیات
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="productsTableBody">
+
+                    @if (Model != null && Model.Any())
                     {
-                        <img src="@mainImage.ImageUrl" width="60" height="60" style="object-fit:cover" />
+
+                        foreach (var product in Model)
+                        {
+
+                            <tr class="product-row">
+
+
+                                <!-- Product -->
+
+                                <td>
+
+                                    <div class="product-info">
+
+                                        <div class="product-image">
+
+                                            @{
+                                                var mainImage = product.Images?
+                                                    .FirstOrDefault(x => x.IsMain)
+                                                    ?? product.Images?.FirstOrDefault();
+                                            }
+
+                                            @if (mainImage != null)
+                                            {
+                                                <img src="@mainImage.ImageUrl"
+                                                     alt="@product.Title" />
+                                            }
+                                            else
+                                            {
+                                                <div class="product-image-placeholder">
+                                                    <i class="bi bi-image"></i>
+                                                </div>
+                                            }
+
+                                        </div>
+
+
+                                        <div class="product-name">
+
+                                            <strong>
+                                                @product.Title
+                                            </strong>
+
+                                            <span>
+                                                #@product.Id
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Category -->
+
+                                <td>
+
+                                    <span class="product-category">
+
+                                        <i class="bi bi-folder2"></i>
+
+                                        @product.ProductCategoryNAme
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Price -->
+
+                                <td>
+
+                                    @if (product.Price.HasValue)
+                                    {
+                                        <strong class="product-price">
+
+                                            @product.Price.Value.ToString("N0")
+
+                                            <small>
+                                                تومان
+                                            </small>
+
+                                        </strong>
+                                    }
+                                    else
+                                    {
+                                        <span class="product-no-price">
+                                            بدون قیمت
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    @if (product.IsPublished)
+                                    {
+                                        <span class="product-status published">
+
+                                            <span class="status-dot"></span>
+
+                                            منتشر شده
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="product-status draft">
+
+                                            <span class="status-dot"></span>
+
+                                            پیش‌نویس
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Actions -->
+
+                                <td>
+
+                                    <div class="product-actions">
+
+
+                                        <!-- Edit -->
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@product.Id"
+                                           class="product-action edit"
+                                           title="ویرایش">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                        </a>
+
+
+                                        <!-- Publish -->
+
+                                        <form asp-action="TogglePublish"
+                                              asp-route-id="@product.Id"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="product-action publish"
+                                                    title="@(product.IsPublished ? "پیش‌نویس کردن" : "انتشار")">
+
+                                                @if (product.IsPublished)
+                                                {
+                                                    <i class="bi bi-eye-slash"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-eye"></i>
+                                                }
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <!-- Delete -->
+
+                                        <form asp-action="Delete"
+                                              asp-route-id="@product.Id"
+                                              method="post"
+                                              onsubmit="return confirm('مطمئنی می‌خوای این محصول رو حذف کنی؟');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="product-action delete"
+                                                    title="حذف">
+
+                                                <i class="bi bi-trash3"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
                     }
                     else
                     {
-                        <span class="text-muted">بدون تصویر</span>
-                    }
-                </td>
-                <td>@product.Title</td>
-                <td>@product.ProductCategoryNAme</td>
-                <td>@(product.Price?.ToString("N0") ?? "-")</td>
-                <td>
-                    @if (product.IsPublished)
-                    {
-                        <span class="badge bg-success">منتشرشده</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">پیش‌نویس</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-secondary">ویرایش</a>
 
-                    <form asp-action="TogglePublish" asp-route-id="@product.Id" method="post" style="display:inline">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline-primary">
-                            @(product.IsPublished ? "پیش‌نویس کن" : "منتشر کن")
-                        </button>
-                    </form>
+                        <tr>
 
-                    <form asp-action="Delete" asp-route-id="@product.Id" method="post" style="display:inline"
-                          onsubmit="return confirm('مطمئنی می‌خوای این محصول رو حذف کنی؟');">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
-                    </form>
-                </td>
-            </tr>
+                            <td colspan="5">
+
+                                <div class="products-empty">
+
+                                    <div class="products-empty-icon">
+
+                                        <i class="bi bi-box-seam"></i>
+
+                                    </div>
+
+                                    <h3>
+                                        هنوز محصولی ثبت نشده است
+                                    </h3>
+
+                                    <p>
+                                        اولین محصول فروشگاه خود را ایجاد کنید.
+                                    </p>
+
+                                    <a asp-action="Create"
+                                       class="products-empty-btn">
+
+                                        <i class="bi bi-plus-lg"></i>
+
+                                        ایجاد محصول
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/product/product.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+    <script>
+
+        const searchInput =
+            document.getElementById("productSearch");
+
+        const rows =
+            document.querySelectorAll(".product-row");
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener("input", function () {
+
+                const search =
+                    this.value.trim().toLowerCase();
+
+
+                rows.forEach(row => {
+
+                    const text =
+                        row.textContent.toLowerCase();
+
+                    row.style.display =
+                        text.includes(search)
+                            ? ""
+                            : "none";
+
+                });
+
+            });
+
         }
-    </tbody>
-</table>
+
+    </script>
+
+}
