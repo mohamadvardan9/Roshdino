@@ -75,5 +75,14 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
 
         Task<bool> SlugExistsAsync(string slug, int? excludeId = null);
         Task SaveChangesAsync();
+
+
+
+
+
+
+       
+        void RemoveImage(Article article);
+
     }
 }

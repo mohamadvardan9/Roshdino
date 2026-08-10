@@ -231,6 +231,25 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             return ServiceResult.Ok();
         }
 
-        
+        public async Task<ServiceResult> RemoveImageAsync(int articleId)
+        {
+            var article = await _repository.GetByIdAsync(articleId);
+            if (article == null)
+                return ServiceResult.Fail("مقاله پیدا نشد.");
+
+            if (string.IsNullOrWhiteSpace(article.CoverImageUrl))
+                return ServiceResult.Fail("این مقاله تصویری برای حذف ندارد");
+
+
+            _fileUploadHelper.DeleteImage(article.CoverImageUrl);
+
+            _repository.RemoveImage(article);
+            await _repository.SaveChangesAsync();
+
+            return ServiceResult.Ok();
+        }
+
+
+
     }
 }

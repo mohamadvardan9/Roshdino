@@ -144,6 +144,22 @@ namespace DigitalMarketing.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveImage(int articleId)
+        {
+            var result = await _articleService.RemoveImageAsync(articleId);
+
+            TempData[result.Success ? "Success" : "Error"] =
+                result.Success ? "تصویر حذف شد." : string.Join(" ", result.Errors);
+
+            return RedirectToAction(nameof(Edit), new { id = articleId });
+        }
+
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePublish(int id)
         {
             var result = await _articleService.TogglePublishAsync(id);

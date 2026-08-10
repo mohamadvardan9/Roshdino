@@ -296,11 +296,13 @@
                             <div class="publish-switch-content">
 
                                 <div class="publish-status-icon
-                                    @(Model.IsPublished ? "published" : "draft")">
+                                    @(Model.IsPublished ? "published" : "draft")"
+                                     id="publishStatusIcon">
 
                                     <i class="bi @(Model.IsPublished
-                                                                               ? "bi-eye"
-                                                                               : "bi-eye-slash")">
+                                                                                                                      ? "bi-eye"
+                                                                                                                      : "bi-eye-slash")"
+                                       id="publishStatusIconGlyph">
                                     </i>
 
                                 </div>
@@ -348,101 +350,51 @@
 
                 <!-- Cover -->
 
-                <div class="edit-card">
+                <div class="cover-editor">
 
-                    <div class="edit-card-header">
+                    <input type="file"
+                           asp-for="NewCoverImage"
+                           id="newCoverImage"
+                           accept=".jpg,.jpeg,.png,.webp" />
 
-                        <div class="edit-card-icon orange">
-                            <i class="bi bi-image"></i>
-                        </div>
+                    <!-- Current / Preview Image -->
+                    <div class="cover-preview" id="coverPreview">
 
-                        <div>
+                        @if (!string.IsNullOrEmpty(currentCover))
+                        {
+                            <img id="coverPreviewImage"
+                                 src="@currentCover"
+                                 alt="تصویر شاخص مقاله" />
 
-                            <h3>
-                                تصویر شاخص
-                            </h3>
-
-                            <p>
-                                تصویر اصلی مقاله
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="edit-card-body">
-
-
-                        <div class="cover-editor">
-
-                            <input type="file"
-                                   asp-for="NewCoverImage"
-                                   id="newCoverImage"
-                                   accept=".jpg,.jpeg,.png,.webp" />
-
-
-                            <!-- Current / Preview Image -->
-
-                            <div class="cover-preview"
-                                 id="coverPreview">
-
-                                @if (!string.IsNullOrEmpty(currentCover))
-                                {
-                                    <img id="coverPreviewImage"
-                                         src="@currentCover"
-                                         alt="تصویر شاخص مقاله" />
-                                }
-                                else
-                                {
-                                    <div class="no-cover"
-                                         id="noCover">
-
-                                        <i class="bi bi-image"></i>
-
-                                        <span>
-                                            تصویر شاخص وجود ندارد
-                                        </span>
-
-                                    </div>
-                                }
-
-                                <button type="button"
-                                        class="remove-preview"
-                                        id="removePreview"
-                                        title="حذف انتخاب جدید">
-
-                                    <i class="bi bi-x"></i>
-
-                                </button>
-
+                            <button type="button"
+                                    class="image-delete-btn"
+                                    id="removePreview"
+                                    title="حذف تصویر">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="no-cover" id="noCover">
+                                <i class="bi bi-image"></i>
+                                <span>تصویر شاخص وجود ندارد</span>
                             </div>
-
-
-                            <!-- Upload -->
-
-                            <label for="newCoverImage"
-                                   class="change-cover-btn">
-
-                                <i class="bi bi-cloud-arrow-up"></i>
-
-                                انتخاب تصویر جدید
-
-                            </label>
-
-
-                            <p class="cover-hint">
-
-                                فرمت‌های مجاز:
-                                JPG، PNG، WEBP
-
-                            </p>
-
-                        </div>
+                        }
 
                     </div>
+
+                    <!-- Upload -->
+                    <label for="newCoverImage" class="change-cover-btn">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        انتخاب تصویر جدید
+                    </label>
+
+                    <p class="cover-hint">
+                        فرمت‌های مجاز: JPG، PNG، WEBP
+                    </p>
 
                 </div>
+
 
 
                 <!-- Article Info -->
@@ -492,7 +444,8 @@
                             </span>
 
                             <strong class="info-status
-                                @(Model.IsPublished ? "active" : "inactive")">
+                                @(Model.IsPublished ? "active" : "inactive")"
+                                    id="infoStatusBadge">
 
                                 @(Model.IsPublished
                                     ? "منتشرشده"
@@ -550,28 +503,30 @@
 }
 
 
+
 @section Scripts {
 
     <partial name="_ValidationScriptsPartial" />
 
     <script>
 
-        const coverInput =
-            document.getElementById("newCoverImage");
+        const coverInput = document.getElementById("newCoverImage");
+        const coverPreview = document.getElementById("coverPreview");
 
-        const previewImage =
-            document.getElementById("coverPreviewImage");
+        const removeUrl =
+            '@Url.Action("RemoveImage", "Articles")';
 
-        const removePreview =
-            document.getElementById("removePreview");
+        const currentCoverUrl = @Html.Raw(
+                    string.IsNullOrEmpty(currentCover)
+                            ? "null"
+                            : System.Text.Json.JsonSerializer.Serialize(currentCover));
 
-        const coverPreview =
-            document.getElementById("coverPreview");
+        let hasPendingNewFile = false;
 
 
-        /*
-         * Preview new image
-         */
+        // ==============================
+        // Select New Image
+        // ==============================
 
         coverInput.addEventListener("change", function () {
 
@@ -580,126 +535,225 @@
             if (!file)
                 return;
 
+            hasPendingNewFile = true;
 
             const reader = new FileReader();
 
-
             reader.onload = function (e) {
 
-                let image = document.getElementById("coverPreviewImage");
+                coverPreview.innerHTML = `
+                    <img
+                        id="coverPreviewImage"
+                        src="${e.target.result}"
+                        alt="تصویر جدید"
+                    />
 
-                if (!image)
-                {
-                    image = document.createElement("img");
+                    <button
+                        type="button"
+                        class="image-delete-btn"
+                        id="removePreview"
+                        title="لغو انتخاب">
 
-                    image.id = "coverPreviewImage";
+                        <i class="bi bi-x"></i>
 
-                    image.alt = "تصویر جدید";
+                    </button>
+                `;
 
-                    coverPreview.innerHTML = "";
-
-                    coverPreview.appendChild(image);
-
-                    coverPreview.appendChild(removePreview);
-                }
-
-
-                image.src = e.target.result;
-
+                attachRemoveHandler();
             };
 
-
             reader.readAsDataURL(file);
-
         });
 
 
-        /*
-         * Remove selected new image
-         */
+        // ==============================
+        // Remove Button
+        // ==============================
 
-        removePreview.addEventListener("click", function () {
+        function attachRemoveHandler() {
 
-            coverInput.value = "";
+            const removeBtn =
+                document.getElementById("removePreview");
 
-            @if (!string.IsNullOrEmpty(currentCover))
-            {
-                    <text>
-                        previewImage.src = "@currentCover";
-                    </text>
-            }
-            else
-            {
-                    <text>
+            if (!removeBtn)
+                return;
+
+
+            removeBtn.addEventListener("click", async function () {
+
+
+                // ==============================
+                // 1. New selected image
+                // ==============================
+
+                if (hasPendingNewFile) {
+
+                    coverInput.value = "";
+
+                    hasPendingNewFile = false;
+
+                    if (currentCoverUrl) {
+
+                        coverPreview.innerHTML = `
+                            <img
+                                id="coverPreviewImage"
+                                src="${currentCoverUrl}"
+                                alt="تصویر شاخص مقاله"
+                            />
+
+                            <button
+                                type="button"
+                                class="image-delete-btn"
+                                id="removePreview"
+                                title="حذف تصویر">
+
+                                <i class="bi bi-x"></i>
+
+                            </button>
+                        `;
+
+                    } else {
 
                         coverPreview.innerHTML = `
                             <div class="no-cover" id="noCover">
-                                    <i class="bi bi-image"></i>
-                                    <span>تصویر شاخص وجود ندارد</span>
+
+                                <i class="bi bi-image"></i>
+
+                                <span>
+                                    تصویر شاخص وجود ندارد
+                                </span>
+
                             </div>
                         `;
+                    }
 
-                        coverPreview.appendChild(removePreview);
+                    attachRemoveHandler();
 
-                    </text>
-            }
-
-        });
-
-
-        /*
-         * Publish switch
-         */
-
-        const publishCheckbox =
-            document.getElementById("isPublished");
-
-        const publishStatusText =
-            document.getElementById("publishStatusText");
-
-        const publishDescription =
-            document.getElementById("publishDescription");
+                    return;
+                }
 
 
-        publishCheckbox.addEventListener("change", function () {
+                // ==============================
+                // 2. Delete existing image
+                // ==============================
 
-            const icon =
-                document.querySelector(".publish-status-icon");
+                const confirmed = confirm(
+                    "مطمئنی می‌خوای تصویر شاخص حذف بشه؟"
+                );
+
+                if (!confirmed)
+                    return;
 
 
-            if (this.checked)
-            {
-                publishStatusText.textContent =
-                    "مقاله منتشر شده است";
+                const tokenInput =
+                    document.querySelector(
+                        'input[name="__RequestVerificationToken"]'
+                    );
 
-                publishDescription.textContent =
-                    "این مقاله در سایت برای کاربران قابل مشاهده است.";
 
-                icon.classList.remove("draft");
+                if (!tokenInput) {
 
-                icon.classList.add("published");
+                    alert("توکن امنیتی پیدا نشد.");
 
-                icon.innerHTML =
-                    '<i class="bi bi-eye"></i>';
-            }
-            else
-            {
-                publishStatusText.textContent =
-                    "مقاله به صورت پیش‌نویس است";
+                    return;
+                }
 
-                publishDescription.textContent =
-                    "این مقاله در سایت عمومی نمایش داده نمی‌شود.";
 
-                icon.classList.remove("published");
+                try {
 
-                icon.classList.add("draft");
+                    const response = await fetch(removeUrl, {
 
-                icon.innerHTML =
-                    '<i class="bi bi-eye-slash"></i>';
-            }
+                        method: "POST",
 
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
+
+                        body: new URLSearchParams({
+
+                            articleId: "@Model.Id",
+
+                            __RequestVerificationToken:
+                                tokenInput.value
+                        })
+                    });
+
+
+                    if (response.ok) {
+
+                        location.reload();
+
+                    }
+                    else {
+
+                        const errorText =
+                            await response.text();
+
+                        console.error(errorText);
+
+                        alert(
+                            "حذف تصویر با خطا مواجه شد."
+                        );
+                    }
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "ارتباط با سرور برقرار نشد."
+                    );
+                }
+
+            });
+        }
+
+
+        // ==============================
+        // Initial Handler
+        // ==============================
+
+        attachRemoveHandler();
+
+
+        // ==============================
+        // Live-update Publish Switch
+        // (this was missing — the label
+        // text/icon/badge used to stay
+        // stale until the page reloaded)
+        // ==============================
+
+        const isPublishedInput = document.getElementById("isPublished");
+        const publishStatusText = document.getElementById("publishStatusText");
+        const publishDescription = document.getElementById("publishDescription");
+        const publishStatusIcon = document.getElementById("publishStatusIcon");
+        const publishStatusIconGlyph = document.getElementById("publishStatusIconGlyph");
+        const infoStatusBadge = document.getElementById("infoStatusBadge");
+
+        isPublishedInput.addEventListener("change", function () {
+
+            const isPublished = this.checked;
+
+            publishStatusText.textContent = isPublished
+                ? "مقاله منتشر شده است"
+                : "مقاله به صورت پیش‌نویس است";
+
+            publishDescription.textContent = isPublished
+                ? "این مقاله در سایت برای کاربران قابل مشاهده است."
+                : "این مقاله در سایت عمومی نمایش داده نمی‌شود.";
+
+            publishStatusIcon.classList.toggle("published", isPublished);
+            publishStatusIcon.classList.toggle("draft", !isPublished);
+
+            publishStatusIconGlyph.classList.toggle("bi-eye", isPublished);
+            publishStatusIconGlyph.classList.toggle("bi-eye-slash", !isPublished);
+
+            infoStatusBadge.classList.toggle("active", isPublished);
+            infoStatusBadge.classList.toggle("inactive", !isPublished);
+            infoStatusBadge.textContent = isPublished ? "منتشرشده" : "پیش‌نویس";
         });
 
     </script>
-
 }

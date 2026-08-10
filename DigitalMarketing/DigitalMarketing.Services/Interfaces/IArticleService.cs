@@ -78,5 +78,9 @@ namespace DigitalMarketing.DigitalMarketing.Services.Interfaces
         /// was successfully changed.
         /// </returns>
         Task<ServiceResult> TogglePublishAsync(int id);
+
+
+
+        Task<ServiceResult> RemoveImageAsync(int articleId);
     }
 }
