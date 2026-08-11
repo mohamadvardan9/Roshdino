@@ -80,15 +80,7 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
         public async Task<bool> SlugExistsAsync(string slug, int? excludeId = null)
             => await _dbContext.Articles.AnyAsync(x => x.Slug == slug && (excludeId == null || x.Id != excludeId));
         public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
-
-
-
-
-
-        public void RemoveImage(Article article)
-        {
-            article.CoverImageUrl = null;
-        }
+        public void RemoveImage(Article article) => article.CoverImageUrl = null;
 
 
 

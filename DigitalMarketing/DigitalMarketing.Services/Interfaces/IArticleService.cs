@@ -79,8 +79,17 @@ namespace DigitalMarketing.DigitalMarketing.Services.Interfaces
         /// </returns>
         Task<ServiceResult> TogglePublishAsync(int id);
 
-
-
+        /// <summary>
+        /// Removes the article's cover image from the server and database.
+        /// First checks whether the article and its cover image exist,
+        /// then deletes the image file and removes the cover image reference.
+        /// </summary>
+        /// <param name="articleId">
+        /// The unique identifier of the article whose cover image should be removed.
+        /// </param>
+        /// <returns>
+        /// A <see cref="ServiceResult"/> indicating whether the operation was successful.
+        /// </returns>
         Task<ServiceResult> RemoveImageAsync(int articleId);
     }
 }

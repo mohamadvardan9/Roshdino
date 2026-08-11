@@ -15,7 +15,7 @@
         //   "Slug already exists",
         //   "Category has articles"
         //]
-
+        
 
         public static ServiceResult Ok() => new() { Success = true }; // یک نتیجه موفق میسازد با لیست خالی ارورها
         public static ServiceResult Fail(params string[] errors)
