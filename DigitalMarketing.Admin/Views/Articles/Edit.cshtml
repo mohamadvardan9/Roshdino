@@ -125,7 +125,9 @@
 
                             <input asp-for="Title"
                                    class="edit-input"
-                                   placeholder="عنوان مقاله را وارد کنید..." />
+                                   placeholder="عنوان مقاله را وارد کنید..."
+                                   data-val="true"
+                                   data-val-required="عنوان مقاله الزامی است" />
 
                             <span asp-validation-for="Title"
                                   class="edit-field-error">
@@ -142,6 +144,7 @@
 
                                 <label asp-for="Summary">
                                     خلاصه مقاله
+                                    <span>*</span>
                                 </label>
 
                                 <span>
@@ -153,7 +156,9 @@
                             <textarea asp-for="Summary"
                                       class="edit-textarea edit-summary"
                                       rows="4"
-                                      placeholder="خلاصه مقاله را وارد کنید..."></textarea>
+                                      placeholder="خلاصه مقاله را وارد کنید..."
+                                      data-val="true"
+                                      data-val-required="خلاصه برای مقاله الزامی است"></textarea>
 
                             <span asp-validation-for="Summary"
                                   class="edit-field-error">
@@ -184,7 +189,9 @@
 
                                 <textarea asp-for="Content"
                                           class="edit-content-textarea"
-                                          placeholder="محتوای مقاله را وارد کنید..."></textarea>
+                                          placeholder="محتوای مقاله را وارد کنید..."
+                                          data-val="true"
+                                          data-val-required="توضیحات کامل مقاله الزامی است"></textarea>
 
                             </div>
 
@@ -235,7 +242,9 @@
                             </label>
 
                             <select asp-for="ArticleCategoryId"
-                                    class="edit-select">
+                                    class="edit-select"
+                                    data-val="true"
+                                    data-val-required="دسته بندی مقاله الزامی است">
 
                                 <option value="">
                                     انتخاب دسته‌بندی

@@ -88,7 +88,9 @@
 
                             <input asp-for="Title"
                                    class="article-input"
-                                   placeholder="مثلاً: راهنمای کامل طراحی سایت حرفه‌ای" />
+                                   placeholder="مثلاً: راهنمای کامل طراحی سایت حرفه‌ای"
+                                   data-val ="true"
+                                   data-val-required="عنوان مقاله الزامی است"/>
 
                             <span asp-validation-for="Title" 
                                   class="field-error">
@@ -104,6 +106,7 @@
 
                                 <label asp-for="Summary">
                                     خلاصه مقاله
+                                    <span>*</span>
                                 </label>
 
                                 <span>
@@ -115,7 +118,9 @@
                             <textarea asp-for="Summary"
                                       class="article-textarea summary-textarea"
                                       rows="4"
-                                      placeholder="خلاصه‌ای کوتاه و جذاب از محتوای مقاله بنویسید..."></textarea>
+                                      placeholder="خلاصه‌ای کوتاه و جذاب از محتوای مقاله بنویسید..."
+                                      data-val="true"
+                                      data-val-required="خلاصه برای مقاله الزامی است"></textarea>
 
                             <span asp-validation-for="Summary"
                                   class="field-error">
@@ -143,7 +148,9 @@
                             <textarea asp-for="Content"
                                       class="article-textarea content-textarea"
                                       rows="15"
-                                      placeholder="متن کامل مقاله را اینجا بنویسید..."></textarea>
+                                      placeholder="متن کامل مقاله را اینجا بنویسید..."
+                                      data-val="true"
+                                      data-val-required="توضیحات کامل مقاله الزامی است"></textarea>
 
                             <span asp-validation-for="Content"
                                   class="field-error">
@@ -185,7 +192,9 @@
                             </label>
 
                             <select asp-for="ArticleCategoryId"
-                                    class="article-select">
+                                    class="article-select"
+                                    data-val="true"
+                                    data-val-required="دسته بندی مقاله الزامی است">
 
                                 <option value="">
                                     انتخاب دسته‌بندی
@@ -204,7 +213,9 @@
                             </select>
 
                             <span asp-validation-for="ArticleCategoryId"
-                                  class="field-error">
+                                  class="field-error" 
+                                  data-val="true"
+                                  data-val-required="دسته بندی مقاله الزامی است">
                             </span>
 
                         </div>

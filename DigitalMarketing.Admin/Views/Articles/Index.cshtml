@@ -7,6 +7,8 @@
 
 <div class="articles-page">
 
+
+    <!-- Header -->
     <div class="articles-header">
         <div>
             <h2>مدیریت مقالات</h2>
@@ -19,6 +21,8 @@
         </a>
     </div>
 
+
+    <!-- Alerts -->
     @if (TempData["Success"] != null)
     {
         <div class="article-alert success">
@@ -34,6 +38,9 @@
             @TempData["Error"]
         </div>
     }
+
+
+    <!-- Statistics -->
 
     <div class="article-stats">
 
@@ -73,6 +80,9 @@
     </div>
 
 
+
+    <!-- Articles Card -->
+
     <div class="articles-card">
 
         <div class="articles-card-header">
@@ -85,6 +95,8 @@
         </div>
 
 
+
+        <!-- Articles -->
         @if (Model != null && Model.Any())
         {
             <div class="articles-table-wrapper">
@@ -205,8 +217,8 @@
                                                     title="@(article.IsPublished ? "پیش‌نویس کن" : "منتشر کن")">
 
                                                 <i class="bi @(article.IsPublished
-                                                                                                       ? "bi-eye-slash"
-                                                                                                       : "bi-send")"></i>
+                                                                                                                                                          ? "bi-eye-slash"
+                                                                                                                                                          : "bi-send")"></i>
 
                                             </button>
 
