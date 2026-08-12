@@ -115,6 +115,25 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task DeleteAsync_WhenCategoryHasArticles_ReturnsFailure()
+        {
+            // Arrange
+            var category = new ArticleCategory { Id = 1, Name = "سایت آماده", Slug = "سایت-آماده" };
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(category);
+            _repositoryMock.Setup(r => r.HasArticlesAsync(1)).ReturnsAsync(true);
+
+            // Act
+            var result = await _sut.DeleteAsync(1);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("مقاله داره"));
+            _repositoryMock.Verify(r => r.Delete(It.IsAny<ArticleCategory>()), Times.Never);
+        }
+
+
+
 
 
 
