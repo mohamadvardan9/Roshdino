@@ -136,6 +136,24 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task DeleteAsync_WhenCategoryNotFound_ReturnsFailure()
+        {
+            // Arrange
+            _repositoryMock.Setup(r => r.GetByIdAsync(99)).ReturnsAsync((ArticleCategory?)null);
+
+            // Act
+            var result = await _sut.DeleteAsync(99);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("پیدا نشد"));
+        }
+
+
+
+
+
 
 
     }
