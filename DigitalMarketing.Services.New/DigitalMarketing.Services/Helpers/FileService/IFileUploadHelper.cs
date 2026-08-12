@@ -1,4 +1,6 @@
-﻿namespace DigitalMarketing.DigitalMarketing.Services.Helpers.FileService
+﻿using Microsoft.AspNetCore.Http;
+
+namespace DigitalMarketing.DigitalMarketing.Services.Helpers.FileService
 {
     public interface IFileUploadHelper
     {

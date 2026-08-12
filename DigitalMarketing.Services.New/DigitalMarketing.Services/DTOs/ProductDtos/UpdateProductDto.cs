@@ -1,4 +1,6 @@
-﻿namespace DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
+﻿using Microsoft.AspNetCore.Http;
+
+namespace DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 {
     public class UpdateProductDto
     {

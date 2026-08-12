@@ -1,4 +1,7 @@
 <Solution>
   <Project Path="DigitalMarketing.Admin/DigitalMarketing.Admin.csproj" />
-  <Project Path="DigitalMarketing/DigitalMarketing.csproj" />
+  <Project Path="DigitalMarketing.Core.New/DigitalMarketing.Core.csproj" Id="0144027d-e20a-40bd-8276-a9312beceb9b" />
+  <Project Path="DigitalMarketing.Data.New/DigitalMarketing.Data.csproj" Id="2d449977-8ea2-4820-984a-cb4289c31c13" />
+  <Project Path="DigitalMarketing.Services.New/DigitalMarketing.Services.csproj" Id="cec87785-9457-43dd-8515-a72f66d63b1e" />
+  <Project Path="DigitalMarketing.Web/DigitalMarketing.Web.csproj" />
 </Solution>

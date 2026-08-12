@@ -2,7 +2,7 @@ using DigitalMarketing.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace DigitalMarketing.DigitalMarketing.Web.Controllers
+namespace DigitalMarketing.Web.Controllers
 {
     public class HomeController : Controller
     {

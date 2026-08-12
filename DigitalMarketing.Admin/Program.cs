@@ -5,9 +5,9 @@ using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
 using DigitalMarketing.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
+using DigitalMarketing.DigitalMarketing.Services.Validators.Article;
 using DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -52,7 +52,8 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 
 
 // Fluent Validations
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
+//builder.Services.AddValidatorsFromAssembly(typeof(CreateArticleDtoValidator).Assembly);
 
 
 

@@ -1,4 +1,6 @@
-﻿namespace DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
+﻿using Microsoft.AspNetCore.Http;
+
+namespace DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
 {
     public class CreateArticleDto
     {
