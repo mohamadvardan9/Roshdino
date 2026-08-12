@@ -58,7 +58,7 @@ namespace DigitalMarketing.Services.Tests
             // Arrange
             var dto = new CreateProductCategoryDto { Name = "لب تاپ" };
             _repositoryMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
-                .ReturnsAsync(false);
+                .ReturnsAsync(false);  // شبیه سازی برای اینکه اسلاگ از قبل وجود ندارد
 
 
             // Act
@@ -86,6 +86,7 @@ namespace DigitalMarketing.Services.Tests
 
             // Assert
             result.Success.Should().BeFalse();
+            result.Errors.Should().ContainSingle(e => e.Contains("نام دسته‌بندی الزامی "));
             result.Errors.Should().NotBeEmpty();
 
             // نکته‌ی مهم: چون Validation رد شده، نباید اصلاً به Repository سر بزنه
@@ -93,6 +94,26 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+
+
+        [Fact]
+        public async Task CreateAsync_WithDuplicateSlug_ReturnsFailure()
+        {
+            // Arrange
+            var dto = new CreateProductCategoryDto { Name = "موس" };
+            _repositoryMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
+                .ReturnsAsync(true);  // شبیه سازی برای اینکه اسلاگ از قبل وجود دارد
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("قبلا ثبت شده"));
+
+        }
 
 
 

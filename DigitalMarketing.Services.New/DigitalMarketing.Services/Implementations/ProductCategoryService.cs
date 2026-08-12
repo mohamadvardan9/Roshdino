@@ -63,7 +63,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             
             var slug = SlugHelper.GenerateSlug(dto.Name);
             if (await _repository.SlugExistsAsync(slug))
-                return ServiceResult.Fail("دسته بندی ای با این نام یا مشابه ثبلا ثبت شده است");
+                return ServiceResult.Fail("دسته بندی ای با این نام یا مشابه قبلا ثبت شده است");
 
             var caategory = _mapper.Map<ProductCategory>(dto);
             caategory.Slug = slug;
