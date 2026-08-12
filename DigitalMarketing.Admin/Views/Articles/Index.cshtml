@@ -9,6 +9,7 @@
 
 
     <!-- Header -->
+
     <div class="articles-header">
         <div>
             <h2>مدیریت مقالات</h2>
@@ -23,6 +24,7 @@
 
 
     <!-- Alerts -->
+
     @if (TempData["Success"] != null)
     {
         <div class="article-alert success">
@@ -97,6 +99,7 @@
 
 
         <!-- Articles -->
+
         @if (Model != null && Model.Any())
         {
             <div class="articles-table-wrapper">
@@ -120,12 +123,16 @@
                         {
                             <tr>
 
+                                <!-- ID -->
+
                                 <td data-label="#">
                                     <span class="article-id">
                                         #@article.Id
                                     </span>
                                 </td>
 
+
+                                <!-- Title -->
 
                                 <td data-label="عنوان">
 
@@ -155,6 +162,9 @@
                                 </td>
 
 
+
+                                <!-- ArticleCategory Name -->
+
                                 <td>
 
                                     <span class="article-category">
@@ -167,6 +177,9 @@
 
                                 </td>
 
+
+
+                                <!-- Publish Status -->
 
                                 <td data-label="وضعیت">
 
@@ -188,6 +201,8 @@
                                 </td>
 
 
+                                <!-- Updated At -->
+
                                 <td data-label="بروزرسانی">
 
                                     @if (article.UpdatedAt == null)
@@ -206,9 +221,13 @@
                                 </td>
 
 
+                                <!-- Oporations -->
+
                                 <td data-label="عملیات">
 
                                     <div class="article-actions">
+
+                                        <!-- Edit -->
 
                                         <a asp-action="Edit"
                                            asp-route-id="@article.Id"
@@ -219,6 +238,8 @@
 
                                         </a>
 
+
+                                        <!-- Publish Toggle -->
 
                                         <form asp-action="TogglePublish"
                                               asp-route-id="@article.Id"
@@ -238,6 +259,8 @@
 
                                         </form>
 
+
+                                        <!-- Delete -->
 
                                         <form asp-action="Delete"
                                               asp-route-id="@article.Id"

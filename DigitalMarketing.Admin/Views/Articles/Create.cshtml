@@ -9,6 +9,7 @@
 <div class="create-article-page">
 
     <!-- Header -->
+
     <div class="create-article-header">
 
         <div>
@@ -38,12 +39,14 @@
 
 
     <!-- Validation -->
+
     <div asp-validation-summary="ModelOnly"
-         class="validation-summary">
+         class="create-validation-summary">
     </div>
 
 
     <!-- Form -->
+
     <form asp-action="Create"
           method="post"
           enctype="multipart/form-data">
@@ -58,6 +61,7 @@
             <div class="article-main-column">
 
                 <!-- Basic Information -->
+
                 <div class="article-form-card">
 
                     <div class="form-card-header">
@@ -79,6 +83,7 @@
                     <div class="form-card-body">
 
                         <!-- Title -->
+
                         <div class="form-group">
 
                             <label asp-for="Title">
@@ -100,6 +105,7 @@
 
 
                         <!-- Summary -->
+
                         <div class="form-group">
 
                             <div class="label-row">
@@ -130,6 +136,7 @@
 
 
                         <!-- Content -->
+
                         <div class="form-group">
 
                             <div class="label-row">
@@ -164,6 +171,7 @@
 
 
                 <!-- Category -->
+
                 <div class="article-form-card">
 
                     <div class="form-card-header">
@@ -234,6 +242,7 @@
             <div class="article-sidebar">
 
                 <!-- Cover Image -->
+
                 <div class="article-form-card">
 
                     <div class="form-card-header">
@@ -318,6 +327,7 @@
 
 
                 <!-- Publishing Info -->
+
                 <div class="article-form-card">
 
                     <div class="form-card-header">

@@ -308,9 +308,7 @@
                                     @(Model.IsPublished ? "published" : "draft")"
                                      id="publishStatusIcon">
 
-                                    <i class="bi @(Model.IsPublished
-                                                                                                                      ? "bi-eye"
-                                                                                                                      : "bi-eye-slash")"
+                                    <i class="bi @(Model.IsPublished? "bi-eye": "bi-eye-slash")"
                                        id="publishStatusIconGlyph">
                                     </i>
 
@@ -367,6 +365,7 @@
                            accept=".jpg,.jpeg,.png,.webp" />
 
                     <!-- Current / Preview Image -->
+
                     <div class="cover-preview" id="coverPreview">
 
                         @if (!string.IsNullOrEmpty(currentCover))
@@ -392,7 +391,9 @@
 
                     </div>
 
+
                     <!-- Upload -->
+
                     <label for="newCoverImage" class="change-cover-btn">
                         <i class="bi bi-cloud-arrow-up"></i>
                         انتخاب تصویر جدید

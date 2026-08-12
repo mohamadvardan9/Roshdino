@@ -87,6 +87,21 @@
     }
 
 
+/* =========================
+   Validation
+========================= */
+
+.edit-product-validation {
+    margin-bottom: 20px;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+    .edit-product-validation:empty {
+        display: none;
+    }
+
+
 /* Layout */
 
 .edit-product-layout {
