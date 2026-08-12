@@ -97,7 +97,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var slug = SlugHelper.GenerateSlug(dto.Title);
             if(await _repository.SlugExistsAsync(slug))
-                return ServiceResult.Fail("این اسلاگ قبلا وجود داشته است.");
+                return ServiceResult.Fail("این مقاله قبلا وجود داشته است.");
 
 
             // Upload Cover Image
@@ -144,7 +144,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
 
             var slug = SlugHelper.GenerateSlug(dto.Title);
             if (await _repository.SlugExistsAsync(slug, excludeId: dto.Id))
-                return ServiceResult.Fail("این اسلاگ قبلا وجود داشته است.");
+                return ServiceResult.Fail("این مقاله قبلا وجود داشته است.");
 
 
 
