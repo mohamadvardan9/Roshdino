@@ -70,7 +70,39 @@ namespace DigitalMarketing.Services.Tests
 
 
 
-        
+
+        [Fact]
+        public async Task CreateAsync_WithEmptyName_ReturnsFailure_AndDoesNotCallRepository()
+        {
+            // Arrange
+            var dto = new CreateArticleCategoryDto { Name = "" };
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().ContainSingle(e => e.Contains("نام دسته‌بندی الزامی "));
+            result.Errors.Should().NotBeEmpty();
+            _repositoryMock.Verify(r => r.AddAsync(It.IsAny<ArticleCategory>()), Times.Never);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }
