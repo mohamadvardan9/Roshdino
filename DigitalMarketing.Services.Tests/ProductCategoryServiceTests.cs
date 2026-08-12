@@ -42,7 +42,7 @@ namespace DigitalMarketing.Services.Tests
             var createValidator = new CreateProductCategoryDtoValidator();
             var updateValidator = new UpdateProductCategoryDtoValidator();
 
-
+            // همون کلاسی که داریم تستش میکنیم
             _sut = new ProductCategoryService(_repositoryMock.Object, _mapper, createValidator, updateValidator);
         }
 
