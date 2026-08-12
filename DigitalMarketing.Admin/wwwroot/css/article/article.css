@@ -412,6 +412,26 @@
     }
 
 
+/* =========================
+   Category
+========================= */
+
+.article-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 10px;
+}
+
+    .article-category i {
+        color: #6366f1;
+    }
+
+
 /* ================================
    Empty
 ================================ */
