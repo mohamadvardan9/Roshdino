@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DigitalMarketing.Migrations
+namespace DigitalMarketing.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
