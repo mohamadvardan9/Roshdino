@@ -131,7 +131,9 @@
                                 <i class="bi bi-type"></i>
 
                                 <input asp-for="Title"
-                                       placeholder="مثلاً طراحی سایت فروشگاهی" />
+                                       placeholder="مثلاً طراحی سایت فروشگاهی" 
+                                       data-val="true"
+                                       data-val-required="اسم محصول الزامی است" />
 
                             </div>
 
@@ -159,7 +161,9 @@
                             <textarea asp-for="ShortDescription"
                                       class="create-product-textarea"
                                       rows="3"
-                                      placeholder="یک توضیح کوتاه و جذاب درباره محصول بنویسید..."></textarea>
+                                      placeholder="یک توضیح کوتاه و جذاب درباره محصول بنویسید..."
+                                      data-val="true"
+                                      data-val-required="خلاصه درباره محصول الزامی است"></textarea>
 
 
                             <span asp-validation-for="ShortDescription"
@@ -186,7 +190,9 @@
                                       id="description-editor"
                                       class="create-product-textarea create-product-description"
                                       rows="9"
-                                      placeholder="توضیحات کامل محصول را وارد کنید..."></textarea>
+                                      placeholder="توضیحات کامل محصول را وارد کنید..."
+                                      data-val="true"
+                                      data-val-required="توضیحات محصول الزامی است"></textarea>
 
 
                             <span asp-validation-for="Description"
@@ -383,7 +389,9 @@
 
 
                             <select asp-for="ProductCategoryId"
-                                    class="form-select create-product-select">
+                                    class="form-select create-product-select"
+                                    data-val="true"
+                                    data-val-required="دسته بندی محصول الزامی است">
 
                                 <option value="">
                                     -- انتخاب دسته‌بندی --

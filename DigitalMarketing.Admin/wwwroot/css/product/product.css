@@ -388,10 +388,34 @@
     font-weight: 600;
 }
 
+
+/* =========================
+   Summery
+========================= */
+
+.product-summery {
+    margin-right: 3px;
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
+/* =========================
+   Description
+========================= */
+
+.product-description {
+    margin-right: 3px;
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+
 /* =========================
    Status
 ========================= */
-
 .product-status {
     display: inline-flex;
     align-items: center;
@@ -400,6 +424,8 @@
     border-radius: 8px;
     font-size: 10px;
     font-weight: 700;
+
+    white-space: nowrap; /* جلوگیری از شکستن متن */
 }
 
     .product-status.published {

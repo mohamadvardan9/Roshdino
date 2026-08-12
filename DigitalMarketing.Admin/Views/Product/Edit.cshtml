@@ -147,7 +147,9 @@
                                 <i class="bi bi-type"></i>
 
                                 <input asp-for="Title"
-                                       placeholder="عنوان محصول" />
+                                       placeholder="عنوان محصول"
+                                       data-val="true"
+                                       data-val-required="اسم محصول الزامی است" />
 
                             </div>
 
@@ -175,7 +177,9 @@
                             <textarea asp-for="ShortDescription"
                                       class="edit-product-textarea"
                                       rows="3"
-                                      placeholder="توضیح کوتاه محصول..."></textarea>
+                                      placeholder="توضیح کوتاه محصول..."
+                                      data-val="true"
+                                      data-val-required="خلاصه درباره محصول الزامی است"></textarea>
 
 
                             <span asp-validation-for="ShortDescription"
@@ -201,7 +205,9 @@
                             <textarea asp-for="Description"
                                       class="edit-product-textarea edit-product-description"
                                       rows="9"
-                                      placeholder="توضیحات کامل محصول..."></textarea>
+                                      placeholder="توضیحات کامل محصول..."
+                                      data-val="true"
+                                      data-val-required="توضیحات محصول الزامی است"></textarea>
 
 
                             <span asp-validation-for="Description"
@@ -472,7 +478,9 @@
 
 
                             <select asp-for="ProductCategoryId"
-                                    class="form-select edit-product-select">
+                                    class="form-select edit-product-select"
+                                    data-val="true"
+                                    data-val-required="دسته بندی محصول الزامی است">
 
                                 <option value="">
                                     -- انتخاب دسته‌بندی --
