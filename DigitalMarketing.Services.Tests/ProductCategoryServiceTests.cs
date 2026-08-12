@@ -75,7 +75,22 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task CreateAsync_WithEmptyName_ReturnFailure_AndDoesNotCallRepository()
+        {
+            // Arrange
+            var dto = new CreateProductCategoryDto { Name = "" };
 
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().NotBeEmpty();
+
+            // نکته‌ی مهم: چون Validation رد شده، نباید اصلاً به Repository سر بزنه
+            _repositoryMock.Verify(r => r.AddAsync(It.IsAny<ProductCategory>()), Times.Never);
+        }
 
 
 
