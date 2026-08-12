@@ -16,7 +16,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Mapping
 
             CreateMap<CreateProductDto, Product>()
                 .ForMember(dest => dest.Slug, opt => opt.Ignore())
-                .ForMember(dest => dest.Images, opt => opt.Ignore()); // عکس‌ها رو دستی تو Service اضافه می‌کنیم
+                .ForMember(dest => dest.Images, opt => opt.Ignore());
 
 
             CreateMap<UpdateProductDto, Product>()
@@ -24,7 +24,7 @@ namespace DigitalMarketing.DigitalMarketing.Services.Mapping
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.Images, opt => opt.Ignore());
 
-            CreateMap<ProductDto, UpdateProductDto>(); // new added
+            CreateMap<ProductDto, UpdateProductDto>();
 
         }
     }

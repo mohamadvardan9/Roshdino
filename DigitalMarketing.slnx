@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/tests/">
+    <Project Path="DigitalMarketing.Data.Tests/DigitalMarketing.Data.Tests.csproj" Id="b2597543-84f8-4675-8ae4-864b97aee2c1" />
+    <Project Path="DigitalMarketing.Services.Tests/DigitalMarketing.Services.Tests.csproj" Id="8d850eed-4346-4124-940a-75cdd676cf9f" />
+  </Folder>
   <Project Path="DigitalMarketing.Admin/DigitalMarketing.Admin.csproj" />
   <Project Path="DigitalMarketing.Core.New/DigitalMarketing.Core.csproj" Id="0144027d-e20a-40bd-8276-a9312beceb9b" />
   <Project Path="DigitalMarketing.Data.New/DigitalMarketing.Data.csproj" Id="2d449977-8ea2-4820-984a-cb4289c31c13" />
