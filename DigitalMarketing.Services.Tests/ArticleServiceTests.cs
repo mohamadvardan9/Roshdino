@@ -137,6 +137,42 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task CreateAsync_WhenCoverImageUploadFails_ReturnsFailure()
+        {
+            // Arrange
+            var dto = new CreateArticleDto
+            {
+                Title = "مهندس",
+                Summary = "مندسی",
+                Content = "مهندسی",
+                ArticleCategoryId = 1,
+                CoverImage = CreateFakeFormFile("cover.jpg")
+            };
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(new ArticleCategory { Id = 1, Name = "مهندسی کامل", Slug = "مهندسی-کامل" });
+            _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
+                .ReturnsAsync(false);
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(dto.CoverImage, "articles"))
+                .ReturnsAsync((false, (string?)null, "فرمت .exe مجاز نیست."));
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("مجاز نیست"));
+            _articleRepoMock.Verify(r => r.AddAsync(It.IsAny<Article>()), Times.Never);
+
+        }
+
+
+
+
+
+
+
+
 
 
 
