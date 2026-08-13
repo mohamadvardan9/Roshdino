@@ -116,16 +116,16 @@ namespace DigitalMarketing.DigitalMarketing.Services.Implementations
             {
                 foreach (var image in dto.Images)
                 {
-                    var imagePath = await _fileUploadHelper.SaveImageAsync(
-                        image,
-                        "products"
-                    );
 
+                    var (success, path, error) = await _fileUploadHelper.SaveImageAsync(image, "products");
+
+                    if (!success)
+                        return ServiceResult.Fail(error!);
 
                     var isMainImage = product.Images.Count == 0; // calculate for the first image, if the image is first,set it as main
                     product.Images.Add(new ProductImage
                     {
-                        ImageUrl = imagePath.Path!,
+                        ImageUrl = path!,
                         IsMain = isMainImage // if it be first image this will be true
                     });
                 }
