@@ -351,5 +351,56 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+        [Fact]
+        public async Task UpdateAsync_WithNewImages_DoesNotOverrideExistingMain()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Id = 1,
+                Title = "موس",
+                ProductCategoryId = 2,
+                Images = new List<ProductImage>
+                {
+                    new ProductImage {Id = 5, ImageUrl = "old.jpg", IsMain=true}
+                }
+            };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(product.Id)).ReturnsAsync(product);
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(product.ProductCategoryId))
+                .ReturnsAsync(new ProductCategory { Id = product.ProductCategoryId , Name = "کامپیوتر", Slug = "کامپیوتر" });
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(),"products"))
+                .ReturnsAsync((true, "/uploads/products/new.jpg", (string?)null));
+
+            var dto = new UpdateProductDto
+            {
+                Id = 1,
+                Title = "موس",
+                ShortDescription = "کوتاه",
+                Description = "کامل",
+                ProductCategoryId = 2,
+                NewImages = new List<IFormFile> { CreateFakeFormFile("new.jpg") }
+            };
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            product.Images.Should().HaveCount(2);
+            product.Images.Single(i => i.ImageUrl == "old.jpg").IsMain.Should().BeTrue();
+            product.Images.Single(i => i.ImageUrl == "/uploads/products/new.jpg").IsMain.Should().BeFalse();
+        }
+
+
+
+
+
     }
 }
