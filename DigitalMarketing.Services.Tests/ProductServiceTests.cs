@@ -239,5 +239,58 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WithValidDat_ReturnsSuccess()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Id = 1,
+                Title = "Title",
+                Slug = "title",
+                ProductCategoryId = 3,
+                Images = new List<ProductImage>()
+            };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
+                .ReturnsAsync(new ProductCategory { Id = 3, Name = "Title" , Slug = "title"});
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
+                .ReturnsAsync(false);
+
+            var dto = new UpdateProductDto
+            {
+                Id = 1,
+                Title = "new Title",
+                ShortDescription = "new Short",
+                Description = "New Description",
+                ProductCategoryId = 3,
+                IsPublished = true
+            };
+
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            product.Title.Should().Be("new Title");
+        }
+
+
     }
 }
