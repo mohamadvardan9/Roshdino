@@ -484,12 +484,12 @@ namespace DigitalMarketing.Services.Tests
 
             // Act
             var result = await _sut.RemoveImageAsync(10, 1);
-            
+
 
             // Assert
             result.Success.Should().BeFalse();
             result.Errors.Should().Contain(e => e.Contains("تصویر یافت نشد"));
-            _productRepoMock.Verify(r => r.RemoveImage(It.IsAny<ProductImage>()),Times.Never);
+            _productRepoMock.Verify(r => r.RemoveImage(It.IsAny<ProductImage>()), Times.Never);
 
         }
 
@@ -579,5 +579,31 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        // هدف این تست این است که مطمئن شود هیچ محصولی نمی‌تواند تصویر متعلق به محصول دیگری را به عنوان تصویر اصلی خود انتخاب کند
+        // و در نتیجه از ناسازگاری داده‌ها و دستکاری اشتباه جلوگیری شود
+        [Fact]
+        public async Task SetMainImageAsync_WhenImageBelongsToDifferentProduct_ReturnsFailure()
+        {
+            // Arrange
+            var image = new ProductImage { Id = 10, ProductId = 5 , ImageUrl = "img.jpg"};
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(10)).ReturnsAsync((ProductImage)image);
+
+            // Act
+            var result = await _sut.SetMainImageAsync(1, 10); // نکته مهمش اینجاست
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("معتبر نیست"));
         }
+
+
+
+
+
+
+
+
+
+
+    }
 }
