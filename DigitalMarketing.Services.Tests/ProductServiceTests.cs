@@ -144,5 +144,58 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+
+
+
+        [Fact]
+        public async Task CreateAsync_FirstImage_IsAlwaysSetAsMain()
+        {
+            // Arrange
+            var dto = new CreateProductDto
+            {
+                Title = "تستی",
+                ShortDescription = "توضحی کوتاه درباره محصول",
+                Description = "توضیح کامل درباره محصول",
+                ProductCategoryId = 1,
+                Images = new List<IFormFile>
+                {
+                    CreateFakeFormFile("img1.jpg"),
+                    CreateFakeFormFile("img2.jpg"),
+                    CreateFakeFormFile("img3.jpg")
+                }
+            };
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(dto.ProductCategoryId))
+                .ReturnsAsync(new ProductCategory { Id = 1, Name = "دسته تست", Slug = "دسته-تست" });
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
+                .ReturnsAsync(false);
+
+            var counter = 0;
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(),"products"))
+                .ReturnsAsync(() => (true, $"/uploads/products/img{++counter}.jpg", (string?)null));
+
+            Product? capturedProduct = null;
+            _productRepoMock.Setup(r => r.AddAsync(It.IsAny<Product>()))
+                .Callback<Product>(p => capturedProduct = p)
+                .Returns(Task.CompletedTask);
+
+
+            // Act
+            await _sut.CreateAsync(dto);
+
+
+            // Assert
+            capturedProduct.Should().NotBeNull();
+            capturedProduct!.Images.Should().HaveCount(3);
+            capturedProduct.Images.First().IsMain.Should().BeTrue();
+            capturedProduct.Images.Skip(1).Should().OnlyContain(i => !i.IsMain);
+        }
+
+
+
+
+
     }
 }
