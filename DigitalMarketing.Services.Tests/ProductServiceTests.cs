@@ -624,6 +624,40 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task TogglePublishAsync_FlipsIsPublished()
+        {
+            // Arrange
+            var product = new Product { Id = 1, IsPublished = true };
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+
+            // Act
+            var result = await _sut.TogglePublishAsync(1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            product.IsPublished.Should().BeFalse();
+        }
+
+
+
+
+
+        [Fact]
+        public async Task TogglePublishAsync_WhenProductNotFound_ReturnsFailure()
+        {
+            // Arrange
+            _productRepoMock.Setup(r => r.GetByIdAsync(77)).ReturnsAsync((Product?)null);
+
+            // Act
+            var resutl = await _sut.TogglePublishAsync(77);
+
+            // Assert
+            resutl.Success.Should().BeFalse();
+
+        }
+
+
 
 
 
