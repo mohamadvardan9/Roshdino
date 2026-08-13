@@ -601,6 +601,28 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task SetMainImageAsync_WhenValid_ReturnsSuccess()
+        {
+            // Arrange
+            var image = new ProductImage { Id = 10, ProductId = 1, ImageUrl = "img.jpg" };
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(10)).ReturnsAsync((ProductImage)image);
+
+            // Act
+            var result = await _sut.SetMainImageAsync(1, 10);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            _productRepoMock.Verify(r => r.SetMainImageAsync(1,10),Times.Once);
+        }
+
+
+
+
+
+
+
+
 
 
 
