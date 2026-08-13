@@ -547,5 +547,37 @@ namespace DigitalMarketing.Services.Tests
 
 
 
-    }
+
+
+
+        [Fact]
+        public async Task RemoveImageAsync_WhenLastImageRemoved_NoErrorEvenThoughNoImagesRemain()
+        {
+            // Arrange
+            var onlyImage = new ProductImage { Id = 10, ImageUrl = "only.jpg", IsMain = true };
+            var product = new Product { Id = 1, Images = new List<ProductImage> { onlyImage } };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(10)).ReturnsAsync(onlyImage);
+
+            // Act
+            var result = await _sut.RemoveImageAsync(10, 1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            product.Images.Should().BeEmpty();
+            _productRepoMock.Verify(r => r.RemoveImage(It.IsAny<ProductImage>()), Times.Once);
+
+
+        }
+
+
+
+
+
+
+
+
+
+        }
 }
