@@ -523,6 +523,28 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task RemoveImageAsync_WhenNonMainImageRemoved_DoesNotChangeMain()
+        {
+            // Arrange
+            var mainIamge = new ProductImage { Id = 10, ImageUrl = "main.jpg", IsMain = true };
+            var secondImage = new ProductImage { Id = 15, ImageUrl = "second.jpg", IsMain = false };
+
+            var product = new Product { Id = 1, Images = new List<ProductImage> { mainIamge, secondImage } };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(15)).ReturnsAsync(secondImage);
+
+            // Act
+            var result = await _sut.RemoveImageAsync(15, 1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            mainIamge.IsMain.Should().BeTrue();
+        }
+
+
+
 
 
     }
