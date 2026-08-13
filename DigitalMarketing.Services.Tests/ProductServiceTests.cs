@@ -197,5 +197,47 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task CreateAsync_WhenImageUploadFails_ReturnsFailure_AndNotSaveProduct()
+        {
+            // Arrange
+            var dto = new CreateProductDto
+            {
+                Title = "Title",
+                ShortDescription = "SDescription",
+                Description = "Description",
+                ProductCategoryId = 1,
+                Images = new List<IFormFile> { CreateFakeFormFile("bad.exe") }
+
+            };
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(1))
+                .ReturnsAsync(new ProductCategory { Id = 1, Name = "دسته", Slug = "دسته" });
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
+                .ReturnsAsync(false);
+
+            _fileUploadHelperMock.Setup(r => r.SaveImageAsync(It.IsAny<IFormFile>(), "products"))
+                .ReturnsAsync((false, (string?)null, "مجاز نیست."));
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("مجاز نیست"));
+            _productRepoMock.Verify(r => r.AddAsync(It.IsAny<Product>()), Times.Never);
+
+        }
+
+
     }
 }
