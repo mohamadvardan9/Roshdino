@@ -170,6 +170,29 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task CreateAsync_WithInvalidCategory_ReturnsFailure()
+        {
+            // Arrange
+            var dto = new CreateArticleDto
+            {
+                Title = "مهندس",
+                Summary = "مندسی",
+                Content = "مهندسی",
+                ArticleCategoryId = 12,
+                CoverImage = CreateFakeFormFile("cover.jpg")
+            };
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(999)).ReturnsAsync((ArticleCategory?)null);
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("معتبر نیست"));
+            _articleRepoMock.Verify(r => r.AddAsync(It.IsAny<Article>()), Times.Never);
+        }
 
 
 
