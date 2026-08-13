@@ -474,7 +474,24 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task RemoveImageAsync_WhenImageNotFound_ReturnsFailure()
+        {
+            // Arrange
+            var product = new Product { Id = 1, Images = new List<ProductImage>() };
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(10)).ReturnsAsync((ProductImage?)null);
 
+            // Act
+            var result = await _sut.RemoveImageAsync(10, 1);
+            
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("تصویر یافت نشد"));
+            _productRepoMock.Verify(r => r.RemoveImage(It.IsAny<ProductImage>()),Times.Never);
+
+        }
 
 
 
