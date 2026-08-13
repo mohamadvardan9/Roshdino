@@ -292,5 +292,64 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WithNewImages_FirstNewImage_BecomesMain_WhenNoExistingMain()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Id = 1,
+                Title = "مداد",
+                ProductCategoryId = 2,
+                Images = new List<ProductImage>()  // without any images
+            };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(2))
+                .ReturnsAsync(new ProductCategory { Id = 2, Name = "Title", Slug = "title" });
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            var counter = 0;
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(), "products"))
+                .ReturnsAsync(() => (true, $"/uploads/products/new{++counter}.jpg", (string?)null));
+
+            var dto = new UpdateProductDto
+            {
+                Id = 1,
+                Title = "مداد",
+                ShortDescription = "مهم نیس",
+                Description = "مهم نیست 2",
+                ProductCategoryId = 2,
+                NewImages = new List<IFormFile>
+                {
+                    CreateFakeFormFile("new1.jpg"),
+                    CreateFakeFormFile("new2.jpg")
+                }
+            };
+
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            product.Images.Should().HaveCount(2);
+            product.Images.First().IsMain.Should().BeTrue();
+            product.Images.Skip(1).Should().OnlyContain(i => !i.IsMain);
+        }
+
+
+
+
+
+
+
+
     }
 }
