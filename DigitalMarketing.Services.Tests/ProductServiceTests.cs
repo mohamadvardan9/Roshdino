@@ -496,5 +496,34 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task RomoveImageAsync_WhenMainImageRemoved_PromotesNextImageToMainImage()
+        {
+            // Arrange
+            var mainIamge = new ProductImage { Id = 10, ImageUrl = "main.jpg", IsMain = true };
+            var secondImage = new ProductImage { Id = 15, ImageUrl = "second.jpg", IsMain = false };
+
+            var product = new Product { Id = 1, Images = new List<ProductImage> { mainIamge, secondImage } };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+            _productRepoMock.Setup(r => r.GetImageByIdAsync(10)).ReturnsAsync(mainIamge);
+
+            // Act
+            var result = await _sut.RemoveImageAsync(10, 1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            _fileUploadHelperMock.Verify(f => f.DeleteImage("main.jpg"), Times.Once);
+            product.Images.Should().NotContain(mainIamge);
+            secondImage.IsMain.Should().BeTrue();
+
+        }
+
+
+
+
+
+
+
     }
 }
