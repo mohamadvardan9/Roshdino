@@ -65,7 +65,7 @@ namespace DigitalMarketing.Services.Tests
             var mock = new Mock<IFormFile>();
             mock.Setup(f => f.FileName).Returns(fileName);
             mock.Setup(f => f.Length).Returns(length);
-            
+
             return mock.Object;
         }
 
@@ -90,7 +90,7 @@ namespace DigitalMarketing.Services.Tests
             };
 
             _categoryRepoMock.Setup(r => r.GetByIdAsync(dto.ProductCategoryId))
-                .ReturnsAsync(new ProductCategory { Id = 1, Name = "لب تاپ", Slug = "لب-تاپ"});
+                .ReturnsAsync(new ProductCategory { Id = 1, Name = "لب تاپ", Slug = "لب-تاپ" });
 
             _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
                 .ReturnsAsync(false);
@@ -173,7 +173,7 @@ namespace DigitalMarketing.Services.Tests
                 .ReturnsAsync(false);
 
             var counter = 0;
-            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(),"products"))
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(), "products"))
                 .ReturnsAsync(() => (true, $"/uploads/products/img{++counter}.jpg", (string?)null));
 
             Product? capturedProduct = null;
@@ -267,7 +267,7 @@ namespace DigitalMarketing.Services.Tests
             _productRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
             _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
-                .ReturnsAsync(new ProductCategory { Id = 3, Name = "Title" , Slug = "title"});
+                .ReturnsAsync(new ProductCategory { Id = 3, Name = "Title", Slug = "title" });
 
             _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
                 .ReturnsAsync(false);
@@ -370,12 +370,12 @@ namespace DigitalMarketing.Services.Tests
             _productRepoMock.Setup(r => r.GetByIdAsync(product.Id)).ReturnsAsync(product);
 
             _categoryRepoMock.Setup(r => r.GetByIdAsync(product.ProductCategoryId))
-                .ReturnsAsync(new ProductCategory { Id = product.ProductCategoryId , Name = "کامپیوتر", Slug = "کامپیوتر" });
+                .ReturnsAsync(new ProductCategory { Id = product.ProductCategoryId, Name = "کامپیوتر", Slug = "کامپیوتر" });
 
             _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
                 .ReturnsAsync(false);
 
-            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(),"products"))
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(), "products"))
                 .ReturnsAsync((true, "/uploads/products/new.jpg", (string?)null));
 
             var dto = new UpdateProductDto
@@ -398,6 +398,53 @@ namespace DigitalMarketing.Services.Tests
             product.Images.Single(i => i.ImageUrl == "/uploads/products/new.jpg").IsMain.Should().BeFalse();
         }
 
+
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WhenNewImageUploadFails_ReturnsFailure()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Id = 1,
+                Title = "محصول",
+                ProductCategoryId = 3,
+                Images = new List<ProductImage>()
+            };
+
+            _productRepoMock.Setup(r => r.GetByIdAsync(product.Id)).ReturnsAsync(product);
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(product.ProductCategoryId))
+                .ReturnsAsync(new ProductCategory { Id = product.ProductCategoryId, Name = "سایت", Slug = "سایت" });
+
+            _productRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            _fileUploadHelperMock.Setup(f => f.SaveImageAsync(It.IsAny<IFormFile>(), "products"))
+                .ReturnsAsync((false, (string?)null, "حجم فایل نباید بیشتر"));
+
+            var dto = new UpdateProductDto
+            {
+                Id = 1,
+                Title = "محصول",
+                ShortDescription = "ممممم",
+                Description = "دددددد",
+                ProductCategoryId = 3,
+                NewImages = new List<IFormFile> { CreateFakeFormFile("big.jpg") }
+            };
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("حجم فایل نباید بیشتر"));
+            _productRepoMock.Verify(r => r.Update(It.IsAny<Product>()), Times.Never);
+
+
+        }
 
 
 
