@@ -116,6 +116,33 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task CreateAsync_WithInvalidCategory_ReturnsFailure()
+        {
+            // Arrange
+            var dto = new CreateProductDto
+            {
+                Title = "تستی",
+                ShortDescription = "توضحی کوتاه درباره محصول",
+                Description = "توضیح کامل درباره محصول",
+                ProductCategoryId = 55
+            };
+
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(dto.ProductCategoryId))
+                .ReturnsAsync((ProductCategory?)null);
+
+            // Act
+            var result = await _sut.CreateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("معتبر نیست"));
+        }
+
+
+
+
+
 
     }
 }
