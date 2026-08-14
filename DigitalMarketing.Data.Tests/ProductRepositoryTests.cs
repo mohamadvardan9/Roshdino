@@ -55,6 +55,43 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task GetPublishedAsync_OnlyRetunrsPublishedProducts()
+        {
+            // Arrange
+            var category = await SeedCategoryAsync();
+
+            _factory.Context.Products.Add(new Product
+            {
+                Title = "منتشر نشده",
+                Slug = "منتشر-نشده",
+                ShortDescription = "...",
+                Description = "...",
+                ProductCategoryId = category.Id,
+                IsPublished = false
+            });
+            _factory.Context.Products.Add(new Product
+            {
+                Title = "منتشر شده",
+                Slug = "منتشر-شده",
+                ShortDescription = "...",
+                Description = "...",
+                ProductCategoryId = category.Id,
+                IsPublished= true
+            });
+
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.GetPublishedAsync();
+
+            // Assert
+            result.Should().HaveCount(1);
+            result.Single().Title.Should().Be("منتشر شده");
+        }
+
+
+
 
 
 
