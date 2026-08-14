@@ -483,5 +483,23 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task RemoveImageAsync_WhenArticleHasNoImage_ReturnsFailure()
+        {
+            // Arrange
+            var article = new Article { Id = 1, CoverImageUrl = null };
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+
+            // Act
+            var resutl = await _sut.RemoveImageAsync(1);
+
+            // Assert
+            resutl.Success.Should().BeFalse();
+            resutl.Errors.Should().Contain(e => e.Contains("تصویری برای حذف ندارد"));
+            _fileUploadHelperMock.Verify(f => f.DeleteImage(It.IsAny<string>()), Times.Never);
+
+        }
+
+
     }
 }
