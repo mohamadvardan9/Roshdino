@@ -40,6 +40,21 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task GetByIdAsync_WhenSoftDeleted_ReturnsNull()
+        {
+            // Arrange
+            var category = new ProductCategory { Name = "حذفی", Slug = "حذقی", IsDeleted = true };
+            _factory.Context.ProductCategories.Add(category);
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.GetByIdAsync(category.Id);
+
+            // Assert
+            result.Should().BeNull(); // Query Filter حتی رو GetById هم اعمال می‌شه
+        }
+
 
 
 
