@@ -159,6 +159,39 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+
+
+
+        [Fact]
+        public async Task GetImageByIdAsync_ReturnsCorrectImage()
+        {
+            var category = await SeedCategoryAsync();
+            var product = new Product
+            {
+                Title = "کالا",
+                Slug = "کالا",
+                ShortDescription = "...",
+                Description = "...",
+                ProductCategoryId = category.Id
+            };
+            product.Images.Add(new ProductImage { ImageUrl = "img.jpg", IsMain = true });
+            _factory.Context.Products.Add(product);
+            await _factory.Context.SaveChangesAsync();
+
+            var imageId = product.Images.First().Id;
+
+            // Act
+            var result = await _sut.GetImageByIdAsync(imageId);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.ImageUrl.Should().Be("img.jpg");
+
+        }
+
+
+
+
         public void Dispose() => _factory.Dispose();
     }
 }
