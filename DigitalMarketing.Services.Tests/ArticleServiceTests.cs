@@ -303,5 +303,47 @@ namespace DigitalMarketing.Services.Tests
             article.CoverImageUrl.Should().Be("/uploads/articles/new.jpg");
             _fileUploadHelperMock.Verify(f => f.DeleteImage("/uploads/articles/old.jpg"), Times.Once);
         }
+
+
+
+
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WithoutNewCoverImage_KeepsOldImage_AndDoesNotCallDelete()
+        {
+            // Arrange
+            var article = new Article
+            {
+                Id = 1,
+                Title = "قدیمی",
+                ArticleCategoryId = 1,
+                CoverImageUrl = "/uploads/articles/old.jpg"
+            };
+
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
+                .ReturnsAsync(new ArticleCategory { Id = 3, Name = "اخبار", Slug = "اخبار" });
+            _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            var dto = new UpdateArticleDto
+            {
+                Id = 1,
+                Title = "جدید",
+                Summary = "جدیدی",
+                Content = "جدیدیییی",
+                ArticleCategoryId = 3,
+            };
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            article.CoverImageUrl.Should().Be("/uploads/articles/old.jpg");
+            _fileUploadHelperMock.Verify(f => f.DeleteImage(It.IsAny<string>()), Times.Never);
+        }
     }
 }
