@@ -59,6 +59,19 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task SlugExistsAsync_WhenSlugAlreadyExists_ReturnsTrue()
+        {
+            // Arrange
+            _factory.Context.ProductCategories.Add(new ProductCategory { Name = "دیجیتال", Slug = "دیجیتال" });
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.SlugExistsAsync("دیجیتال");
+
+            // Assert
+            result.Should().BeTrue();
+        }
 
 
 
