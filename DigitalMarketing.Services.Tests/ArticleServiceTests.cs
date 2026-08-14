@@ -464,6 +464,24 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task RemoveImageAsync_WhenArticleNotFound_ReturnsFailure()
+        {
+            // Arrange
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync((Article?)null);
+
+            // Act
+            var result = await _sut.RemoveImageAsync(1);
+
+            // Assett
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("مقاله پیدا نشد"));
+        }
+
+
+
+
+
 
     }
 }
