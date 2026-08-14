@@ -399,5 +399,28 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+
+
+        [Fact]
+        public async Task TogglePublishAsync_WhenPublishing_SetsPublishedAtToNow()
+        {
+            // Arrange
+            var article = new Article { Id = 1, IsPublished = false, PublishedAt = DateTime.UtcNow.AddDays(-10) };
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+
+            var before = DateTime.UtcNow;
+
+            // Act
+            var result = await _sut.TogglePublishAsync(1);
+            var after = DateTime.UtcNow;
+
+            // Assert
+            result.Success.Should().BeTrue();
+            article.IsPublished.Should().BeTrue();
+            article.PublishedAt.Should().BeOnOrAfter(before).And.BeOnOrBefore(after);
+        }
+
+
     }
 }
