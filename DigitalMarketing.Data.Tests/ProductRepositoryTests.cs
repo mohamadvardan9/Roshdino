@@ -122,6 +122,43 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+
+
+
+        [Fact]
+        public async Task RemoveImage_WhenProductDeleted_ImageIsAlsoRemoved_DueToCascadeDelete()
+        {
+            // Arrange
+            // این تست دقیقاً همون OnDelete(DeleteBehavior.Cascade) که رو ProductImage تنظیم کردیم رو چک می‌کنه
+            var category = await SeedCategoryAsync();
+            var product = new Product
+            {
+                Title = "کالا",
+                Slug = "کالا",
+                ShortDescription = "...",
+                Description = "...",
+                ProductCategoryId = category.Id
+            };
+            product.Images.Add(new ProductImage { ImageUrl = "img.jpg", IsMain = true });
+
+            _factory.Context.Products.Add(product);
+            await _factory.Context.SaveChangesAsync();
+
+            var imageId = product.Images.First().Id;
+
+            // HardDelete واقعی محصول
+            _factory.Context.Products.Remove(product);
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _factory.Context.ProductImages.FindAsync(imageId);
+
+            // Assert
+            result.Should().BeNull(); // چون Cascade Delete تنظیم شده
+        }
+
+
+
         public void Dispose() => _factory.Dispose();
     }
 }
