@@ -422,5 +422,27 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+
+
+
+        [Fact]
+        public async Task TogglePublishAsync_WhenUnpublishing_DoesNotChangePublishedAt()
+        {
+            // Arrange
+            var orginalDate = DateTime.UtcNow.AddDays(-10);
+            var article = new Article { Id = 1, IsPublished = true, PublishedAt = orginalDate };
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+
+            // Act
+            var result = await _sut.TogglePublishAsync(1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            article.IsPublished.Should().BeFalse();
+            article.PublishedAt.Should().Be(orginalDate); // دست‌نخورده مونده
+
+        }
+
     }
 }
