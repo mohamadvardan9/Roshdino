@@ -42,7 +42,19 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task SlugExistsAsync_WhenSlugAlreadyExists_ReturnsTrue()
+        {
+            // Arrange
+            _factory.Context.ArticleCategories.Add(new ArticleCategory { Name = "کالا", Slug = "کالا" });
+            await _factory.Context.SaveChangesAsync();
 
+            // Act
+            var result = await _sut.SlugExistsAsync("کالا");
+
+            // Arrange
+            result.Should().BeTrue();
+        }
 
 
 
