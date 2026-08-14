@@ -538,5 +538,22 @@ namespace DigitalMarketing.Services.Tests
             result.Errors.Should().Contain(e => e.Contains("مقاله پیدا نشد"));
         }
 
+
+
+        [Fact]
+        public async Task DeleteAsync_WhenValid_CallsSoftDelete()
+        {
+            // Arrange
+            var article = new Article { Id = 1 };
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+
+            // Act
+            var result = await _sut.DeleteAsync(1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            _articleRepoMock.Verify(r => r.Delete(article), Times.Once);
+        }
+
     }
 }
