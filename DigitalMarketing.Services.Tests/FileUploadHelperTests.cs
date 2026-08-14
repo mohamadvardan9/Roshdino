@@ -159,6 +159,7 @@ namespace DigitalMarketing.Services.Tests
         public async Task SaveImageAsync_GeneratesUniqueFileName_ForSameOriginalName()
         {
             // Assert
+            // دو فایل با اسم ورودی یکسان، نباید همدیگه رو Overwrite کنن
             var file1 = CreateFakeFormFile("img.jpg", length: 1000);
             var file2 = CreateFakeFormFile("img.jpg", length: 1000);
 
@@ -172,6 +173,23 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+        [Fact]
+        public async Task DeleteImage_WhenFileExists_RemovesIt()
+        {
+            // Arrange
+            var subFolder = Path.Combine(_tempRoot, "uploads", "products");
+            Directory.CreateDirectory(subFolder);
+
+            var filePAth = Path.Combine(subFolder, "img.jpg");
+            File.WriteAllText(filePAth, "fake content");
+
+            // Act
+            _sut.DeleteImage("/uploads/products/img.jpg");
+
+            // Assert
+            File.Exists(filePAth).Should().BeFalse();
+        }
 
 
 
