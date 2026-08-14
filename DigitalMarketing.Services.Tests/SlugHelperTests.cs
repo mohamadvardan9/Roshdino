@@ -40,5 +40,18 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+        [Fact]
+        public void GenerateSlug_TrimsLeadingAndTrailingDasshes()
+        {
+            // Act
+            var result = SlugHelper.GenerateSlug("---تست کالا---");
+
+            // Assert
+            result.Should().NotStartWith("-");
+            result.Should().NotEndWith("-");
+        }
+
+
     }
 }
