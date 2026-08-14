@@ -90,6 +90,20 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task SaveImageAsync_WithFileLargerThan5MB_ReturnsFailure()
+        {
+            // Arrange
+            var file = CreateFakeFormFile("big.jpg", length: 6 * 1024 * 1024); // 6MB
+
+            // Act
+            var (success, path, error) = await _sut.SaveImageAsync(file, "products");
+
+            // Act
+            success.Should().BeFalse();
+            error.Should().Contain("۵ مگابایت");
+        }
+
 
 
 
