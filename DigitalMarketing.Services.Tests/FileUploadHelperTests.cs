@@ -67,6 +67,25 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Theory]
+        [InlineData("photo.jpg")]
+        [InlineData("photo.jpeg")]
+        [InlineData("photo.png")]
+        [InlineData("photo.webp")]
+        [InlineData("PHOTO.JPG")] // حروف بزرگ هم باید قبول بشه
+        public async Task SaveImageAsync_WithValidExtension_Succeeds(string fileName)
+        {
+            // Arrange
+            var file = CreateFakeFormFile(fileName, length: 1000);
+
+            // Act
+            var (success, path, error) = await _sut.SaveImageAsync(file, "products");
+            success.Should().BeTrue();
+            path.Should().NotBeNullOrEmpty();
+            error.Should().BeNull();
+
+        }
+
 
 
 
