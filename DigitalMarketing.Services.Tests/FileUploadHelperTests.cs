@@ -80,6 +80,8 @@ namespace DigitalMarketing.Services.Tests
 
             // Act
             var (success, path, error) = await _sut.SaveImageAsync(file, "products");
+
+            // Assert
             success.Should().BeTrue();
             path.Should().NotBeNullOrEmpty();
             error.Should().BeNull();
@@ -103,6 +105,33 @@ namespace DigitalMarketing.Services.Tests
             success.Should().BeFalse();
             error.Should().Contain("۵ مگابایت");
         }
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task SaveImageAsync_WithFileExactly5MB_Succeeds()
+        {
+            // نکته‌ی مهم: کد فعلی از > استفاده کرده، نه >=، پس دقیقاً ۵ مگابایت باید قبول بشه
+            var file = CreateFakeFormFile("exact.jpg", length: 5 * 1024 * 1024);
+
+            // Act
+            var (success, path, error) = await _sut.SaveImageAsync(file, "products");
+
+            // Assert
+            success.Should().BeTrue();
+            path.Should().NotBeNullOrEmpty();
+            error.Should().BeNull();
+        }
+
+
+
+
+
 
 
 
