@@ -334,7 +334,7 @@ namespace DigitalMarketing.Services.Tests
                 Title = "جدید",
                 Summary = "جدیدی",
                 Content = "جدیدیییی",
-                ArticleCategoryId = 3,
+                ArticleCategoryId = 3
             };
 
             // Act
@@ -345,5 +345,59 @@ namespace DigitalMarketing.Services.Tests
             article.CoverImageUrl.Should().Be("/uploads/articles/old.jpg");
             _fileUploadHelperMock.Verify(f => f.DeleteImage(It.IsAny<string>()), Times.Never);
         }
+
+
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WhenNewCoverImageUploadFails_ReturnsFailure_AndDoesNotDeleteOldImage()
+        {
+            // Arrange
+            var article = new Article
+            {
+                Id = 1,
+                Title = "قدیمی",
+                ArticleCategoryId = 1,
+                CoverImageUrl = "/uploads/articles/old.jpg"
+            };
+
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
+                .ReturnsAsync(new ArticleCategory { Id = 3, Name = "اخبار", Slug = "اخبار" });
+            _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            var dto = new UpdateArticleDto
+            {
+                Id = 1,
+                Title = "جدید",
+                Summary = "جدیدی",
+                Content = "جدیدیییی",
+                ArticleCategoryId = 3,
+                NewCoverImage = CreateFakeFormFile("big.jpg", length: 10_000_000)
+            };
+
+            _fileUploadHelperMock.Setup(r => r.SaveImageAsync(dto.NewCoverImage, "articles"))
+                .ReturnsAsync((false, (string?)null, "حجم فایل نباید بیشتر از ۵ مگابایت باشد."));
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain(e => e.Contains("۵ مگابایت"));
+
+            // نکته‌ی مهم: چون آپلود جدید شکست خورده، نباید عکس قدیمی پاک بشه
+            _fileUploadHelperMock.Verify(f => f.DeleteImage(It.IsAny<string>()), Times.Never);
+            article.CoverImageUrl.Should().Be("/uploads/articles/old.jpg");
+        }
+
+
+
+
+
+
+
     }
 }
