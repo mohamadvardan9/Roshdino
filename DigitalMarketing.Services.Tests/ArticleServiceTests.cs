@@ -444,5 +444,26 @@ namespace DigitalMarketing.Services.Tests
 
         }
 
+
+
+
+
+        [Fact]
+        public async Task TogglePublishAsync_WhenArticleNotFound_ReturnsFailure()
+        {
+            // Arrange
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync((Article?)null);
+
+            // Act
+            var result = await _sut.TogglePublishAsync(1);
+
+            // Assert
+            result.Success.Should().BeFalse();
+        }
+
+
+
+
+
     }
 }
