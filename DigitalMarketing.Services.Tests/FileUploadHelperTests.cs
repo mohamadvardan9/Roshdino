@@ -193,6 +193,20 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+
+        // این تست بررسی می‌کند که اگر فایل موردنظر برای حذف وجود نداشته باشد، متد DeleteImage نباید Exception پرتاب کند
+        [Fact]
+        public async Task DeleteImage_WhenFileDoesNotExist_DoesNotThrowExeption()
+        {
+            // Act
+            var act = () => _sut.DeleteImage("/uploads/products/nothing.jpg");
+
+            // Asser
+            act.Should().NotThrow();
+
+        }
+
         public void Dispose()
         {
             if(Directory.Exists(_tempRoot))
