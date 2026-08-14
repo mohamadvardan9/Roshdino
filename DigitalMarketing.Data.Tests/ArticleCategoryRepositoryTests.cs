@@ -63,6 +63,31 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task HasArticlesAsync_WhenCategoryHasArticles_ReturnsTrue()
+        {
+            // Arrange
+            var category = new ArticleCategory { Name = "کالا", Slug = "کالا" };
+            _factory.Context.ArticleCategories.Add(category);
+            await _factory.Context.SaveChangesAsync();
+
+            _factory.Context.Articles.Add(new Article
+            {
+                Title = "Title",
+                Slug = "slug",
+                Summary = "Description",
+                Content = "content",
+                ArticleCategoryId = category.Id
+            });
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.HasArticlesAsync(category.Id);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
 
 
 
