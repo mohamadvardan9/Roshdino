@@ -519,5 +519,24 @@ namespace DigitalMarketing.Services.Tests
             _articleRepoMock.Verify(r => r.RemoveImage(article), Times.Once);
         }
 
+
+
+
+
+        [Fact]
+        public async Task DeleteAsync_WhenArticleNotFound_ReturnsFailure()
+        {
+            // Arrange
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync((Article?)null);
+
+            // Act
+            var result = await _sut.DeleteAsync(1);
+
+            // Assert
+            result.Success.Should().BeFalse();
+            _articleRepoMock.Verify(r => r.Delete(It.IsAny<Article>()), Times.Never);
+            result.Errors.Should().Contain(e => e.Contains("مقاله پیدا نشد"));
+        }
+
     }
 }
