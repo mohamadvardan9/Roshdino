@@ -77,6 +77,21 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task SlugExistsAsync_WithExcludId_IgnoresItsOwnSlug()
+        {
+            // Arrange
+            var category = new ProductCategory { Name = "دیجیتال", Slug = "دیجیتال" };
+            _factory.Context.ProductCategories.Add(category);
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.SlugExistsAsync(category.Slug,category.Id); // وقتی داریم خودِ همین دسته‌بندی رو ویرایش می‌کنیم، نباید Slug خودش رو "تکراری" حساب کنه
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
 
 
 
