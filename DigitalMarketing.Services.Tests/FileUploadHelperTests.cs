@@ -155,6 +155,21 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+        [Fact]
+        public async Task SaveImageAsync_GeneratesUniqueFileName_ForSameOriginalName()
+        {
+            // Assert
+            var file1 = CreateFakeFormFile("img.jpg", length: 1000);
+            var file2 = CreateFakeFormFile("img.jpg", length: 1000);
+
+            // Act
+            var result1 = await _sut.SaveImageAsync(file1, "products");
+            var result2 = await _sut.SaveImageAsync(file2, "products");
+
+            // Assert
+            result1.Path.Should().NotBe(result2.Path); // چون از Guid.NewGuid() استفاده شده
+        }
+
 
 
 
