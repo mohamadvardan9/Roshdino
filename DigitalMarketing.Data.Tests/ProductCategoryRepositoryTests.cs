@@ -95,6 +95,31 @@ namespace DigitalMarketing.Data.Tests
 
 
 
+        [Fact]
+        public async Task HasProductsAsync_WhenCategoryHasProducts_ReturnsTrue()
+        {
+            // Arrange
+            var category = new ProductCategory { Name = "دیجیتال", Slug = "دیجیتال" };
+            _factory.Context.ProductCategories.Add(category);
+            await _factory.Context.SaveChangesAsync();
+
+            _factory.Context.Products.Add(new Product
+            {
+                Title = "Test",
+                Slug = "test",
+                ShortDescription = "Test",
+                Description = "Test",
+                ProductCategoryId = category.Id
+            });
+            await _factory.Context.SaveChangesAsync();
+
+            // Act
+            var result = await _sut.HasProductsAsync(category.Id);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
 
 
 
