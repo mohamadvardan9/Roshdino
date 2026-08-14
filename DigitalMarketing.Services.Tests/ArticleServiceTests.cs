@@ -501,5 +501,23 @@ namespace DigitalMarketing.Services.Tests
         }
 
 
+
+
+        [Fact]
+        public async Task RemoveImageAsync_WhenValid_DeletesFileAndCallsRepository()
+        {
+            // Arrange
+            var article = new Article { Id = 1, CoverImageUrl = "/uploads/articles/cover.jpg" };
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+
+            // Act
+            var result = await _sut.RemoveImageAsync(1);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            _fileUploadHelperMock.Verify(f => f.DeleteImage("/uploads/articles/cover.jpg"), Times.Once);
+            _articleRepoMock.Verify(r => r.RemoveImage(article), Times.Once);
+        }
+
     }
 }
