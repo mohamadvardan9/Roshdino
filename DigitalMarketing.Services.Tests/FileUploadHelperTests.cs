@@ -46,6 +46,7 @@ namespace DigitalMarketing.Services.Tests
         // =========================================================
         // Validation Logic
         // =========================================================
+
         [Theory]
         [InlineData("virus.exe")]
         [InlineData("document.pdf")]
@@ -131,6 +132,25 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+        // =========================================================
+        // File System Behavior (Integration-style)
+        // =========================================================
+
+        [Fact]
+        public async Task SaveImageAsync_WithValidFile_CreateFileOnDisk()
+        {
+            // Arrange
+            var file = CreateFakeFormFile("img.jpg", length: 1000);
+
+            // Act
+            var (success, path, error) = await _sut.SaveImageAsync(file, "products");
+
+            // Assert
+            success.Should().BeTrue();
+            var expectedFullPath = Path.Combine(_tempRoot, path!.TrimStart('/', Path.DirectorySeparatorChar));
+            File.Exists(expectedFullPath).Should().BeTrue();
+        }
 
 
 
