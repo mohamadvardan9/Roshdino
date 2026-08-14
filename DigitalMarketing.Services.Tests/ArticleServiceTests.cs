@@ -77,7 +77,7 @@ namespace DigitalMarketing.Services.Tests
                 ArticleCategoryId = 1
             };
 
-            _categoryRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(new ArticleCategory { Id = 1 , Name = "مهندسی کامل", Slug = "مهندسی-کامل"});
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(new ArticleCategory { Id = 1, Name = "مهندسی کامل", Slug = "مهندسی-کامل" });
             _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), null))
                 .ReturnsAsync(false);
 
@@ -98,7 +98,7 @@ namespace DigitalMarketing.Services.Tests
 
 
 
-        [ Fact]
+        [Fact]
         public async Task CreateAsync_WithCoverImage_UploadsAndSetsPath()
         {
             // Arrange
@@ -256,6 +256,52 @@ namespace DigitalMarketing.Services.Tests
             // Assert
             result.Success.Should().BeTrue();
             article.Title.Should().Be("جدید");
+        }
+
+
+
+
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WithNewCoverImage_ReplacesAndDeletesOldImage()
+        {
+            // Arrange
+            var article = new Article
+            {
+                Id = 1,
+                Title = "قدیمی",
+                ArticleCategoryId = 1,
+                CoverImageUrl = "/uploads/articles/old.jpg"
+            };
+
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
+                .ReturnsAsync(new ArticleCategory { Id = 3, Name = "اخبار", Slug = "اخبار" });
+            _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            var dto = new UpdateArticleDto
+            {
+                Id = 1,
+                Title = "جدید",
+                Summary = "جدیدی",
+                Content = "جدیدیییی",
+                ArticleCategoryId = 3,
+                NewCoverImage = CreateFakeFormFile("new.jpg")
+            };
+
+            _fileUploadHelperMock.Setup(r => r.SaveImageAsync(dto.NewCoverImage,"articles"))
+                .ReturnsAsync((true, "/uploads/articles/new.jpg", (string?)null));
+
+            // Act
+            var result = await _sut.UpdateAsync(dto);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            article.CoverImageUrl.Should().Be("/uploads/articles/new.jpg");
+            _fileUploadHelperMock.Verify(f => f.DeleteImage("/uploads/articles/old.jpg"), Times.Once);
         }
     }
 }
