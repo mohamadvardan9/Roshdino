@@ -180,7 +180,6 @@ namespace DigitalMarketing.Services.Tests
                 Summary = "مندسی",
                 Content = "مهندسی",
                 ArticleCategoryId = 12,
-                CoverImage = CreateFakeFormFile("cover.jpg")
             };
 
             _categoryRepoMock.Setup(r => r.GetByIdAsync(999)).ReturnsAsync((ArticleCategory?)null);
@@ -210,7 +209,6 @@ namespace DigitalMarketing.Services.Tests
                 Summary = "مندسی",
                 Content = "مهندسی",
                 ArticleCategoryId = 1,
-                CoverImage = CreateFakeFormFile("cover.jpg")
             };
 
             _categoryRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(new ArticleCategory { Id = 1, Name = "مهندسی کامل", Slug = "مهندسی-کامل" });
@@ -227,5 +225,37 @@ namespace DigitalMarketing.Services.Tests
 
 
 
+
+
+
+        [Fact]
+        public async Task UpdateAsync_WithValidData_ReturnsSuccess()
+        {
+            // Arrange
+            var article = new Article { Id = 1, Title = "قدیمی", Slug = "قدیمی", ArticleCategoryId = 3 };
+
+            _articleRepoMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(article);
+            _categoryRepoMock.Setup(r => r.GetByIdAsync(3))
+                .ReturnsAsync(new ArticleCategory { Id = 3, Name = "اخبار", Slug = "اخبار" });
+            _articleRepoMock.Setup(r => r.SlugExistsAsync(It.IsAny<string>(), 1))
+                .ReturnsAsync(false);
+
+            var dtp = new UpdateArticleDto
+            {
+                Id = 1,
+                Title = "جدید",
+                Summary = "جدیدی",
+                Content = "جدیدیییی",
+                ArticleCategoryId = 3
+            };
+
+
+            // Act
+            var result = await _sut.UpdateAsync(dtp);
+
+            // Assert
+            result.Success.Should().BeTrue();
+            article.Title.Should().Be("جدید");
+        }
     }
 }
