@@ -10,7 +10,7 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.Validators.Contact
     {
         public CreateContactMessageDtoValidator()
         {
-            RuleFor(x => x.FulName)
+            RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("نام الزامی است.")
                 .MaximumLength(150);
 

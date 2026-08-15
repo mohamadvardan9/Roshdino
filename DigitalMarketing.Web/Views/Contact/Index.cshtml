@@ -1,0 +1,91 @@
+﻿@using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessageDtos
+@model CreateContactMessageDto
+@{
+    ViewData["Title"] = "تماس با ما";
+}
+
+<section class="page-header">
+    <div class="container text-center">
+        <h1>تماس با ما</h1>
+        <p>سوالی دارید یا می‌خواید همکاری رو شروع کنید؟ پیام بدید تا باهاتون تماس بگیریم</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container contact-inner">
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <h3>راه‌های ارتباطی</h3>
+
+            <div class="contact-info-item">
+                <span class="contact-icon">📞</span>
+                <div>
+                    <div class="contact-label">تلفن تماس</div>
+                    <div>09113794839</div>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <span class="contact-icon">✉️</span>
+                <div>
+                    <div class="contact-label">ایمیل</div>
+                    <div>info@example.com</div>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <span class="contact-icon">📍</span>
+                <div>
+                    <div class="contact-label">آدرس</div>
+                    <div>گرگان، ایران</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrapper">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            <div asp-validation-summary="All" class="alert alert-danger" style="@(ViewData.ModelState.IsValid ? "display:none" : "")"></div>
+
+            <form asp-controller="Contact" asp-action="Index" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="FullName">نام و نام خانوادگی</label>
+                    <input asp-for="FullName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">ایمیل</label>
+                    <input asp-for="Email" class="form-control" type="email" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone">شماره تماس (اختیاری)</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message">پیام شما</label>
+                    <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                </div>
+
+                <!-- Honeypot: مخفی از دید کاربر واقعی، فقط ربات‌ها پرش می‌کنن -->
+                <div class="honeypot-field" aria-hidden="true">
+                    <label asp-for="Website">وبسایت</label>
+                    <input asp-for="Website" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">ارسال پیام</button>
+            </form>
+
+        </div>
+
+    </div>
+</section>

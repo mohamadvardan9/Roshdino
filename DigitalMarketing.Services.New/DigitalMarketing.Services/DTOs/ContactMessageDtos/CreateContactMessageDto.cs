@@ -6,10 +6,10 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessag
 {
     public class CreateContactMessageDto
     {
-        public required string FullName { get; set; }
+        public string FullName { get; set; } = null!;
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public required string Message { get; set; }
+        public string Message { get; set; } = null!;
 
 
         // Honeypot: فیلد مخفی که فقط ربات ها پرش می کنن. کاربر واقعی نمی بینش

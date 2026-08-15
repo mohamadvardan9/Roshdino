@@ -14,7 +14,6 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.Mapping
             CreateMap<ContactMessage, ContactMessageDto>();
 
             CreateMap<CreateContactMessageDto, ContactMessage>();
-                //.ForMember(dest => dest.web, opt => opt.Ignore()); // Honeypot فقط برای Validation، ذخیره نمی‌شه
         }
     }
 }
