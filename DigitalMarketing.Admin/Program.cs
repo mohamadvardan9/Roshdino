@@ -11,7 +11,9 @@ using DigitalMarketing.DigitalMarketing.Services.Validators.Article;
 using DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory;
 using DigitalMarketing.Services.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
+using DigitalMarketing.Services.DigitalMarketing.Services.Validators.ContactMessage;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -59,8 +61,6 @@ builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 
 // Fluent Validations
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
-//builder.Services.AddValidatorsFromAssembly(typeof(CreateArticleDtoValidator).Assembly);
-
 
 
 

@@ -1,7 +1,13 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
 @model ArticleDto
+
 @{
     ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Summary;
+    if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+    {
+        ViewData["Image"] = Model.CoverImageUrl;
+    }
 }
 
 <section class="section product-details">

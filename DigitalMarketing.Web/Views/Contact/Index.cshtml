@@ -1,7 +1,9 @@
 ﻿@using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessageDtos
 @model CreateContactMessageDto
+
 @{
     ViewData["Title"] = "تماس با ما";
+    ViewData["Description"] = "سوالی دارید یا می‌خواید همکاری رو شروع کنید؟ همین حالا با ما تماس بگیرید";
 }
 
 <section class="page-header">
@@ -50,8 +52,10 @@
             {
                 <div class="alert alert-success">@TempData["Success"]</div>
             }
-
-            <div asp-validation-summary="All" class="alert alert-danger" style="@(ViewData.ModelState.IsValid ? "display:none" : "")"></div>
+           
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger">
+            </div>
 
             <form asp-controller="Contact" asp-action="Index" method="post">
                 @Html.AntiForgeryToken()

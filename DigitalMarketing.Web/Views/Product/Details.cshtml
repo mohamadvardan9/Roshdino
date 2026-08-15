@@ -1,8 +1,14 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 @model ProductDto
+
 @{
     ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.ShortDescription;
     var mainImage = Model.Images.FirstOrDefault(i => i.IsMain) ?? Model.Images.FirstOrDefault();
+    if (mainImage != null)
+    {
+        ViewData["Image"] = mainImage.ImageUrl;
+    }
 }
 
 <section class="section product-details">

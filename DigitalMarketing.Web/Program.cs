@@ -9,7 +9,9 @@ using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
 using DigitalMarketing.Services.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
+using DigitalMarketing.Services.DigitalMarketing.Services.Validators.ContactMessage;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
@@ -53,9 +55,7 @@ builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 
 
 // Fluent Validations
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
-
-
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services")); // Validator ها رو باید اضافه کنم
 
 
 

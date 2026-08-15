@@ -3,7 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - دیجیتال مارکتینگ</title>
+
+    <title>@(ViewData["Title"] != null ? $"{ViewData["Title"]} - دیجیتال مارکتینگ" : "دیجیتال مارکتینگ")</title>
+    <meta name="description" content="@(ViewData["Description"] ?? "ما به برندها کمک می‌کنیم با دیجیتال مارکتینگ، مشتری بیشتری جذب کنند")" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="@(ViewData["Title"] ?? "دیجیتال مارکتینگ")" />
+    <meta property="og:description" content="@(ViewData["Description"] ?? "ما به برندها کمک می‌کنیم با دیجیتال مارکتینگ، مشتری بیشتری جذب کنند")" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="@(ViewData["Image"] ?? Url.Content("~/images/og-default.jpg"))" />
+    <meta property="og:url" content="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
 
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />

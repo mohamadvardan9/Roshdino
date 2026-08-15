@@ -20,7 +20,6 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.Validators.Contact
                 .MaximumLength(250);
 
             RuleFor(x => x.Phone)
-                .NotEmpty()
                 .Matches(@"^(?:\+98|0)?9\d{9}$")
                 .WithMessage("شماره موبایل معتبر وارد کنید.");
 
