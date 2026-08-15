@@ -45,7 +45,7 @@ namespace DigitalMarketing.Web.Controllers
         {
             var product = await _productService.GetBySlugAsync(slug);
 
-            if (product == null) return BadRequest();
+            if (product == null) return NotFound();
 
             return View(product);
         }
