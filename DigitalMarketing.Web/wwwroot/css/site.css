@@ -662,4 +662,39 @@ ul {
 
 
 
+/* ===================== Process ===================== */
+.process-item {
+    text-align: center;
+}
+
+.process-number {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.process-item h3 {
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.process-item p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+}
+
+
+
 
