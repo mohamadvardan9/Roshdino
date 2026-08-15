@@ -580,3 +580,86 @@ ul {
 }
 
 
+
+
+/* ===================== Why Us ===================== */
+.why-us-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.why-us-image img {
+    border-radius: var(--radius-xl);
+    width: 100%;
+}
+
+.why-us-text h2 {
+    font-size: 2.25rem;
+    font-weight: 900;
+}
+
+.why-us-desc {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+}
+
+.why-us-list {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.why-us-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.why-us-icon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.why-us-item h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.why-us-item p {
+    margin-top: 0.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+}
+
+@media (max-width: 992px) {
+    .why-us-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .why-us-image {
+        order: -1;
+    }
+
+    .why-us-item {
+        text-align: right;
+    }
+}
+
+
+
+
+
