@@ -1,0 +1,76 @@
+﻿@using DigitalMarketing.Web.Models
+@model ProductListViewModel
+@{
+    ViewData["Title"] = "محصولات";
+}
+
+<section class="page-header">
+    <div class="container text-center">
+        <h1>محصولات و خدمات</h1>
+        <p>مجموعه‌ای از بهترین محصولات و خدماتی که ارائه می‌دیم</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container product-page-inner">
+
+        <!-- Sidebar: Category Filter -->
+        <aside class="product-sidebar">
+            <h4>دسته‌بندی‌ها</h4>
+            <ul class="category-filter">
+                <li class="@(Model.SelectedCategoryId == null ? "active" : "")">
+                    <a asp-controller="Product" asp-action="Index">همه محصولات</a>
+                </li>
+                @foreach (var category in Model.Categories)
+                {
+                    <li class="@(Model.SelectedCategoryId == category.Id ? "active" : "")">
+                        <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@category.Id">
+                            @category.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="product-list">
+            @if (Model.Products.Any())
+            {
+                <div class="grid grid-3">
+                    @foreach (var product in Model.Products)
+                    {
+                        var mainImage = product.Images.FirstOrDefault(i => i.IsMain) ?? product.Images.FirstOrDefault();
+
+                        <a asp-controller="Product" asp-action="Details" asp-route-slug="@product.Slug" class="portfolio-card card">
+                            <div class="portfolio-image">
+                                @if (mainImage != null)
+                                {
+                                    <img src="@mainImage.ImageUrl" alt="@product.Title" />
+                                }
+                                else
+                                {
+                                    <div class="portfolio-no-image">بدون تصویر</div>
+                                }
+                            </div>
+
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">@product.ProductCategoryNAme</span>
+                                <h3>@product.Title</h3>
+                                <p>@product.ShortDescription</p>
+                                @if (product.Price.HasValue)
+                                {
+                                    <div class="product-price">@product.Price.Value.ToString("N0") تومان</div>
+                                }
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-center text-muted">محصولی در این دسته‌بندی یافت نشد.</p>
+            }
+        </div>
+
+    </div>
+</section>

@@ -30,9 +30,5 @@ namespace DigitalMarketing.Web.Controllers
 
             return View(viewModel);
         }
-
-
-
-
     }
 }

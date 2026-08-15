@@ -1,0 +1,75 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
+@model ProductDto
+@{
+    ViewData["Title"] = Model.Title;
+    var mainImage = Model.Images.FirstOrDefault(i => i.IsMain) ?? Model.Images.FirstOrDefault();
+}
+
+<section class="section product-details">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a asp-controller="Home" asp-action="Index">خانه</a> /
+            <a asp-controller="Product" asp-action="Index">محصولات</a> /
+            <span>@Model.Title</span>
+        </div>
+
+        <div class="product-details-inner">
+
+            <!-- Gallery -->
+            <div class="product-gallery">
+                <div class="product-gallery-main">
+                    @if (mainImage != null)
+                    {
+                        <img id="main-product-image" src="@mainImage.ImageUrl" alt="@Model.Title" />
+                    }
+                    else
+                    {
+                        <div class="portfolio-no-image">بدون تصویر</div>
+                    }
+                </div>
+
+                @if (Model.Images.Count > 1)
+                {
+                    <div class="product-gallery-thumbs">
+                        @foreach (var image in Model.Images)
+                        {
+                            <img src="@image.ImageUrl" alt="@Model.Title"
+                                 class="product-thumb @(image.IsMain ? "active" : "")"
+                                 onclick="document.getElementById('main-product-image').src = this.src;
+                            document.querySelectorAll('.product-thumb').forEach(t=> t.classList.remove('active'));
+                            this.classList.add('active');" />
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Info -->
+            <div class="product-info">
+                <span class="portfolio-category">@Model.ProductCategoryNAme</span>
+                <h1>@Model.Title</h1>
+
+                @if (Model.Price.HasValue)
+                {
+                    <div class="product-details-price">@Model.Price.Value.ToString("N0") تومان</div>
+                }
+
+                <p class="product-short-desc">@Model.ShortDescription</p>
+
+                <a asp-controller="Contact" asp-action="Index" class="btn btn-primary">
+                    درخواست مشاوره برای این محصول
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Full Description -->
+        <div class="product-full-desc">
+            <h3>توضیحات کامل</h3>
+            <div class="product-description-content">
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+
+    </div>
+</section>
