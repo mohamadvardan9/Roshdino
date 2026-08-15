@@ -1,4 +1,5 @@
-﻿using DigitalMarketing.DigitalMarketing.Core.Entities;
+﻿using DigitalMarketing.Core.DigitalMarketing.Core.Entities;
+using DigitalMarketing.DigitalMarketing.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -15,6 +16,7 @@ namespace DigitalMarketing.DigitalMarketing.Data
         public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<ArticleCategory> ArticleCategories => Set<ArticleCategory>();
+        public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
 
 
 
@@ -27,10 +29,11 @@ namespace DigitalMarketing.DigitalMarketing.Data
 
             // فیلتر سراسری برای Soft Delete - رکوردهای حذف‌شده تو هیچ Query ای نمیان
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
-            modelBuilder.Entity<ProductImage>().HasQueryFilter(p => !p.IsDeleted);
-            modelBuilder.Entity<ProductCategory>().HasQueryFilter(p => !p.IsDeleted);
-            modelBuilder.Entity<Article>().HasQueryFilter(p => !p.IsDeleted);
-            modelBuilder.Entity<ArticleCategory>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<ProductImage>().HasQueryFilter(pi => !pi.IsDeleted);
+            modelBuilder.Entity<ProductCategory>().HasQueryFilter(pc => !pc.IsDeleted);
+            modelBuilder.Entity<Article>().HasQueryFilter(a => !a.IsDeleted);
+            modelBuilder.Entity<ArticleCategory>().HasQueryFilter(ac => !ac.IsDeleted);
+            modelBuilder.Entity<ContactMessage>().HasQueryFilter(cm => !cm.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }
