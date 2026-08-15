@@ -807,5 +807,39 @@ ul {
 
 
 
+/* ===================== CTA ===================== */
+.cta {
+    padding: 6rem 0;
+    background: var(--color-primary);
+}
+
+.cta-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.cta-desc {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #ede9fe;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+
 
 
