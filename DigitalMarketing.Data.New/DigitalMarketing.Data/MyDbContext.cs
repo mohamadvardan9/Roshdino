@@ -17,7 +17,7 @@ namespace DigitalMarketing.DigitalMarketing.Data
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<ArticleCategory> ArticleCategories => Set<ArticleCategory>();
         public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
-
+        public DbSet<AdminUser> AdminUsers => Set<AdminUser>();
 
 
 
@@ -34,6 +34,7 @@ namespace DigitalMarketing.DigitalMarketing.Data
             modelBuilder.Entity<Article>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<ArticleCategory>().HasQueryFilter(ac => !ac.IsDeleted);
             modelBuilder.Entity<ContactMessage>().HasQueryFilter(cm => !cm.IsDeleted);
+            modelBuilder.Entity<AdminUser>().HasQueryFilter(au => !au.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }
