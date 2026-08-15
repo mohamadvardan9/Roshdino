@@ -1,0 +1,325 @@
+﻿@using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessageDtos
+@model List<ContactMessageDto>
+
+@{
+    ViewData["Title"] = "پیام‌های تماس";
+}
+
+<div class="messages-page">
+
+    <!-- Header -->
+
+    <div class="messages-header">
+
+        <div>
+
+            <h2>پیام‌های تماس</h2>
+
+            <p>مدیریت پیام‌های ارسال شده توسط کاربران</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Alerts -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="message-alert success">
+            <i class="bi bi-check-circle-fill"></i>
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="message-alert error">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+
+    <!-- Stats -->
+
+    <div class="message-stats">
+
+        <div class="stat-card">
+
+            <div>
+
+                <span>کل پیام‌ها</span>
+
+                <strong>@Model.Count</strong>
+
+            </div>
+
+            <div class="stat-icon blue">
+
+                <i class="bi bi-envelope"></i>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div>
+
+                <span>پیام‌های جدید</span>
+
+                <strong>@Model.Count(x => !x.IsRead)</strong>
+
+            </div>
+
+            <div class="stat-icon orange">
+
+                <i class="bi bi-envelope-fill"></i>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div>
+
+                <span>خوانده شده</span>
+
+                <strong>@Model.Count(x => x.IsRead)</strong>
+
+            </div>
+
+            <div class="stat-icon green">
+
+                <i class="bi bi-check2-circle"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Card -->
+
+    <div class="messages-card">
+
+        <div class="messages-card-header">
+
+            <div>
+
+                <h5>لیست پیام‌ها</h5>
+
+                <span>تمام پیام‌های فرم تماس</span>
+
+            </div>
+
+            <div class="messages-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="messageSearch"
+                       placeholder="جستجوی نام یا ایمیل..." />
+
+            </div>
+
+            <i class="bi bi-chat-dots"></i>
+
+        </div>
+
+
+        @if (Model.Any())
+        {
+
+            <div class="messages-table-wrapper">
+
+                <table class="messages-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>وضعیت</th>
+
+                            <th>فرستنده</th>
+
+                            <th>ایمیل</th>
+
+                            <th>تاریخ</th>
+
+                            <th>عملیات</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var message in Model)
+                        {
+
+                            <tr class="message-row">
+
+                                <td>
+
+                                    @if (message.IsRead)
+                                    {
+                                        <span class="message-status read">
+
+                                            <span></span>
+
+                                            خوانده شده
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="message-status unread">
+
+                                            <span></span>
+
+                                            جدید
+
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div class="message-user">
+
+                                        <div class="message-avatar">
+
+                                            @message.FullName.Substring(0, 1)
+
+                                        </div>
+
+                                        <div>
+
+                                            <strong class="message-name">
+                                                @message.FullName
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    @message.Email
+
+                                </td>
+
+                                <td>
+
+                                    @message.CreatedAt.ToString("yyyy/MM/dd HH:mm")
+
+                                </td>
+
+                                <td>
+
+                                    <div class="message-actions">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@message.Id"
+                                           class="action view"
+                                           title="مشاهده">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+                                        <form asp-action="Delete"
+                                              asp-route-id="@message.Id"
+                                              method="post"
+                                              onsubmit="return confirm('این پیام حذف شود؟');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button class="action delete">
+
+                                                <i class="bi bi-trash3"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="messages-empty">
+
+                <i class="bi bi-envelope-x"></i>
+
+                <h4>هیچ پیامی وجود ندارد.</h4>
+
+                <p>هنوز هیچ پیامی از فرم تماس ثبت نشده است.</p>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        const search =
+        document.getElementById("messageSearch");
+
+        const rows =
+        document.querySelectorAll(".message-row");
+
+        if(search){
+
+        search.addEventListener("input",function(){
+
+        const value =
+        this.value.toLowerCase();
+
+        rows.forEach(row=>{
+
+        const text =
+        row.textContent.toLowerCase();
+
+        row.style.display =
+        text.includes(value) ? "" : "none";
+
+        });
+
+        });
+
+        }
+
+    </script>
+
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/contact/contact.css"
+          asp-append-version="true" />
+}

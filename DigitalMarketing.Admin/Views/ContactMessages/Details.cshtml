@@ -1,0 +1,222 @@
+﻿@using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessageDtos
+@model ContactMessageDto
+
+@{
+    ViewData["Title"] = "جزئیات پیام";
+}
+
+<div class="messages-page">
+
+    <!-- Header -->
+    <div class="messages-header">
+
+        <div>
+            <h2>جزئیات پیام</h2>
+            <p>مشاهده اطلاعات و متن پیام ارسال شده توسط کاربر</p>
+        </div>
+
+        <a asp-action="Index" class="details-back-btn">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به پیام‌ها
+        </a>
+
+    </div>
+
+
+    <!-- Alerts -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="message-alert success">
+            <i class="bi bi-check-circle-fill"></i>
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="message-alert error">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+
+    <!-- Message Details -->
+    <div class="message-details-card">
+
+        <!-- Card Header -->
+        <div class="message-details-header">
+
+            <div class="message-details-title">
+
+                <div class="message-details-icon">
+                    <i class="bi bi-envelope-open"></i>
+                </div>
+
+                <div>
+                    <h5>پیام تماس</h5>
+                    <span>
+                        اطلاعات کامل پیام ارسال شده
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Status -->
+            @if (Model.IsRead)
+            {
+                <span class="message-status read">
+                    <span></span>
+                    خوانده شده
+                </span>
+            }
+            else
+            {
+                <span class="message-status unread">
+                    <span></span>
+                    جدید
+                </span>
+            }
+
+        </div>
+
+
+        <!-- Sender Information -->
+        <div class="message-info-section">
+
+            <div class="section-title">
+                <i class="bi bi-person"></i>
+                اطلاعات فرستنده
+            </div>
+
+            <div class="message-info-grid">
+
+                <div class="message-info-item">
+
+                    <span class="info-label">
+                        نام و نام خانوادگی
+                    </span>
+
+                    <div class="info-value sender-value">
+
+                        <div class="message-avatar">
+                            @(string.IsNullOrWhiteSpace(Model.FullName)
+                                ? "-"
+                                : Model.FullName.Substring(0, 1))
+                        </div>
+
+                        <strong>
+                            @Model.FullName
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="message-info-item">
+
+                    <span class="info-label">
+                        ایمیل
+                    </span>
+
+                    <div class="info-value">
+                        <i class="bi bi-envelope"></i>
+                        @Model.Email
+                    </div>
+
+                </div>
+
+
+                @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <div class="message-info-item">
+
+                        <span class="info-label">
+                            شماره تماس
+                        </span>
+
+                        <div class="info-value">
+                            <i class="bi bi-telephone"></i>
+                            @Model.Phone
+                        </div>
+
+                    </div>
+                }
+
+
+                <div class="message-info-item">
+
+                    <span class="info-label">
+                        تاریخ ارسال
+                    </span>
+
+                    <div class="info-value">
+                        <i class="bi bi-calendar3"></i>
+                        @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Message Content -->
+        <div class="message-content-section">
+
+            <div class="section-title">
+                <i class="bi bi-chat-left-text"></i>
+                متن پیام
+            </div>
+
+            <div class="message-content">
+                @Model.Message
+            </div>
+
+        </div>
+
+
+        <!-- Actions -->
+        <div class="message-details-footer">
+
+            <a asp-action="Index" class="details-cancel-btn">
+                <i class="bi bi-arrow-right"></i>
+                بازگشت
+            </a>
+
+            <form asp-action="Delete"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  onsubmit="return confirm('این پیام حذف شود؟');">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="details-delete-btn">
+                    <i class="bi bi-trash3"></i>
+                    حذف پیام
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Styles {
+
+    <link rel="stylesheet"
+          href="~/css/contact/contact.css"
+          asp-append-version="true" />
+
+}
+
+
+@section Scripts {
+
+}
