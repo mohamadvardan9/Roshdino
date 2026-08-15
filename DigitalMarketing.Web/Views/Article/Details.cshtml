@@ -1,0 +1,40 @@
+﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos
+@model ArticleDto
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="section product-details">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a asp-controller="Home" asp-action="Index">خانه</a> /
+            <a asp-controller="Article" asp-action="Index">مقالات</a> /
+            <span>@Model.Title</span>
+        </div>
+
+        <article class="article-details">
+
+            <span class="portfolio-category">@Model.ArticleCategoryName</span>
+            <h1 class="article-title">@Model.Title</h1>
+            <div class="article-meta">@Model.PublishedAt.ToString("yyyy/MM/dd")</div>
+
+            @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+            {
+                <div class="article-cover">
+                    <img src="@Model.CoverImageUrl" alt="@Model.Title" />
+                </div>
+            }
+
+            <div class="article-content">
+                @Html.Raw(Model.Content)
+            </div>
+
+        </article>
+
+        <div class="text-center mt-8">
+            <a asp-controller="Article" asp-action="Index" class="btn btn-outline">بازگشت به مقالات</a>
+        </div>
+
+    </div>
+</section>
