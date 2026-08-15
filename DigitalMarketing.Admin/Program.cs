@@ -1,3 +1,5 @@
+using DigitalMarketing.Core.DigitalMarketing.Core.Interfaces;
+using DigitalMarketing.Data.DigitalMarketing.Data.Repositories;
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.DigitalMarketing.Data;
 using DigitalMarketing.DigitalMarketing.Data.Repositories;
@@ -7,6 +9,8 @@ using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
 using DigitalMarketing.DigitalMarketing.Services.Validators.Article;
 using DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory;
+using DigitalMarketing.Services.DigitalMarketing.Services.Implementations;
+using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -34,6 +38,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
+builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 
 
 
@@ -43,6 +48,7 @@ builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 
 
 
