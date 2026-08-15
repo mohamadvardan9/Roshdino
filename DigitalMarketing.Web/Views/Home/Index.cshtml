@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DigitalMarketing.Web.Models.HomeViewModel
+@{
+    ViewData["Title"] = "خانه";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<partial name="_Hero" />
+
+@* <partial name="_Stats" model="Model" />
+<partial name="_Services" />
+<partial name="_WhyUs" />
+<partial name="_Process" />
+<partial name="_Portfolio" model="Model.FeaturedProducts" />
+<partial name="_Testimonials" />
+<partial name="_CTA" /> *@

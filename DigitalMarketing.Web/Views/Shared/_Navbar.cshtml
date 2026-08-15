@@ -1,0 +1,31 @@
+﻿<nav class="navbar">
+    <div class="container navbar-inner">
+
+        <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+            <img src="~/images/logo.png" alt="لوگو" class="navbar-logo" />
+            <span>دیجیتال مارکتینگ</span>
+        </a>
+
+        <div class="navbar-menu" id="navbar-menu">
+            <a asp-controller="Home" asp-action="Index">خانه</a>
+            <a asp-controller="Product" asp-action="Index">محصولات</a>
+            <a asp-controller="Article" asp-action="Index">مقالات</a>
+            <a asp-controller="Home" asp-action="About">درباره ما</a>
+            <a asp-controller="Contact" asp-action="Index" class="btn btn-primary navbar-cta">تماس با ما</a>
+        </div>
+
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="باز کردن منو">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+</nav>
+
+<script>
+    document.getElementById('navbar-toggle').addEventListener('click', function () {
+        document.getElementById('navbar-menu').classList.toggle('open');
+        this.classList.toggle('active');
+    });
+</script>

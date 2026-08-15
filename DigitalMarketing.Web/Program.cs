@@ -83,14 +83,22 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
+// Get files from DigitalMarketing.Admin
+var adminUploadsPath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "..",
+    "DigitalMarketing.Admin",
+    "wwwroot",
+    "uploads"
+);
 
-// New wwwroot location(route)
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
-    RequestPath = ""
+    FileProvider = new PhysicalFileProvider(
+        Path.GetFullPath(adminUploadsPath)
+    ),
+    RequestPath = "/uploads"
 });
-
 
 app.UseRouting();
 
