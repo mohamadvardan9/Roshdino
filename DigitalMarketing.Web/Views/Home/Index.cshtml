@@ -1,11 +1,16 @@
-﻿@model DigitalMarketing.Web.Models.HomeViewModel
+﻿@using DigitalMarketing.Web.Models
+@model HomeViewModel
+
 @{
     ViewData["Title"] = "خانه";
 }
 
-<partial name="_Hero" />
 
-@* <partial name="_Stats" model="Model" />
+<partial name="_Hero" />
+<partial name="_Stats" model="Model" />
+
+
+@* 
 <partial name="_Services" />
 <partial name="_WhyUs" />
 <partial name="_Process" />

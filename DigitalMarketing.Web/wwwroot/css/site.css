@@ -505,3 +505,37 @@ ul {
         font-size: 2.25rem;
     }
 }
+
+
+/* ===================== Stats ===================== */
+.stats {
+    padding: 4rem 0;
+    background: var(--color-primary);
+}
+
+.stats-grid {
+    text-align: center;
+}
+
+.stats-number {
+    font-size: 2.75rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.stats-label {
+    margin-top: 0.5rem;
+    color: #ddd6fe;
+    font-weight: 500;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .stats-number {
+        font-size: 2rem;
+    }
+}
