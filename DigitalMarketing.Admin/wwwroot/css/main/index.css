@@ -885,6 +885,55 @@ a {
 }
 
 
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+    .product-item:last-child {
+        border: none;
+        padding-bottom: 0;
+    }
+
+    .product-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid #ececec;
+    }
+
+.product-info {
+    flex: 1;
+}
+
+    .product-info strong {
+        display: block;
+        font-size: 14px;
+        color: #1f2937;
+    }
+
+    .product-info span {
+        display: block;
+        color: #6366f1;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .product-info small {
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
 /* =========================
    Quick Actions
 ========================= */

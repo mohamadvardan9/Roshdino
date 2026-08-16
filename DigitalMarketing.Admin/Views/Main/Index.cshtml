@@ -16,10 +16,6 @@
 
 <link rel="stylesheet" href="~/css/main/index.css" asp-append-version="true" />
 
-@{
-    ViewData["Title"] = "داشبورد";
-}
-
 
 <!-- =========================
      WELCOME
@@ -49,6 +45,10 @@
     </a>
 
 </div>
+
+
+
+
 
 
 
@@ -106,7 +106,7 @@
 
             <div class="stat-top">
 
-                <div class="stat-icon blue">
+                <div class="stat-icon green">
 
                     <i class="bi bi-box-seam"></i>
 
@@ -133,7 +133,61 @@
 
 
 
-    <!-- Users -->
+    <!-- Draft Articles -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon purple">
+
+                    <i class="bi bi-eye"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-info">
+
+                <span>
+                    محصولات عرضه نشده
+                </span>
+
+                <h2>
+                    @Model.DraftProductsCount
+                </h2>
+
+            </div>
+
+            <div class="stat-footer">
+
+                @if (Model.DraftProductsCount > 0)
+                {
+                    <span class="text-warning">
+                        <i class="bi bi-exclamation-circle"></i>
+                        @Model.DraftProductsCount محصول نیاز به عرضه دارد
+                    </span>
+                }
+                else
+                {
+                    <span class="text-success">
+                        <i class="bi bi-check-circle"></i>
+                        همه محصولات عرضه شده‌اند
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Draft Products -->
 
     <div class="col-xl-3 col-md-6">
 
@@ -143,60 +197,21 @@
 
                 <div class="stat-icon green">
 
-                    <i class="bi bi-people"></i>
-
-                </div>
-
-            </div>
-
-
-            <div class="stat-info">
-
-                <span>
-                    کاربران
-                </span>
-
-                <h2>
-                    سایت ویترین است.
-                </h2>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- Views -->
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="stat-card">
-
-            <div class="stat-top">
-
-                <div class="stat-icon orange">
-
                     <i class="bi bi-eye"></i>
 
                 </div>
 
-                <span class="growth positive">
-                    +24.7%
-                </span>
-
             </div>
 
 
             <div class="stat-info">
 
                 <span>
-                    بازدید این ماه
+                    مقالات پیش‌نویس
                 </span>
 
                 <h2>
-                    18.6K
+                    @Model.DraftArticlesCount
                 </h2>
 
             </div>
@@ -204,9 +219,20 @@
 
             <div class="stat-footer">
 
-                <span>
-                    نسبت به ماه گذشته
-                </span>
+                @if (Model.DraftArticlesCount > 0)
+                {
+                    <span class="text-warning">
+                        <i class="bi bi-exclamation-circle"></i>
+                        @Model.DraftArticlesCount مقاله نیاز به انتشار دارد
+                    </span>
+                }
+                else
+                {
+                    <span class="text-success">
+                        <i class="bi bi-check-circle"></i>
+                        همه مقالات منتشر شده‌اند
+                    </span>
+                }
 
             </div>
 
@@ -215,6 +241,10 @@
     </div>
 
 </div>
+
+
+
+
 
 
 
@@ -371,111 +401,60 @@
             <div class="card-header-custom">
 
                 <div>
-
-                    <h5>
-                        فعالیت‌های اخیر
-                    </h5>
-
-                    <span>
-                        آخرین فعالیت‌های سیستم
-                    </span>
-
+                    <h5>آخرین محصولات</h5>
+                    <span>جدیدترین محصولات ثبت شده</span>
                 </div>
+
+                <a asp-controller="Product" asp-action="Index">
+                    مشاهده همه
+                    <i class="bi bi-arrow-left"></i>
+                </a>
 
             </div>
 
+            <div class="product-list">
 
-            <div class="activity-list">
+                @foreach (var product in Model.LatestProducts)
+                {
+                    <div class="product-item">
 
+                        @if (!string.IsNullOrEmpty(product.ImageName))
+                        {
+                            <img src="@product.ImageName"
+                                 alt="@product.Title">
+                        }
+                        else
+                        {
+                            <div class="product-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        }
 
-                <div class="activity-item">
+                        <div class="product-info">
 
-                    <div class="activity-icon purple">
+                            <strong>@product.Title</strong>
 
-                        <i class="bi bi-file-earmark-plus"></i>
+                            <span>@product.CategoryName</span>
 
-                    </div>
+                            <small>
+                                @product.CreateDate.ToString("yyyy/MM/dd")
+                            </small>
 
-                    <div class="activity-content">
-
-                        <strong>
-                            مقاله جدید ایجاد شد
-                        </strong>
-
-                        <span>
-                            اصول طراحی سایت مدرن
-                        </span>
-
-                        <small>
-                            ۱۰ دقیقه پیش
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                    <div class="activity-icon blue">
-
-                        <i class="bi bi-pencil"></i>
+                        </div>
 
                     </div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            مقاله ویرایش شد
-                        </strong>
-
-                        <span>
-                            استراتژی بازاریابی
-                        </span>
-
-                        <small>
-                            ۱ ساعت پیش
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                    <div class="activity-icon orange">
-
-                        <i class="bi bi-box-seam"></i>
-
-                    </div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            محصول جدید اضافه شد
-                        </strong>
-
-                        <span>
-                            پکیج طراحی سایت
-                        </span>
-
-                        <small>
-                            ۲ ساعت پیش
-                        </small>
-
-                    </div>
-
-                </div>
-
+                }
 
             </div>
+
 
         </div>
 
     </div>
 
 </div>
+
+
 
 
 
@@ -498,9 +477,10 @@
     </div>
 
 
+
     <div class="row g-3">
 
-
+        <!-- Create Article -->
         <div class="col-md-3 col-6">
 
             <a asp-controller="Articles"
@@ -522,6 +502,8 @@
         </div>
 
 
+
+        <!-- Create Article Category -->
         <div class="col-md-3 col-6">
 
             <a asp-controller="ArticleCategories"
@@ -543,6 +525,9 @@
         </div>
 
 
+
+
+        <!-- Create Product -->
         <div class="col-md-3 col-6">
 
             <a asp-controller="Product"
@@ -564,6 +549,8 @@
         </div>
 
 
+
+        <!-- Create Product Category -->
         <div class="col-md-3 col-6">
 
             <a asp-controller="ProductCategories"
@@ -587,6 +574,9 @@
     </div>
 
 </div>
+
+
+
 
 <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

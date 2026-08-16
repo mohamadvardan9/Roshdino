@@ -39,6 +39,30 @@ namespace DigitalMarketing.Admin.Controllers
                 })
                 .ToList();
 
+
+            model.LatestProducts = _context.Products
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(5)
+                .Select(p => new MainProductViewModel
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    CategoryName = p.ProductCategory.Name,
+                    CreateDate = p.CreatedAt,
+                    ImageName = p.Images
+                    .Where(i => i.IsMain)
+                    .Select(i => i.ImageUrl)
+                    .FirstOrDefault()
+                })
+                .ToList();
+
+            model.DraftArticlesCount = _context.Articles
+                .Count(a => !a.IsPublished);
+
+            model.DraftProductsCount = _context.Products
+                .Count(p => !p.IsPublished);
+
+
             return View(model);
         }
     }
