@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ArticleDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalMarketing.Admin.Controllers
 {
+    [Authorize]
     public class ArticlesController : Controller
     {
         private readonly IArticleService _articleService;

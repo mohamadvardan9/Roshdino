@@ -1,3 +1,4 @@
+using DigitalMarketing.Core.DigitalMarketing.Core.Entities;
 using DigitalMarketing.Core.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.Data.DigitalMarketing.Data.Repositories;
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
@@ -14,6 +15,7 @@ using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.Services.DigitalMarketing.Services.Validators.ContactMessage;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -31,6 +33,20 @@ opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+// Add Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opt =>
+    {
+        opt.LoginPath = "/Account/Login";
+        opt.LogoutPath = "/Account/Logout";
+        opt.AccessDeniedPath = "/Account/Login";
+        opt.ExpireTimeSpan = TimeSpan.FromHours(8);
+        opt.SlidingExpiration = true;
+        opt.Cookie.HttpOnly = true;
+        opt.Cookie.SecurePolicy = CookieSecurePolicy.Always; // فقط HTTPS
+    });
 
 
 
@@ -83,26 +99,7 @@ builder.Services.AddAutoMapper(am =>
 builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
 
-
-
-
-
-
-
-
-
-// Test in other diveces
-// http://10.218.61.209:5079
-//builder.WebHost.ConfigureKestrel(opt =>
-//{
-//    opt.ListenAnyIP(5079);
-//});
-
-
-
 var app = builder.Build();
-
-
 
 
 // Configure the HTTP request pipeline.
@@ -115,17 +112,18 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles(); // new added
+app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Main}/{action=Index}/{id?}")
+    pattern: "{controller=Account}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 

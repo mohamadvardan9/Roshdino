@@ -40,7 +40,6 @@ builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
 builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
-builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
 
 
 
@@ -50,8 +49,6 @@ builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
-builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
-
 
 
 
