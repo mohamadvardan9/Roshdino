@@ -1,10 +1,11 @@
 ﻿using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductCategoryDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalMarketing.Admin.Controllers
 {
-    
+
     public class ProductCategoriesController : Controller
     {
         private readonly IProductCategoryService _service;

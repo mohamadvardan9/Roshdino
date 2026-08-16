@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalMarketing.Admin.Controllers

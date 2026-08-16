@@ -32,7 +32,18 @@ opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // این یه فیلتر سراسریه که همه چیز رو به پیش فرض [Authorize] کنه
+    // فقط روی کنترولرها یا اکشن هایی که 
+    // [AllowAnonymous]
+    // دارند کار نمیکنه
+    // خودت فهمیدی دایی :)
+    var policy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+});
 
 
 // Add Authentication

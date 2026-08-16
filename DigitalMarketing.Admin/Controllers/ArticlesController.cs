@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalMarketing.Admin.Controllers
 {
-    [Authorize]
     public class ArticlesController : Controller
     {
         private readonly IArticleService _articleService;
