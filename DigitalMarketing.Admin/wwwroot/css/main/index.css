@@ -1,4 +1,8 @@
-﻿* {
+﻿/* ==========================================================
+   Reset & Global Styles
+========================================================== */
+
+* {
     box-sizing: border-box;
 }
 
@@ -72,7 +76,7 @@ a {
 
 
 
-/* Logo */
+/* Sidebar Logo */
 
 .sidebar-logo {
     display: flex;
@@ -107,7 +111,7 @@ a {
 }
 
 
-/* Menu */
+/* Sidebar Menu */
 
 .sidebar-menu {
     margin-top: 25px;
@@ -242,8 +246,6 @@ a {
 }
 
 
-    /* خط نور بالای کارت */
-
     .support-boxes::before {
         content: "";
         position: absolute;
@@ -266,9 +268,7 @@ a {
     }
 
 
-/* =========================================
-   Icon
-========================================= */
+/* Developer Icon */
 
 .support-icon {
     width: 38px;

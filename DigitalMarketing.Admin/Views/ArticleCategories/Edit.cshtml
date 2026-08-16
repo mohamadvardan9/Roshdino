@@ -8,7 +8,9 @@
 
 <div class="category-edit-page">
 
-    <!-- Header -->
+    <!-- =========================
+         Header
+    ========================== -->
 
     <div class="category-edit-header">
 
@@ -51,14 +53,18 @@
     </div>
 
 
-    <!-- Validation -->
+    <!-- =========================
+         VALIDATION
+    ========================== -->
 
     <div asp-validation-summary="ModelOnly"
          class="category-validation">
     </div>
 
 
-    <!-- Form -->
+    <!-- =========================
+         FORM
+    ========================== -->
 
     <form asp-action="Edit"
           asp-route-id="@Model.Id"
@@ -195,6 +201,7 @@
 
                     <div class="category-info-body">
 
+                        <!-- ID -->
                         <div class="category-info-item">
 
                             <span>
@@ -206,8 +213,8 @@
                             </strong>
 
                         </div>
-
-
+                        
+                        <!-- Status -->
                         <div class="category-info-item">
 
                             <span>
