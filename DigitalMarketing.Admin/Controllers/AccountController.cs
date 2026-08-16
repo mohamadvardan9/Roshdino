@@ -23,7 +23,7 @@ namespace DigitalMarketing.Admin.Controllers
         public IActionResult Login()
         {
             if (User.Identity!.IsAuthenticated == true)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Main");
 
 
             return View(new LoginDto());
@@ -65,7 +65,7 @@ namespace DigitalMarketing.Admin.Controllers
 
             await _authService.UpdateLastLoginAsync(result.Data);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Main");
         }
 
 

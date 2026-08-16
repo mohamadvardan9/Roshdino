@@ -1,28 +1,86 @@
 ﻿@using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.AdminUserDtos
 @model LoginDto
+
 @{
     ViewData["Title"] = "ورود به پنل مدیریت";
-    Layout = "_LoginLayout"; // یه Layout ساده و جدا، بدون Navbar/Sidebar پنل ادمین
+    Layout = "_LoginLayout";
 }
 
-<div class="login-box">
-    <h2>ورود به پنل مدیریت</h2>
+<div class="login-page">
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="login-card">
 
-    <form asp-action="Login" method="post">
-        @Html.AntiForgeryToken()
+        <div class="login-header">
 
-        <div class="mb-3">
-            <label asp-for="UserName" class="form-label">نام کاربری</label>
-            <input asp-for="UserName" class="form-control" autofocus />
+            <div class="login-logo">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <h2>ورود به پنل مدیریت</h2>
+
+            <p>
+                برای ادامه وارد حساب کاربری خود شوید
+            </p>
+
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Password" class="form-label">رمز عبور</label>
-            <input asp-for="Password" type="password" class="form-control" />
+        <div asp-validation-summary="ModelOnly"
+             class="login-validation">
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">ورود</button>
-    </form>
+        <form asp-action="Login" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <!-- Username -->
+
+            <div class="login-group">
+
+                <label asp-for="UserName">
+
+                    <i class="bi bi-person"></i>
+
+                    نام کاربری
+
+                </label>
+
+                <input asp-for="UserName"
+                       class="login-input"
+                       placeholder="نام کاربری"
+                       autofocus />
+
+            </div>
+
+            <!-- Password -->
+
+            <div class="login-group">
+
+                <label asp-for="Password">
+
+                    <i class="bi bi-lock"></i>
+
+                    رمز عبور
+
+                </label>
+
+                <input asp-for="Password"
+                       type="password"
+                       class="login-input"
+                       placeholder="رمز عبور" />
+
+            </div>
+
+            <button class="login-btn"
+                    type="submit">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                ورود به پنل
+
+            </button>
+
+        </form>
+
+    </div>
+
 </div>

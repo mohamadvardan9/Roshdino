@@ -1,0 +1,72 @@
+﻿/* ==========================================
+   Layout
+========================================== */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    direction: rtl;
+    font-family: "Vazirmatn", sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* =========================
+   Wrapper
+========================= */
+
+.login-wrapper {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+/* =========================
+   Background
+========================= */
+
+.login-bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4338ca, #6366f1, #8b5cf6);
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .25;
+}
+
+.shape-1 {
+    width: 320px;
+    height: 320px;
+    background: #ffffff;
+    top: -80px;
+    right: -80px;
+}
+
+.shape-2 {
+    width: 260px;
+    height: 260px;
+    background: #06b6d4;
+    bottom: -60px;
+    left: -40px;
+}
+
+.shape-3 {
+    width: 220px;
+    height: 220px;
+    background: #ec4899;
+    top: 45%;
+    left: 15%;
+}

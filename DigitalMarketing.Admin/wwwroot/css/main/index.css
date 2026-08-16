@@ -1270,3 +1270,88 @@ a {
     .theme-color.slate {
         background: #1e293b;
     }
+
+
+
+/* =========================
+   Logout
+========================= */
+
+.logout-item {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 14px 16px;
+
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+
+    font-family: "Vazirmatn", sans-serif;
+}
+
+.logout-left{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.2px;
+
+    color:#64748b;
+
+    transition:.25s;
+}
+
+.logout-left i{
+
+    font-size:19px;
+
+    color:#ef4444;
+
+    transition:.25s;
+}
+
+.logout-item:hover{
+
+    background:#fef2f2;
+
+}
+
+.logout-item:hover .logout-left{
+
+    color:#dc2626;
+
+}
+
+.logout-item:hover .logout-left i{
+
+    transform:rotate(-12deg);
+
+}
+
+.logout-item .bi-chevron-left{
+
+    font-size:14px;
+    color:#cbd5e1;
+
+    transition:.25s;
+
+}
+
+.logout-item:hover .bi-chevron-left{
+
+    color:#dc2626;
+    transform:translateX(-5px);
+
+}

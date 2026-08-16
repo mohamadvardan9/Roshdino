@@ -280,8 +280,26 @@
                 <div class="support-status">
                     <span></span>
                 </div>
+        </div>
 
-            </div>
+                <!-- Logout -->
+
+                <div class="sidebar-divider"></div>
+
+                <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="logout-item">
+
+                        <div class="logout-left">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>خروج از حساب</span>
+                        </div>
+
+                        <i class="bi bi-chevron-left"></i>
+
+                    </button>
+                </form>
 
         </aside>
 
