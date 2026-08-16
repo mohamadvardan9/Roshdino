@@ -1,5 +1,6 @@
-﻿
+﻿@using DigitalMarketing.Admin.Models
 
+@model MainViewModel
 
 @{
     ViewData["Title"] = "داشبورد";
@@ -42,14 +43,10 @@
 
     </div>
 
-
-    <button class="primary-btn">
-
-        <i class="bi bi-plus-lg"></i>
-
-        ایجاد مقاله جدید
-
-    </button>
+    <a asp-controller="Articles" asp-action="Create" class="create-article-btn">
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>مقاله جدید</span>
+    </a>
 
 </div>
 
@@ -77,7 +74,7 @@
                 </div>
 
                 <span class="growth positive">
-                    +12.5%
+                    @Model.ArticlesGrowth
                 </span>
 
             </div>
@@ -90,17 +87,8 @@
                 </span>
 
                 <h2>
-                    248
+                    @Model.ArticlesCount
                 </h2>
-
-            </div>
-
-
-            <div class="stat-footer">
-
-                <span>
-                    نسبت به ماه گذشته
-                </span>
 
             </div>
 
@@ -124,10 +112,6 @@
 
                 </div>
 
-                <span class="growth positive">
-                    +8.2%
-                </span>
-
             </div>
 
 
@@ -138,17 +122,8 @@
                 </span>
 
                 <h2>
-                    126
+                    @Model.ProductsCount
                 </h2>
-
-            </div>
-
-
-            <div class="stat-footer">
-
-                <span>
-                    نسبت به ماه گذشته
-                </span>
 
             </div>
 
@@ -172,10 +147,6 @@
 
                 </div>
 
-                <span class="growth positive">
-                    +18.4%
-                </span>
-
             </div>
 
 
@@ -186,17 +157,8 @@
                 </span>
 
                 <h2>
-                    3,842
+                    سایت ویترین است.
                 </h2>
-
-            </div>
-
-
-            <div class="stat-footer">
-
-                <span>
-                    نسبت به ماه گذشته
-                </span>
 
             </div>
 
