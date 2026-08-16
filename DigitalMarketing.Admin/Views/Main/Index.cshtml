@@ -288,178 +288,67 @@
 
                     <tbody>
 
-                        <tr>
+                        @foreach (var article in Model.LatestArticles)
+                        {
+                            <tr>
 
-                            <td>
+                                <td>
 
-                                <div class="article-title">
+                                    <div class="article-title">
 
-                                    <div class="article-icon">
+                                        <div class="article-icon">
+                                            <i class="bi bi-file-text"></i>
+                                        </div>
 
-                                        <i class="bi bi-file-text"></i>
+                                        <div>
 
-                                    </div>
+                                            <strong>@article.Title</strong>
 
-                                    <div>
+                                            <small>
+                                                شناسه: #@article.Id
+                                            </small>
 
-                                        <strong>
-                                            اصول طراحی سایت مدرن
-                                        </strong>
-
-                                        <small>
-                                            مقاله آموزشی
-                                        </small>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="category">
-                                    طراحی سایت
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="status published">
-                                    منتشر شده
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="date">
-                                    ۱۴۰۳/۰۵/۱۸
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-
-                                <div class="article-title">
-
-                                    <div class="article-icon">
-
-                                        <i class="bi bi-file-text"></i>
+                                        </div>
 
                                     </div>
 
-                                    <div>
+                                </td>
 
-                                        <strong>
-                                            چگونه سئو سایت را بهبود دهیم؟
-                                        </strong>
+                                <td>
 
-                                        <small>
-                                            مقاله آموزشی
-                                        </small>
+                                    <span class="category">
+                                        @article.CategoryName
+                                    </span>
 
-                                    </div>
+                                </td>
 
-                                </div>
+                                <td>
 
-                            </td>
+                                    @if (article.IsPublished)
+                                    {
+                                        <span class="status published">
+                                            منتشر شده
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status draft">
+                                            پیش نویس
+                                        </span>
+                                    }
 
+                                </td>
 
-                            <td>
+                                <td>
 
-                                <span class="category">
-                                    سئو
-                                </span>
+                                    <span class="date">
+                                        @article.CreateDate.ToString("yyyy/MM/dd")
+                                    </span>
 
-                            </td>
+                                </td>
 
-
-                            <td>
-
-                                <span class="status draft">
-                                    پیش‌نویس
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="date">
-                                    ۱۴۰۳/۰۵/۱۷
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-
-                                <div class="article-title">
-
-                                    <div class="article-icon">
-
-                                        <i class="bi bi-file-text"></i>
-
-                                    </div>
-
-                                    <div>
-
-                                        <strong>
-                                            تأثیر هوش مصنوعی در بازاریابی
-                                        </strong>
-
-                                        <small>
-                                            مقاله تخصصی
-                                        </small>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="category">
-                                    دیجیتال مارکتینگ
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="status published">
-                                    منتشر شده
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="date">
-                                    ۱۴۰۳/۰۵/۱۵
-                                </span>
-
-                            </td>
-
-                        </tr>
+                            </tr>
+                        }
 
                     </tbody>
 
