@@ -1,5 +1,6 @@
 ﻿using DigitalMarketing.DigitalMarketing.Services.Common;
 using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.ContactMessageDtos;
+using DigitalMarketing.Services.DigitalMarketing.Services.DTOs.MainDto;
 using System;
 using System.Collections.Generic;
 using System.Text;

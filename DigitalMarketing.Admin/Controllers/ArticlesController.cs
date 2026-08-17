@@ -22,7 +22,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // GET: /Articles
         public async Task<IActionResult> Index()
         {
             var articles = await _articleService.GetAllAsync();
@@ -32,6 +32,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
+        // GET: /Articles/Create
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -39,6 +40,7 @@ namespace DigitalMarketing.Admin.Controllers
             return View(new CreateArticleDto());
         }
 
+        // POST: /Articles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateArticleDto dto)
@@ -75,7 +77,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // GET: /Articles/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -93,7 +95,7 @@ namespace DigitalMarketing.Admin.Controllers
         }
 
 
-
+        // POST: /Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -127,7 +129,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /Articles/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -142,7 +144,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /Articles/RemoveImage/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveImage(int articleId)
@@ -158,7 +160,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /Articles/TogglePublish/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePublish(int id)

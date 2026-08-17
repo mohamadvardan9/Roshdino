@@ -21,7 +21,7 @@ namespace DigitalMarketing.Admin.Controllers
         }
 
 
-
+        // GET: /Product/Index
         public async Task<IActionResult> Index()
         {
             var result = await _productService.GetAllAsync();
@@ -30,7 +30,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // GET: /Product/Create
         [HttpGet]
         public async Task <IActionResult> Create()
         {
@@ -38,6 +38,7 @@ namespace DigitalMarketing.Admin.Controllers
             return View(new CreateProductDto());
         }
 
+        // POST: /Product/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductDto dto)
@@ -68,6 +69,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
+        // GET: /Product/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -80,11 +82,11 @@ namespace DigitalMarketing.Admin.Controllers
             var dto = _mapper.Map<UpdateProductDto>(product);
 
 
-            ViewBag.ExistingImages = product.Images; // برای نمایش تو View و مدیریت حذف/Main
+            ViewBag.ExistingImages = product.Images; // For display in the View and managing deletion/Main
             return View(dto);
         }
 
-
+        // POST: /Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateProductDto dto)
@@ -115,7 +117,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -131,7 +133,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /Product/RemoveImage/6,5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveImage(int imageId, int productId)
@@ -145,6 +147,7 @@ namespace DigitalMarketing.Admin.Controllers
             return RedirectToAction(nameof(Edit), new { id = productId });
         }
 
+        // POST: /Product/SetMainImage/5,5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetMainImage(int imageId, int productId)
@@ -157,6 +160,7 @@ namespace DigitalMarketing.Admin.Controllers
             return RedirectToAction(nameof(Edit), new { id = productId });
         }
 
+        // POST: /Product/TogglePublish/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePublish(int id)

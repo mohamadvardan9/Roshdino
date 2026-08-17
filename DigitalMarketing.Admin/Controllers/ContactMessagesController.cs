@@ -13,6 +13,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
+        // GET: /ContactMessages/Index
         public async Task<IActionResult> Index()
         {
             var message = await _contactMessageService.GetAllAsync();
@@ -20,13 +21,14 @@ namespace DigitalMarketing.Admin.Controllers
         }
 
 
+        // GET: /ContactMessages/Details/5
         public async Task<IActionResult> Details(int id)
         {
             var message = await _contactMessageService.GetByIdAsync(id);
             if (message == null) return NotFound();
 
 
-            // با باز کردن جزعیات, خودکار به عنوان خوانده شده علامت بخوره 
+            // Automatically mark as read when opening details
             if (!message.IsRead)
                 await _contactMessageService.MarkAsReadAsync(id);
 
@@ -35,7 +37,7 @@ namespace DigitalMarketing.Admin.Controllers
 
 
 
-
+        // POST: /ContactMessages/Delete/5
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

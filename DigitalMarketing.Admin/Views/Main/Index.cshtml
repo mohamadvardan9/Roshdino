@@ -74,7 +74,7 @@
                 </div>
 
                 <span class="growth positive">
-                    @Model.ArticlesGrowth
+                    @Model.ArticlesGrowthPercent
                 </span>
 
             </div>
@@ -347,7 +347,7 @@
                                 <td>
 
                                     <span class="category">
-                                        @article.CategoryName
+                                        @article.ArticleCategoryName
                                     </span>
 
                                 </td>
@@ -372,7 +372,7 @@
                                 <td>
 
                                     <span class="date">
-                                        @article.CreateDate.ToString("yyyy/MM/dd")
+                                        @article.CreatedAt.ToString("yyyy/MM/dd")
                                     </span>
 
                                 </td>
@@ -418,10 +418,10 @@
                 {
                     <div class="product-item">
 
-                        @if (!string.IsNullOrEmpty(product.ImageName))
+                        @if (product.Images.Any(x => x.IsMain))
                         {
-                            <img src="@product.ImageName"
-                                 alt="@product.Title">
+                            <img src="@product.Images.First(x => x.IsMain).ImageUrl"
+                                 alt="@product.Title" />
                         }
                         else
                         {
@@ -434,10 +434,10 @@
 
                             <strong>@product.Title</strong>
 
-                            <span>@product.CategoryName</span>
+                            <span>@product.ProductCategoryNAme</span>
 
                             <small>
-                                @product.CreateDate.ToString("yyyy/MM/dd")
+                                @product.CreatedAt.ToString("yyyy/MM/dd")
                             </small>
 
                         </div>

@@ -30,7 +30,6 @@ namespace DigitalMarketing.Admin.Controllers
         // GET: /ArticleCategories/Create
         public IActionResult Create()
         {
-            // وقتی یک شی خالی به ویو میفرستیم, تضمین میکنیم که مدل هیچ وقت نال نباشد
             return View(new CreateArticleCategoryDto());
         }
 

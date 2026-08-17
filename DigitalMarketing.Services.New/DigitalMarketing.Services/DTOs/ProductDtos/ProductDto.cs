@@ -9,7 +9,7 @@
         public string Description { get; set; } = null!;
         public decimal? Price { get; set; }
         public bool IsPublished { get; set; }
-
+        public DateTime CreatedAt { get; set; } // new added
 
 
         public int ProductCategoryId { get; set; }

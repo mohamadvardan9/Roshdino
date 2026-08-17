@@ -26,8 +26,21 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<MyDbContext>(opt =>
-opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<MyDbContext>(opt =>
+//opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// IDbContextFactory for Parallel
+builder.Services.AddDbContextFactory<MyDbContext>(d =>
+d.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// بقیه پروژه که مستقیم MyDbContext رو Inject میکنند هم کار کنند
+builder.Services.AddScoped<MyDbContext>(sp =>
+    sp.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
+
+
+
+
 
 
 
@@ -69,6 +82,7 @@ builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository
 builder.Services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
 builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
+builder.Services.AddScoped<IMainRepository, MainRepository>();
 
 
 
@@ -80,6 +94,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
+builder.Services.AddScoped<IMainService, MainService>();
 
 
 
