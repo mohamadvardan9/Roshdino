@@ -63,5 +63,17 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
             .AnyAsync(x => x.ProductCategoryId == categoryId);
 
         public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
+
+
+
+        public async Task<IReadOnlyList<ProductCategory>> SearchAsync(string query, int limit)
+        {
+            return await _dbContext.ProductCategories
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(query) || x.Slug.Contains(query))
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }

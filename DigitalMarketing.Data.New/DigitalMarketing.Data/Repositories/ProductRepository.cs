@@ -128,5 +128,16 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
                 img.IsMain = (img.Id == imageId);
         }
 
+
+
+        public async Task<IReadOnlyList<Product>> SearchAsync(string query, int limit)
+        {
+            return await _dbContext.Products
+                .AsNoTracking()
+                .Where(x => x.Title.Contains(query) || x.Slug.Contains(query))
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }

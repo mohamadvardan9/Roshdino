@@ -98,6 +98,7 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 builder.Services.AddScoped<IMainService, MainService>();
+builder.Services.AddScoped<IAdminSearchService, AdminSearchService>();
 
 
 

@@ -79,5 +79,12 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
         Task<bool> HasProductsAsync(int categoryId);
         Task SaveChangesAsync();
 
+
+
+
+
+
+        // for search
+        Task<IReadOnlyList<ProductCategory>> SearchAsync(string query, int limit);
     }
 }

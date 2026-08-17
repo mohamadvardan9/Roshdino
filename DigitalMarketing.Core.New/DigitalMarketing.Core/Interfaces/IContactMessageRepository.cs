@@ -1,4 +1,5 @@
 ﻿using DigitalMarketing.Core.DigitalMarketing.Core.Entities;
+using DigitalMarketing.DigitalMarketing.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,6 +52,13 @@ namespace DigitalMarketing.Core.DigitalMarketing.Core.Interfaces
         /// </returns>
         Task<int> GetUnreadCountAsync();
         Task SaveChangesAsync();
+
+
+
+
+
+        // for search
+        Task<IReadOnlyList<ContactMessage>> SearchAsync(string query, int limit);
 
     }
 }

@@ -53,15 +53,25 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
             => await _dbContext.ArticleCategories
             // Checks if a category with the same slug exists,
             // excluding the current category during update.
-            .AnyAsync(x => x.Slug == slug && (excludeId == null || x.Id !=  excludeId)); // رکورد شماره فلان را در این بررسی نادیده بگیر
+            .AnyAsync(x => x.Slug == slug && (excludeId == null || x.Id != excludeId)); // رکورد شماره فلان را در این بررسی نادیده بگیر
         public async Task<bool> HasArticlesAsync(int categoryId)
             => await _dbContext.Articles
             .AnyAsync(x => x.ArticleCategoryId == categoryId);
 
         public async Task SaveChangesAsync() => await _dbContext.SaveChangesAsync();
 
-        
 
-        
+
+
+        public async Task<IReadOnlyList<ArticleCategory>> SearchAsync(string query, int limit)
+        {
+            return await _dbContext.ArticleCategories
+                .AsNoTracking()
+                .Where(x =>
+                x.Name.Contains(query) || x.Slug.Contains(query))
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }

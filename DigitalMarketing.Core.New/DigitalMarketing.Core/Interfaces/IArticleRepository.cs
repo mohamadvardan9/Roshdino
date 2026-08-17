@@ -77,5 +77,9 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
         Task SaveChangesAsync();
         void RemoveImage(Article article);
 
+
+
+        // for search
+        Task<IReadOnlyList<Article>> SearchAsync(string query, int limit);
     }
 }

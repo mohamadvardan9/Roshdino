@@ -34,6 +34,10 @@
           href="~/css/main/index.css"
           asp-append-version="true" />
 
+    <link rel="stylesheet"
+          href="~/css/admin-search.css"
+          asp-append-version="true" />
+
 
     <!-- Page Specific Styles -->
     @await RenderSectionAsync("Styles", required: false)
@@ -348,11 +352,18 @@
                 <div class="topbar-right">
 
                     <!-- Search -->
-                    <button class="icon-btn">
+                    <div class="admin-search">
 
-                        <i class="bi bi-search"></i>
+                        <button class="icon-btn"
+                                type="button"
+                                id="searchButton"
+                                aria-label="جستجو">
 
-                    </button>
+                            <i class="bi bi-search"></i>
+
+                        </button>
+
+                    </div>
 
 
                     <!-- Notifications -->
@@ -400,6 +411,63 @@
     </div>
 
 
+<!-- =========================
+     GLOBAL SEARCH
+========================= -->
+
+<div class="search-overlay" id="searchOverlay">
+
+    <div class="search-modal">
+
+        <div class="search-header">
+
+            <div class="search-input-wrapper">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="globalSearchInput"
+                       placeholder="جستجو در پنل مدیریت..."
+                       autocomplete="off" />
+
+                <button type="button"
+                        class="search-close"
+                        id="searchClose"
+                        aria-label="بستن">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="search-content"
+             id="searchContent">
+
+            <div class="search-placeholder">
+
+                <i class="bi bi-search"></i>
+
+                <p>
+                    برای جستجو شروع به تایپ کنید
+                </p>
+
+                <span>
+                    مقالات، محصولات، دسته بندی و فرستندگان پیام
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
     <!-- Scripts -->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -407,6 +475,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/js/notifications.js" asp-append-version="true"></script>
+
+    <script src="~/js/admin-search.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

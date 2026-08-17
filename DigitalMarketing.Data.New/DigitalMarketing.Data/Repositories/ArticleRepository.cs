@@ -84,6 +84,15 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
 
 
-
+        public async Task<IReadOnlyList<Article>> SearchAsync(string query, int limit)
+        {
+            return await _dbContext.Articles
+                .AsNoTracking()
+                .Where(x => 
+                x.Title.Contains(query) || x.Slug.Contains(query))
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }

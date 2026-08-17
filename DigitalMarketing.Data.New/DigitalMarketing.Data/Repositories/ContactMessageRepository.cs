@@ -57,6 +57,17 @@ namespace DigitalMarketing.Data.DigitalMarketing.Data.Repositories
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 
-        
+
+
+
+        public async Task<IReadOnlyList<ContactMessage>> SearchAsync(string query, int limit)
+        {
+            return await _context.ContactMessages
+                .AsNoTracking()
+                .Where(x => x.FullName.Contains(query))
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }

@@ -101,5 +101,13 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
         /// <param name="productId">The unique identifier of the product.</param>
         /// <param name="imageId">The unique identifier of the image to set as the main image.</param>
         Task SetMainImageAsync(int productId ,int imageId);
+
+
+
+
+
+
+        // for search in _Layout.cshmtl
+        Task<IReadOnlyList<Product>> SearchAsync(string query, int limit);
     }
 }
