@@ -58,9 +58,7 @@
 
 <div class="row g-4 mb-4">
 
-
     <!-- Articles -->
-
     <div class="col-xl-3 col-md-6">
 
         <div class="stat-card">
@@ -68,17 +66,20 @@
             <div class="stat-top">
 
                 <div class="stat-icon purple">
-
                     <i class="bi bi-file-earmark-text"></i>
-
                 </div>
 
-                <span class="growth positive">
-                    @Model.ArticlesGrowthPercent
+                <span class="growth @(Model.ArticlesGrowthPercent >= 0 ? "positive" : "negative")">
+
+                    <i class="bi @(Model.ArticlesGrowthPercent >= 0
+                                               ? "bi-arrow-up"
+                                               : "bi-arrow-down")"></i>
+
+                    @Math.Abs(Model.ArticlesGrowthPercent)%
+
                 </span>
 
             </div>
-
 
             <div class="stat-info">
 
@@ -92,14 +93,21 @@
 
             </div>
 
+            <div class="stat-footer">
+
+                <span>
+                    <i class="bi bi-file-text"></i>
+                    مقالات ثبت شده
+                </span>
+
+            </div>
+
         </div>
 
     </div>
 
 
-
     <!-- Products -->
-
     <div class="col-xl-3 col-md-6">
 
         <div class="stat-card">
@@ -107,18 +115,25 @@
             <div class="stat-top">
 
                 <div class="stat-icon green">
-
                     <i class="bi bi-box-seam"></i>
-
                 </div>
 
-            </div>
+                <span class="growth @(Model.ProductsGrowthPercent >= 0 ? "positive" : "negative")">
 
+                    <i class="bi @(Model.ProductsGrowthPercent >= 0
+                                               ? "bi-arrow-up"
+                                               : "bi-arrow-down")"></i>
+
+                    @Math.Abs(Model.ProductsGrowthPercent)%
+
+                </span>
+
+            </div>
 
             <div class="stat-info">
 
                 <span>
-                    محصولات
+                    تعداد محصولات
                 </span>
 
                 <h2>
@@ -127,82 +142,32 @@
 
             </div>
 
+            <div class="stat-footer">
+
+                <span>
+                    <i class="bi bi-box"></i>
+                    محصولات ثبت شده
+                </span>
+
+            </div>
+
         </div>
 
     </div>
-
 
 
     <!-- Draft Articles -->
-
     <div class="col-xl-3 col-md-6">
 
         <div class="stat-card">
 
             <div class="stat-top">
 
-                <div class="stat-icon purple">
-
-                    <i class="bi bi-eye"></i>
-
+                <div class="stat-icon orange">
+                    <i class="bi bi-file-earmark"></i>
                 </div>
 
             </div>
-
-
-            <div class="stat-info">
-
-                <span>
-                    محصولات عرضه نشده
-                </span>
-
-                <h2>
-                    @Model.DraftProductsCount
-                </h2>
-
-            </div>
-
-            <div class="stat-footer">
-
-                @if (Model.DraftProductsCount > 0)
-                {
-                    <span class="text-warning">
-                        <i class="bi bi-exclamation-circle"></i>
-                        @Model.DraftProductsCount محصول نیاز به عرضه دارد
-                    </span>
-                }
-                else
-                {
-                    <span class="text-success">
-                        <i class="bi bi-check-circle"></i>
-                        همه محصولات عرضه شده‌اند
-                    </span>
-                }
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- Draft Products -->
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="stat-card">
-
-            <div class="stat-top">
-
-                <div class="stat-icon green">
-
-                    <i class="bi bi-eye"></i>
-
-                </div>
-
-            </div>
-
 
             <div class="stat-info">
 
@@ -216,21 +181,83 @@
 
             </div>
 
-
             <div class="stat-footer">
 
                 @if (Model.DraftArticlesCount > 0)
                 {
                     <span class="text-warning">
+
                         <i class="bi bi-exclamation-circle"></i>
-                        @Model.DraftArticlesCount مقاله نیاز به انتشار دارد
+
+                        @Model.DraftArticlesCount مقاله
+                        نیاز به انتشار دارد
+
                     </span>
                 }
                 else
                 {
                     <span class="text-success">
+
                         <i class="bi bi-check-circle"></i>
+
                         همه مقالات منتشر شده‌اند
+
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Draft Products -->
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon blue">
+                    <i class="bi bi-box"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span>
+                    محصولات منتشر نشده
+                </span>
+
+                <h2>
+                    @Model.DraftProductsCount
+                </h2>
+
+            </div>
+
+            <div class="stat-footer">
+
+                @if (Model.DraftProductsCount > 0)
+                {
+                    <span class="text-warning">
+
+                        <i class="bi bi-exclamation-circle"></i>
+
+                        @Model.DraftProductsCount محصول
+                        نیاز به عرضه دارد
+
+                    </span>
+                }
+                else
+                {
+                    <span class="text-success">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        همه محصولات عرضه شده‌اند
+
                     </span>
                 }
 
@@ -392,7 +419,7 @@
 
 
 
-    <!-- Activity -->
+    <!-- Products -->
 
     <div class="col-xl-4">
 

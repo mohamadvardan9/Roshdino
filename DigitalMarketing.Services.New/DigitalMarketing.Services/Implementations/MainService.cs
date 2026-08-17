@@ -34,7 +34,7 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.Implementations
 
             var unreadMessagesTask = _repository.GetUnreadMessagesCountAsync();
 
-            var latestArticlesTask = _repository.GetLatestArticlesAsync(5);
+            var latestArticlesTask = _repository.GetLatestArticlesAsync(7);
             var latestProductsTask = _repository.GetLatestProductsAsync(5);
 
             var recentArticlesTask = _repository.GetArticlesCountSinceAsync(since);

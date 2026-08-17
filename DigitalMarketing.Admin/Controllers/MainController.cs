@@ -25,19 +25,19 @@ namespace DigitalMarketing.Admin.Controllers
 
             var viewModel = new MainViewModel
             {
-                ArticlesCount = stats.ArticlesCount,
-                ProductsCount = stats.ProductsCount,
+                ArticlesCount = stats.ArticlesCount,  
+                ProductsCount = stats.ProductsCount,  
 
-                DraftArticlesCount = stats.DraftArticlesCount,
-                DraftProductsCount = stats.DraftProductsCount,
+                DraftArticlesCount = stats.DraftArticlesCount,  
+                DraftProductsCount = stats.DraftProductsCount,  
 
-                UnreadMessagesCount = stats.UnreadMessagesCount,
+                UnreadMessagesCount = stats.UnreadMessagesCount,  
 
-                ArticlesGrowthPercent = stats.ArticlesGrowthPercent,
-                ProductsGrowthPercent = stats.ProductsGrowthPercent,
+                ArticlesGrowthPercent = stats.ArticlesGrowthPercent,  
+                ProductsGrowthPercent = stats.ProductsGrowthPercent,  
 
-                LatestArticles = stats.LatestArticles,
-                LatestProducts = stats.LatestProducts
+                LatestArticles = stats.LatestArticles,  
+                LatestProducts = stats.LatestProducts   
             };
 
             return View(viewModel);

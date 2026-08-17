@@ -21,6 +21,7 @@ namespace DigitalMarketing.Web.Controllers
         [Route("articles")]
         public async Task<IActionResult> Index(int? categoryId)
         {
+            // باید خوانده شود
             var articles = categoryId.HasValue
                 ? await _articleService.GetByCategoryAsync(categoryId.Value)
                 : await _articleService.GetPublishedAsync();

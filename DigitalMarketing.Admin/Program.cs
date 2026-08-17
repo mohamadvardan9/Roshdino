@@ -26,14 +26,12 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddDbContext<MyDbContext>(opt =>
-//opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // IDbContextFactory for Parallel
 builder.Services.AddDbContextFactory<MyDbContext>(d =>
 d.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+// MyDbContext
 // بقیه پروژه که مستقیم MyDbContext رو Inject میکنند هم کار کنند
 builder.Services.AddScoped<MyDbContext>(sp =>
     sp.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
@@ -59,6 +57,8 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 
+
+
 // Add Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(opt =>
@@ -71,6 +71,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         opt.Cookie.HttpOnly = true;
         opt.Cookie.SecurePolicy = CookieSecurePolicy.Always; // فقط HTTPS
     });
+
+
+
 
 
 
@@ -95,8 +98,6 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 builder.Services.AddScoped<IMainService, MainService>();
-
-
 
 
 

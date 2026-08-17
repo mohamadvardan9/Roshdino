@@ -16,17 +16,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
+
+
+
+
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 
-//builder.Services.AddDbContext<MyDbContext>(opt =>
-//opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
+// IDbContextFactory for Parallel
 builder.Services.AddDbContextFactory<MyDbContext>(d =>
 d.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+// MyDbContext
 // بقیه پروژه که مستقیم MyDbContext رو Inject میکنند هم کار کنند
 builder.Services.AddScoped<MyDbContext>(sp =>
     sp.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
@@ -42,6 +47,9 @@ builder.Services.AddControllersWithViews()
         opt.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
         opt.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
     });
+
+
+
 
 
 
