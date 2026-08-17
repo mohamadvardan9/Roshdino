@@ -1,0 +1,60 @@
+﻿@using DigitalMarketing.Admin.Models
+
+@model NotificationViewModel
+
+
+
+<div class="notification-wrapper">
+
+    <button class="icon-btn notification-btn"
+            type="button"
+            id="notificationButton">
+
+        <i class="bi bi-bell"></i>
+
+        @if (Model.UnreadCount > 0)
+        {
+            <span class="notification-badge">
+                @(Model.UnreadCount > 99
+                    ? "99+"
+                    : Model.UnreadCount)
+            </span>
+        }
+
+    </button>
+
+
+    <div class="notification-dropdown"
+         id="notificationDropdown">
+
+        <div class="notification-header">
+
+            <div>
+                <h6>اعلان‌ها</h6>
+
+                <span>
+                    @Model.UnreadCount پیام خوانده نشده
+                </span>
+            </div>
+
+            <i class="bi bi-bell"></i>
+
+        </div>
+
+
+        <div class="notification-footer">
+
+            <a asp-controller="ContactMessages"
+               asp-action="Index">
+
+                مشاهده همه پیام‌ها
+
+                <i class="bi bi-arrow-left"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

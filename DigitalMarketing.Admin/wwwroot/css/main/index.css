@@ -431,20 +431,193 @@ a {
         background: #faf9ff;
     }
 
-.notification-btn {
+
+/* ================================
+   Notification
+================================ */
+
+.notification-wrapper {
     position: relative;
 }
 
-    .notification-btn span {
-        position: absolute;
-        width: 7px;
-        height: 7px;
-        background: #ef4444;
-        border-radius: 50%;
-        top: 8px;
-        right: 9px;
-        border: 2px solid #fff;
+
+/* ================================
+   Notification Button
+================================ */
+
+.notification-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    background: #fff;
+    color: #495057;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .notification-btn:hover {
+        background: #f8f9fa;
+        border-color: #dee2e6;
+        color: #6f42c1;
     }
+
+    .notification-btn i {
+        font-size: 18px;
+    }
+
+
+/* ================================
+   Notification Badge
+================================ */
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ================================
+   Dropdown
+================================ */
+
+.notification-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: auto;
+    right: 0;
+    width: 210px;
+    max-width: calc(100vw - 30px);
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+
+    /* Open state */
+
+    .notification-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+
+/* ================================
+   Header
+================================ */
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+    .notification-header h6 {
+        margin: 0 0 4px;
+        color: #212529;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .notification-header span {
+        color: #8b929a;
+        font-size: 12px;
+    }
+
+    .notification-header > i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: #f4f0ff;
+        color: #6f42c1;
+        font-size: 17px;
+    }
+
+
+/* ================================
+   Footer
+================================ */
+
+.notification-footer {
+    padding: 13px 18px;
+    border-top: 1px solid #f1f3f5;
+    background: #fafafa;
+    text-align: center;
+}
+
+    .notification-footer a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        color: #6f42c1;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+        .notification-footer a:hover {
+            color: #59359c;
+        }
+
+        .notification-footer a i {
+            font-size: 13px;
+        }
+
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 576px) {
+
+    .notification-dropdown {
+        position: fixed;
+        top: 70px;
+        left: 15px;
+        right: 15px;
+        width: auto;
+        border-radius: 12px;
+    }
+}
+
+
+
+
 
 
 /* Profile */

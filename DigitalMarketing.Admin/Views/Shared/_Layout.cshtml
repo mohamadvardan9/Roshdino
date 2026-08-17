@@ -344,9 +344,10 @@
 
                 </div>
 
-
+                
                 <div class="topbar-right">
 
+                    <!-- Search -->
                     <button class="icon-btn">
 
                         <i class="bi bi-search"></i>
@@ -354,15 +355,11 @@
                     </button>
 
 
-                    <button class="icon-btn notification-btn">
-
-                        <i class="bi bi-bell"></i>
-
-                        <span></span>
-
-                    </button>
+                    <!-- Notifications -->
+                    @await Component.InvokeAsync("Notifications")
 
 
+                    <!-- Admin Profile -->
                     <div class="admin-profile">
 
                         <div class="profile-avatar">
@@ -408,6 +405,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/notifications.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
