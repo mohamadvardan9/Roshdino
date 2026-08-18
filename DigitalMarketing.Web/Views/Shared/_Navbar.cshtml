@@ -30,6 +30,9 @@
 </nav>
 
 <script>
+
+    /* Navbar Menu Options */
+
     const navbarToggle = document.getElementById("navbar-toggle");
     const navbarMenu = document.getElementById("navbar-menu");
 
@@ -37,6 +40,70 @@
     navbarToggle.addEventListener("click", () => {
 
         navbarMenu.classList.toggle("active");
+
+    });
+
+
+
+
+    /*  Scrol Options */
+
+    const navbar = document.querySelector(".navbar");
+
+    let lastScroll = 0;
+
+
+    window.addEventListener("scroll", () => {
+
+
+        const currentScroll =
+            window.pageYOffset;
+
+
+
+        // اگر بالای صفحه هستیم
+
+        if(currentScroll <= 10){
+
+            navbar.classList.remove("hide-navbar");
+
+            navbar.classList.remove("scrolled");
+
+            return;
+
+        }
+
+
+
+        // اضافه کردن سایه
+
+        navbar.classList.add("scrolled");
+
+
+
+        // اسکرول به پایین
+
+        if(currentScroll > lastScroll){
+
+
+            navbar.classList.add("hide-navbar");
+
+
+        }
+        else {
+
+
+            // اسکرول به بالا
+
+            navbar.classList.remove("hide-navbar");
+
+
+        }
+
+
+
+        lastScroll = currentScroll;
+
 
     });
 </script>
