@@ -1821,38 +1821,241 @@ ul {
 
 
 
-/* ===================== Stats ===================== */
+/* =========================
+   Stats
+========================= */
+
 .stats {
-    padding: 4rem 0;
-    background: var(--color-primary);
+    position: relative;
+    padding: 35px 0;
+    background: #fff;
+    z-index: 5;
 }
+
+
+/* =========================
+   Stats Grid
+========================= */
 
 .stats-grid {
-    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid #eeeef5;
+    border-radius: 24px;
+    background: rgba(255,255,255,.85);
+    box-shadow: 0 20px 60px rgba(31, 41, 55, .07);
+    overflow: hidden;
 }
+
+
+
+/* =========================
+   Stats Item
+========================= */
+
+.stats-item {
+    min-height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 25px;
+    position: relative;
+    transition: background .3s ease, transform .3s ease;
+}
+
+
+    /* Divider */
+
+    .stats-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        bottom: 30px;
+        left: 0;
+        width: 1px;
+        background: linear-gradient( to bottom, transparent, #e5e7eb, transparent );
+    }
+
+
+
+    /* Hover */
+
+    .stats-item:hover {
+        background: linear-gradient( 135deg, rgba(99,102,241,.035), rgba(139,92,246,.06) );
+    }
+
+
+
+/* =========================
+   Stats Icon
+========================= */
+
+.stats-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 15px;
+    color: #7c3aed;
+    background: linear-gradient( 135deg, rgba(99,102,241,.10), rgba(139,92,246,.15) );
+    box-shadow: 0 10px 25px rgba(99,102,241,.10);
+    transition: transform .35s ease, color .35s ease, background .35s ease, box-shadow .35s ease;
+}
+
+
+    .stats-icon i {
+        font-size: 1.25rem;
+    }
+
+
+.stats-item:hover .stats-icon {
+    color: #fff;
+    background: linear-gradient( 135deg, #6366f1, #8b5cf6 );
+    transform: translateY(-4px) rotate(-4deg);
+    box-shadow: 0 14px 30px rgba(99,102,241,.25);
+}
+
+
+
+/* =========================
+   Content
+========================= */
+
+.stats-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+
+/* =========================
+   Number
+========================= */
 
 .stats-number {
-    font-size: 2.75rem;
+    color: #111827;
+    font-size: 2rem;
     font-weight: 900;
-    color: #fff;
+    line-height: 1;
+    letter-spacing: -1px;
+    background: linear-gradient( 135deg, #111827, #4f46e5 );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: transform .3s ease;
 }
+
+
+    .stats-number span {
+        color: #8b5cf6;
+        -webkit-text-fill-color: #8b5cf6;
+    }
+
+
+.stats-item:hover .stats-number {
+    transform: translateY(-2px);
+}
+
+
+
+/* =========================
+   Label
+========================= */
 
 .stats-label {
-    margin-top: 0.5rem;
-    color: #ddd6fe;
-    font-weight: 500;
+    color: #9ca3af;
+    font-size: .82rem;
+    font-weight: 600;
 }
 
-@media (max-width: 640px) {
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media(max-width:1000px) {
+
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
     }
 
-    .stats-number {
-        font-size: 2rem;
+
+    .stats-item:nth-child(2)::after {
+        display: none;
+    }
+
+
+    .stats-item:nth-child(1),
+    .stats-item:nth-child(2) {
+        border-bottom: 1px solid #eeeef5;
     }
 }
+
+
+
+@media(max-width:600px) {
+
+    .stats {
+        padding: 25px 0;
+    }
+
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+    }
+
+
+    .stats-item {
+        min-height: 110px;
+        justify-content: flex-start;
+        padding: 20px 25px;
+    }
+
+
+        .stats-item:not(:last-child)::after {
+            top: auto;
+            bottom: 0;
+            left: 25px;
+            right: 25px;
+            width: auto;
+            height: 1px;
+            background: linear-gradient( to right, transparent, #e5e7eb, transparent );
+        }
+
+
+        .stats-item:nth-child(2)::after {
+            display: block;
+        }
+
+
+    .stats-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+    }
+
+
+    .stats-number {
+        font-size: 1.7rem;
+    }
+}
+
+
+
+
+
+
+
+/* ==================================================== */
+/* ==================================================== */
+
+
 
 
 

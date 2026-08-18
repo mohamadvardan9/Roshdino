@@ -2,27 +2,109 @@
 @model HomeViewModel
 
 <section class="stats">
-    <div class="container grid grid-4 stats-grid">
 
-        <div class="stats-item fade-right">
-            <div class="stats-number">@Model.ProductCount+</div>
-            <div class="stats-label">محصول و خدمت</div>
-        </div>
+    <div class="container">
 
-        <div class="stats-item fade-right">
-            <div class="stats-number">@Model.ArticleCount+</div>
-            <div class="stats-label">مقاله آموزشی</div>
-        </div>
+        <div class="stats-grid">
 
-        <div class="stats-item fade-right">
-            <div class="stats-number">۱۰۰+</div>
-            <div class="stats-label">مشتری راضی</div>
-        </div>
 
-        <div class="stats-item fade-right">
-            <div class="stats-number">۵+</div>
-            <div class="stats-label">سال تجربه</div>
+            <!-- Products -->
+
+            <div class="stats-item fade-right">
+
+                <div class="stats-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <div class="stats-content">
+
+                    <div class="stats-number">
+                        @Model.ProductCount<span>+</span>
+                    </div>
+
+                    <div class="stats-label">
+                        محصول و خدمت
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Articles -->
+
+            <div class="stats-item fade-right">
+
+                <div class="stats-icon">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+
+                <div class="stats-content">
+
+                    <div class="stats-number">
+                        @Model.ArticleCount<span>+</span>
+                    </div>
+
+                    <div class="stats-label">
+                        مقاله آموزشی
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Customers -->
+
+            <div class="stats-item fade-right">
+
+                <div class="stats-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <div class="stats-content">
+
+                    <div class="stats-number">
+                        77<span>+</span>
+                    </div>
+
+                    <div class="stats-label">
+                        مشتری راضی
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Experience -->
+
+            <div class="stats-item fade-right">
+
+                <div class="stats-icon">
+                    <i class="bi bi-award"></i>
+                </div>
+
+                <div class="stats-content">
+
+                    <div class="stats-number">
+                        3<span>+</span>
+                    </div>
+
+                    <div class="stats-label">
+                        سال تجربه
+                    </div>
+
+                </div>
+
+            </div>
+
+
         </div>
 
     </div>
+
 </section>
