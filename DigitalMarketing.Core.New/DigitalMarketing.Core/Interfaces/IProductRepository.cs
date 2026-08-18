@@ -107,7 +107,20 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
 
 
 
-        // for search in _Layout.cshmtl
+        /// <summary>
+        /// Searches products by title or slug and returns
+        /// a limited number of matching results.
+        /// </summary>
+        /// <param name="query">
+        /// The search text used to match products titles or slugs.
+        /// </param>
+        /// <param name="limit">
+        /// The maximum number of results to return.
+        /// </param>
+        /// <returns>
+        /// A read-only list of matching <see cref="Product"/> entities,
+        /// ordered by creation date in descending order.
+        /// </returns>
         Task<IReadOnlyList<Product>> SearchAsync(string query, int limit);
     }
 }

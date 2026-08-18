@@ -57,7 +57,20 @@ namespace DigitalMarketing.Core.DigitalMarketing.Core.Interfaces
 
 
 
-        // for search
+        /// <summary>
+        /// Searches contactMessages by fullName and returns
+        /// a limited number of matching results.
+        /// </summary>
+        /// <param name="query">
+        /// The search text used to match contactMessages fullName.
+        /// </param>
+        /// <param name="limit">
+        /// The maximum number of results to return.
+        /// </param>
+        /// <returns>
+        /// A read-only list of matching <see cref="ContactMessage"/> entities,
+        /// ordered by creation date in descending order.
+        /// </returns>
         Task<IReadOnlyList<ContactMessage>> SearchAsync(string query, int limit);
 
     }

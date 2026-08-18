@@ -177,6 +177,26 @@
     }
 
 
+    function highlightText(text, query) {
+
+        if (!text || !query) {
+            return escapeHtml(text);
+        }
+
+        const safeText = escapeHtml(text);
+        const safeQuery = escapeHtml(query);
+
+        const regex = new RegExp(
+            `(${safeQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+            "gi"
+        );
+
+        return safeText.replace(
+            regex,
+            '<mark class="search-highlight">$1</mark>'
+        );
+    }
+
     // =========================
     // Render Results
     // =========================
@@ -184,6 +204,9 @@
     function renderResults(results) {
 
         searchContent.innerHTML = "";
+
+        const query = searchInput.value.trim();
+
 
         results.forEach(result => {
 
@@ -195,26 +218,35 @@
 
 
             item.innerHTML = `
-                <div class="search-result-icon">
 
-                    <i class="bi ${result.icon}"></i>
+            <div class="search-result-icon">
 
-                </div>
+                <i class="bi ${escapeHtml(result.icon)}"></i>
 
-                <div class="search-result-info">
+            </div>
 
-                    <span class="search-result-title">
-                        ${escapeHtml(result.title)}
-                    </span>
 
-                    <span class="search-result-type">
-                        ${escapeHtml(result.type)}
-                    </span>
+            <div class="search-result-info">
 
-                </div>
+                <span class="search-result-title">
 
-                <i class="bi bi-chevron-left"></i>
-            `;
+                    ${highlightText(result.title, query)}
+
+                </span>
+
+
+                <span class="search-result-type">
+
+                    ${escapeHtml(result.type)}
+
+                </span>
+
+            </div>
+
+
+            <i class="bi bi-chevron-left"></i>
+
+        `;
 
 
             searchContent.appendChild(item);

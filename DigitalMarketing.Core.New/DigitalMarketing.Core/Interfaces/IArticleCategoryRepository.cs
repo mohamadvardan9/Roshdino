@@ -71,13 +71,21 @@ namespace DigitalMarketing.DigitalMarketing.Core.Interfaces
 
 
 
-        
+
         /// <summary>
-        /// 
+        /// Searches article categories by name or slug and returns
+        /// a limited number of matching results.
         /// </summary>
-        /// <param name="query"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="query">
+        /// The search text used to match category names or slugs.
+        /// </param>
+        /// <param name="limit">
+        /// The maximum number of results to return.
+        /// </param>
+        /// <returns>
+        /// A read-only list of matching <see cref="ArticleCategory"/> entities,
+        /// ordered by creation date in descending order.
+        /// </returns>
         Task<IReadOnlyList<ArticleCategory>> SearchAsync(string query, int limit);
     }
 }

@@ -216,6 +216,14 @@
     font-size: 11px;
 }
 
+.search-highlight {
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: #B03FD1;
+    color: white;
+    font-weight: 700;
+}
+
 
 /* =========================
    Loading

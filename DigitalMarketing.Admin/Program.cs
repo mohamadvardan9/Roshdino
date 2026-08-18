@@ -1,4 +1,3 @@
-using DigitalMarketing.Core.DigitalMarketing.Core.Entities;
 using DigitalMarketing.Core.DigitalMarketing.Core.Interfaces;
 using DigitalMarketing.Data.DigitalMarketing.Data.Repositories;
 using DigitalMarketing.DigitalMarketing.Core.Interfaces;
@@ -8,41 +7,39 @@ using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
 using DigitalMarketing.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
-using DigitalMarketing.DigitalMarketing.Services.Validators.Article;
-using DigitalMarketing.DigitalMarketing.Services.Validators.ProductCategory;
+using DigitalMarketing.Services.DigitalMarketing.Services.Configuration;
 using DigitalMarketing.Services.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
-using DigitalMarketing.Services.DigitalMarketing.Services.Validators.ContactMessage;
+using DigitalMarketing.Services.DigitalMarketing.Services.Mapping;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 
 
-
-
+/*////////////////////////////
+            builder  
+////////////////////////////*/
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-// IDbContextFactory for Parallel
+// <<<   Database Options   >>> //
+
 builder.Services.AddDbContextFactory<MyDbContext>(d =>
 d.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// MyDbContext
-// بقیه پروژه که مستقیم MyDbContext رو Inject میکنند هم کار کنند
 builder.Services.AddScoped<MyDbContext>(sp =>
     sp.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
 
 
 
 
+// <<<   AddContollerWithView   >>> //
 
-
-
-// Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
     // این یه فیلتر سراسریه که همه چیز رو به پیش فرض [Authorize] کنه
@@ -59,7 +56,9 @@ builder.Services.AddControllersWithViews(options =>
 
 
 
-// Add Authentication
+
+// <<<   Add Authentication   >>> //
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(opt =>
     {
@@ -78,7 +77,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
 
-// Repositories
+// <<<   Repositories   >>> //
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
@@ -89,8 +89,8 @@ builder.Services.AddScoped<IMainRepository, MainRepository>();
 
 
 
+// <<<   Services   >>> //
 
-// Services
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -103,28 +103,52 @@ builder.Services.AddScoped<IAdminSearchService, AdminSearchService>();
 
 
 
+// <<<   Fluent Validations   >>> //
 
-
-// Fluent Validations
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
 
 
 
 
-// AutoMapper Profiles
+// <<<   AutoMapper Profiles   >>> //
+
 builder.Services.AddAutoMapper(am =>
 {
     am.AddMaps(typeof(ProductCategoryProfile));
     am.AddMaps(typeof(ArticleCategoryProfile));
     am.AddMaps(typeof(ProductProfile));
     am.AddMaps(typeof(ArticleProfile));
+    am.AddMaps(typeof(ContactMessageProfile));
 });
 
 
 
 
-// Helpers
+
+// <<<   Uploads Configuration   >>> //
+
+builder.Services.Configure<UploadsOptions>(builder.Configuration.GetSection(UploadsOptions.SectionName));
+
+
+// <<<   Heplers   >>> //
+
 builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
+
+
+
+
+
+
+
+
+
+
+
+/*////////////////////////////
+            app  
+////////////////////////////*/
+
+
 
 
 var app = builder.Build();
@@ -138,21 +162,47 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
+
+
 app.UseHttpsRedirection();
+
+
+
+// <<< Static files from Web's wwwroot >>> //
 
 app.UseStaticFiles();
 
-app.UseRouting();
 
+
+// <<< Uploaded files shared between Admin and Web >>> //
+
+var uploadsOptions = app.Services.GetRequiredService<IOptions<UploadsOptions>>().Value;
+// Ensure the shared upload directory exists
+Directory.CreateDirectory(uploadsOptions.RootPath);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsOptions.RootPath),
+    RequestPath = uploadsOptions.RequestPath
+});
+
+
+
+
+
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 
+
+
+
+// <<<   app.Run();   >>> //
 app.Run();

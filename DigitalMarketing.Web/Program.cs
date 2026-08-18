@@ -7,13 +7,14 @@ using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
 using DigitalMarketing.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.DigitalMarketing.Services.Mapping;
+using DigitalMarketing.Services.DigitalMarketing.Services.Configuration;
 using DigitalMarketing.Services.DigitalMarketing.Services.Implementations;
 using DigitalMarketing.Services.DigitalMarketing.Services.Interfaces;
-using DigitalMarketing.Services.DigitalMarketing.Services.Validators.ContactMessage;
+using DigitalMarketing.Services.DigitalMarketing.Services.Mapping;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 
@@ -21,18 +22,24 @@ using System.Reflection;
 
 
 
-
-
+/*////////////////////////////
+            builder  
+////////////////////////////*/
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-// IDbContextFactory for Parallel
+
+// <<<   Database Options   >>> //
+
+// MyDbContext
+// ثبت MyDbContext برای سازگاری با Repositoryها و Serviceهایی
+// که مستقیماً MyDbContext را از طریق DI دریافت می‌کنند.
 builder.Services.AddDbContextFactory<MyDbContext>(d =>
 d.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// MyDbContext
-// بقیه پروژه که مستقیم MyDbContext رو Inject میکنند هم کار کنند
+// DbContextFactory
+// برای ایجاد DbContextهای مستقل و مناسب برای عملیات هم‌زمان
 builder.Services.AddScoped<MyDbContext>(sp =>
     sp.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
 
@@ -40,20 +47,15 @@ builder.Services.AddScoped<MyDbContext>(sp =>
 
 
 
-builder.Services.AddControllersWithViews()
-    // For New Views Rout
-    .AddRazorOptions(opt =>
-    {
-        opt.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
-        opt.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
-    });
+// <<<   AddContollerWithView   >>> //
+
+builder.Services.AddControllersWithViews();
 
 
 
 
+// <<<   Repositories   >>> //
 
-
-// Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
@@ -62,7 +64,8 @@ builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>(
 builder.Services.AddScoped<IMainRepository, MainRepository>();
 
 
-// Services
+// <<<   Services   >>> //
+
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -72,25 +75,47 @@ builder.Services.AddScoped<IMainService, MainService>();
 
 
 
-// Fluent Validations
+// <<<   Fluent Validations   >>> //
+
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("DigitalMarketing.Services"));
 
 
 
-// AutoMapper Profiles
+// <<<   AutoMapper Profiles   >>> //
+
 builder.Services.AddAutoMapper(am =>
 {
     am.AddMaps(typeof(ProductCategoryProfile));
     am.AddMaps(typeof(ArticleCategoryProfile));
     am.AddMaps(typeof(ProductProfile));
     am.AddMaps(typeof(ArticleProfile));
+    am.AddMaps(typeof(ContactMessageProfile));
 });
 
 
 
 
-// Helpers
+// <<<   Uploads Configuration   >>> //
+
+builder.Services.Configure<UploadsOptions>(builder.Configuration.GetSection(UploadsOptions.SectionName));
+
+
+// <<<   Heplers   >>> //
+
 builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
+
+
+
+
+
+
+
+
+
+/*////////////////////////////
+            app  
+////////////////////////////*/
+
 
 
 
@@ -104,36 +129,47 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
+
 app.UseHttpsRedirection();
 
 
-// Get files from DigitalMarketing.Admin
-var adminUploadsPath = Path.Combine(
-    builder.Environment.ContentRootPath,
-    "..",
-    "DigitalMarketing.Admin",
-    "wwwroot",
-    "uploads"
-);
 
+// <<< Static files from Web's wwwroot >>> //
+
+app.UseStaticFiles();
+
+
+
+
+
+// <<< Uploaded files shared between Admin and Web >>> //
+
+// دریافت تنظیمات مسیر فیزیکی و مسیر URL فایل‌های آپلودشده
+var uploadsOptions = app.Services.GetRequiredService<IOptions<UploadsOptions>>().Value;
+
+// سرو فایل‌های آپلودشده از مسیر مشترک بین Admin و Web
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.GetFullPath(adminUploadsPath)
-    ),
-    RequestPath = "/uploads"
+    FileProvider = new PhysicalFileProvider(uploadsOptions.RootPath),
+    RequestPath = uploadsOptions.RequestPath
 });
 
+
+
+
+
 app.UseRouting();
-
 app.UseAuthorization();
-
-app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
+
+
+
+// <<<   app.Run();   >>> //
 app.Run();

@@ -1,7 +1,9 @@
 ﻿using DigitalMarketing.DigitalMarketing.Services.Helpers.FileService;
+using DigitalMarketing.Services.DigitalMarketing.Services.Configuration;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -19,11 +21,18 @@ namespace DigitalMarketing.Services.Tests
             _tempRoot = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(_tempRoot);
 
-            var envMock = new Mock<IWebHostEnvironment>();
-            envMock.Setup(e => e.WebRootPath).Returns(_tempRoot);
+            var options = Options.Create(new UploadsOptions
+            {
+                RootPath = _tempRoot,
+                RequestPath = "/uploads"
+            });
 
-            _sut = new FileUploadHelper(envMock.Object);
+            _sut = new FileUploadHelper(options);
         }
+
+
+
+
 
 
         private static IFormFile CreateFakeFormFile(string fileName, long length, byte[]? content = null)
@@ -148,7 +157,8 @@ namespace DigitalMarketing.Services.Tests
 
             // Assert
             success.Should().BeTrue();
-            var expectedFullPath = Path.Combine(_tempRoot, path!.TrimStart('/', Path.DirectorySeparatorChar));
+            var relativePath = path!.Replace("/uploads/", "");
+            var expectedFullPath = Path.Combine(_tempRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
             File.Exists(expectedFullPath).Should().BeTrue();
         }
 
@@ -178,7 +188,7 @@ namespace DigitalMarketing.Services.Tests
         public async Task DeleteImage_WhenFileExists_RemovesIt()
         {
             // Arrange
-            var subFolder = Path.Combine(_tempRoot, "uploads", "products");
+            var subFolder = Path.Combine(_tempRoot, "products");
             Directory.CreateDirectory(subFolder);
 
             var filePAth = Path.Combine(subFolder, "img.jpg");
