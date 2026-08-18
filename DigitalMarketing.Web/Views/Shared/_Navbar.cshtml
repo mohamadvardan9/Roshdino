@@ -2,8 +2,14 @@
     <div class="container navbar-inner">
 
         <a asp-controller="Home" asp-action="Index" class="navbar-brand">
-            <img src="~/images/logo.png" alt="لوگو" class="navbar-logo" />
-            <span>دیجیتال مارکتینگ</span>
+            <div class="brand-logo">
+                <span>R</span>
+            </div>
+            <div class="brand-content">
+                <span class="brand-content__title">Roshdino</span>
+                <span class="brand-content__subtitle">دیجیتال مارکتینگ</span>
+            </div>
+
         </a>
 
         <div class="navbar-menu" id="navbar-menu">
@@ -24,8 +30,13 @@
 </nav>
 
 <script>
-    document.getElementById('navbar-toggle').addEventListener('click', function () {
-        document.getElementById('navbar-menu').classList.toggle('open');
-        this.classList.toggle('active');
+    const navbarToggle = document.getElementById("navbar-toggle");
+    const navbarMenu = document.getElementById("navbar-menu");
+
+
+    navbarToggle.addEventListener("click", () => {
+
+        navbarMenu.classList.toggle("active");
+
     });
 </script>
