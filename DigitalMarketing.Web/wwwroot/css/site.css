@@ -36,6 +36,7 @@ body {
     background: var(--color-bg);
     line-height: 1.6;
     direction: rtl;
+    overflow-x: hidden;
 }
 
 img {
@@ -1823,9 +1824,7 @@ ul {
 
 
 
-/* =========================
-   Stats
-========================= */
+/* =================  Stats  ======================= */
 
 .stats {
     position: relative;
@@ -2047,9 +2046,7 @@ ul {
 
 
 
-/* =========================
-   Services 
-========================= */
+/* ===================== Services  ==================== */
 
 
 .services-section {
