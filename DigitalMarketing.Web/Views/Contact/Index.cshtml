@@ -6,90 +6,293 @@
     ViewData["Description"] = "سوالی دارید یا می‌خواید همکاری رو شروع کنید؟ همین حالا با ما تماس بگیرید";
 }
 
-<section class="page-header">
+<section class="contact-hero">
+
+    <div class="contact-bg contact-bg-one"></div>
+    <div class="contact-bg contact-bg-two"></div>
+
+
     <div class="container text-center">
-        <h1>تماس با ما</h1>
-        <p>سوالی دارید یا می‌خواید همکاری رو شروع کنید؟ پیام بدید تا باهاتون تماس بگیریم</p>
+
+
+        <span class="contact-tag">
+
+            <i class="bi bi-chat-dots"></i>
+
+            ارتباط با ما
+
+        </span>
+
+
+        <h1>
+            آماده شروع یک همکاری
+            <span>موفق</span>
+            هستید؟
+        </h1>
+
+
+        <p>
+            سوالی دارید یا می‌خواهید پروژه خود را شروع کنید؟
+            تیم 
+            <b>Roshdino</b>
+            آماده پاسخگویی به شماست.
+        </p>
+
+
     </div>
+
 </section>
 
+
+
 <section class="section">
+
+
     <div class="container contact-inner">
 
-        <!-- Contact Info -->
-        <div class="contact-info">
-            <h3>راه‌های ارتباطی</h3>
+
+        <!-- INFO -->
+
+
+        <div class="contact-info-card">
+
+
+            <h3>
+                راه‌های ارتباطی
+            </h3>
+
+
 
             <div class="contact-info-item">
-                <span class="contact-icon">📞</span>
-                <div>
-                    <div class="contact-label">تلفن تماس</div>
-                    <div>09113794839</div>
+
+
+                <div class="contact-icon">
+
+                    <i class="bi bi-telephone"></i>
+
                 </div>
+
+
+                <div>
+
+                    <span>
+                        تلفن تماس
+                    </span>
+
+
+                    <strong>
+                        09113794839
+                    </strong>
+
+
+                </div>
+
+
             </div>
 
-            <div class="contact-info-item">
-                <span class="contact-icon">✉️</span>
-                <div>
-                    <div class="contact-label">ایمیل</div>
-                    <div>info@example.com</div>
-                </div>
-            </div>
+
+
 
             <div class="contact-info-item">
-                <span class="contact-icon">📍</span>
-                <div>
-                    <div class="contact-label">آدرس</div>
-                    <div>گرگان، ایران</div>
+
+
+                <div class="contact-icon">
+
+                    <i class="bi bi-envelope"></i>
+
                 </div>
+
+
+                <div>
+
+                    <span>
+                        ایمیل
+                    </span>
+
+
+                    <strong>
+                        roshdinoweb1@gmail.com
+                    </strong>
+
+
+                </div>
+
+
             </div>
+
+
+
+
+
+            <div class="contact-info-item">
+
+
+                <div class="contact-icon">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        آدرس
+                    </span>
+
+
+                    <strong>
+                        گرگان، ایران
+                    </strong>
+
+
+                </div>
+
+
+            </div>
+
+
+
         </div>
 
-        <!-- Contact Form -->
-        <div class="contact-form-wrapper">
+
+
+
+
+        <!-- FORM -->
+
+
+        <div class="contact-form-card">
+
 
             @if (TempData["Success"] != null)
             {
-                <div class="alert alert-success">@TempData["Success"]</div>
+                <div class="contact-alert contact-alert-success">
+
+                    <div class="contact-alert-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+
+                    <div class="contact-alert-content">
+                        <strong>پیام شما ارسال شد</strong>
+                        <p>
+                            @TempData["Success"]
+                        </p>
+                    </div>
+
+                </div>
             }
-           
+
+
             <div asp-validation-summary="ModelOnly"
-                 class="alert alert-danger">
+                 class="contact-alert contact-alert-error">
             </div>
 
-            <form asp-controller="Contact" asp-action="Index" method="post">
+
+
+            <form asp-controller="Contact"
+                  asp-action="Index"
+                  method="post">
+
+
                 @Html.AntiForgeryToken()
 
-                <div class="form-group">
-                    <label asp-for="FullName">نام و نام خانوادگی</label>
-                    <input asp-for="FullName" class="form-control" />
-                </div>
+
 
                 <div class="form-group">
-                    <label asp-for="Email">ایمیل</label>
-                    <input asp-for="Email" class="form-control" type="email" />
+
+                    <label asp-for="FullName">
+                        نام و نام خانوادگی
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="FullName"
+                           class="form-control"
+                           placeholder="محمد رضایی" />
+
                 </div>
+
+
 
                 <div class="form-group">
-                    <label asp-for="Phone">شماره تماس (اختیاری)</label>
-                    <input asp-for="Phone" class="form-control" />
+
+                    <label asp-for="Email">
+                        ایمیل
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <input asp-for="Email"
+                           class="form-control"
+                           type="email"
+                           placeholder="example@gmail.com" />
+
                 </div>
+
+
+
 
                 <div class="form-group">
-                    <label asp-for="Message">پیام شما</label>
-                    <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+
+                    <label asp-for="Phone">
+                        شماره تماس
+                    </label>
+
+                    <input asp-for="Phone"
+                           class="form-control"
+                           placeholder="0912..." />
+
                 </div>
 
-                <!-- Honeypot: مخفی از دید کاربر واقعی، فقط ربات‌ها پرش می‌کنن -->
-                <div class="honeypot-field" aria-hidden="true">
-                    <label asp-for="Website">وبسایت</label>
-                    <input asp-for="Website" tabindex="-1" autocomplete="off" />
+
+
+
+                <div class="form-group">
+
+                    <label asp-for="Message">
+                        پیام شما
+                        <span class="required-star">*</span>
+                    </label>
+
+                    <textarea asp-for="Message"
+                              class="form-control"
+                              rows="5"
+                              placeholder="توضیحات پروژه شما...">
+                    </textarea>
+
+
                 </div>
 
-                <button type="submit" class="btn btn-primary">ارسال پیام</button>
+
+
+
+                <div class="honeypot-field">
+
+                    <label asp-for="Website">
+                        وبسایت
+                    </label>
+
+                    <input asp-for="Website" />
+
+                </div>
+
+
+
+                <button class="contact-submit">
+
+                    ارسال پیام
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </button>
+
+
             </form>
+
 
         </div>
 
+
     </div>
+
+
 </section>
