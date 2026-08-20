@@ -1,50 +1,152 @@
 ﻿@using DigitalMarketing.DigitalMarketing.Services.DTOs.ProductDtos
 @model List<ProductDto>
 
-<section class="section section-alt">
+<section class="portfolio-section section section-alt">
+
+    <div class="portfolio-bg portfolio-bg--one"></div>
+    <div class="portfolio-bg portfolio-bg--two"></div>
+
+
     <div class="container">
 
-        <div class="section-header">
-            <h2>نمونه محصولات و خدمات</h2>
-            <p>نگاهی به بخشی از محصولات و خدماتی که ارائه می‌دیم</p>
+
+        <div class="section-header portfolio-header">
+
+            <span class="portfolio-eyebrow">
+                <i class="bi bi-grid"></i>
+                نمونه کارها
+            </span>
+
+            <h2>
+                محصولات و خدمات
+                <span>Roshdino</span>
+            </h2>
+
+            <p>
+                نگاهی به بخشی از پروژه‌ها و خدماتی که برای رشد
+                کسب‌وکارها ارائه داده‌ایم
+            </p>
+
         </div>
+
+
 
         @if (Model != null && Model.Any())
         {
-            <div class="grid grid-3">
+
+            <div class="portfolio-grid">
+
+
                 @foreach (var product in Model)
                 {
-                    var mainImage = product.Images.FirstOrDefault(i => i.IsMain) ?? product.Images.FirstOrDefault();
 
-                    <a asp-controller="Product" asp-action="Details" asp-route-slug="@product.Slug" class="portfolio-card card">
+                    var mainImage =
+                    product.Images.FirstOrDefault(i => i.IsMain)
+                    ?? product.Images.FirstOrDefault();
+
+
+                    <a asp-controller="Product"
+                       asp-action="Details"
+                       asp-route-slug="@product.Slug"
+                       class="portfolio-card">
+
+
                         <div class="portfolio-image">
+
+
                             @if (mainImage != null)
                             {
-                                <img src="@mainImage.ImageUrl" alt="@product.Title" />
+
+                                <img src="@mainImage.ImageUrl"
+                                     alt="@product.Title" />
+
                             }
                             else
                             {
-                                <div class="portfolio-no-image">بدون تصویر</div>
+
+                                <div class="portfolio-no-image">
+                                    بدون تصویر
+                                </div>
+
                             }
+
+
+
+                            <div class="portfolio-overlay">
+
+                                <span>
+                                    مشاهده پروژه
+                                    <i class="bi bi-arrow-left"></i>
+                                </span>
+
+                            </div>
+
+
                         </div>
+
+
 
                         <div class="portfolio-content">
-                            <span class="portfolio-category">@product.ProductCategoryNAme</span>
-                            <h3>@product.Title</h3>
-                            <p>@product.ShortDescription</p>
+
+
+                            <span class="portfolio-category">
+
+                                @product.ProductCategoryNAme
+
+                            </span>
+
+
+
+                            <h3>
+                                @product.Title
+                            </h3>
+
+
+
+                            <p>
+                                @product.ShortDescription
+                            </p>
+
+
+
                         </div>
+
+
                     </a>
+
                 }
+
+
             </div>
 
-            <div class="text-center mt-8">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-outline">مشاهده همه محصولات</a>
+
+
+            <div class="portfolio-action">
+
+                <a asp-controller="Product"
+                   asp-action="Index"
+                   class="btn btn-outline">
+
+                    مشاهده همه محصولات
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
             </div>
+
         }
         else
         {
-            <p class="text-center text-muted">هنوز محصولی ثبت نشده است.</p>
+
+            <p class="text-center text-muted">
+                هنوز محصولی ثبت نشده است.
+            </p>
+
         }
 
+
     </div>
+
+
 </section>
