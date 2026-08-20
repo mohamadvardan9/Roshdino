@@ -6,68 +6,260 @@
     ViewData["Description"] = "آخرین مطالب آموزشی و اخبار حوزه دیجیتال مارکتینگ";
 }
 
-<section class="page-header">
+<section class="article-hero">
+
+    <div class="article-bg article-bg-one"></div>
+    <div class="article-bg article-bg-two"></div>
+
+
     <div class="container text-center">
-        <h1>مقالات و اخبار</h1>
-        <p>آخرین مطالب آموزشی و اخبار حوزه دیجیتال مارکتینگ</p>
+
+
+        <span class="article-tag">
+
+            <i class="bi bi-journal-text"></i>
+
+            بلاگ Roshdino
+
+        </span>
+
+
+        <h1>
+
+            مقالات و آموزش‌های دیجیتال مارکتینگ
+
+        </h1>
+
+
+        <p>
+
+            جدیدترین مطالب آموزشی، تجربه‌ها و راهکارهای رشد کسب‌وکار آنلاین
+
+        </p>
+
+
     </div>
+
 </section>
 
-<section class="section">
-    <div class="container product-page-inner">
 
-        <!-- Sidebar: Category Filter -->
-        <aside class="product-sidebar">
-            <h4>دسته‌بندی‌ها</h4>
-            <ul class="category-filter">
+
+
+<section class="section">
+
+
+    <div class="container article-layout">
+
+
+
+        <!-- Sidebar -->
+
+
+        <aside class="article-sidebar">
+
+
+            <div class="sidebar-header">
+
+                <i class="bi bi-filter"></i>
+
+                <h3>
+                    دسته‌بندی مقالات
+                </h3>
+
+
+            </div>
+
+
+
+            <ul class="article-category-list">
+
+
                 <li class="@(Model.SelectedCategoryId == null ? "active" : "")">
-                    <a asp-controller="Article" asp-action="Index">همه مقالات</a>
+
+                    <a asp-controller="Article"
+                       asp-action="Index">
+
+                        <i class="bi bi-grid"></i>
+
+                        همه مقالات
+
+                    </a>
+
                 </li>
+
+
+
                 @foreach (var category in Model.Categories)
                 {
+
                     <li class="@(Model.SelectedCategoryId == category.Id ? "active" : "")">
-                        <a asp-controller="Article" asp-action="Index" asp-route-categoryId="@category.Id">
+
+
+                        <a asp-controller="Article"
+                           asp-action="Index"
+                           asp-route-categoryId="@category.Id">
+
+
+                            <i class="bi bi-folder"></i>
+
                             @category.Name
+
+
                         </a>
+
+
                     </li>
+
                 }
+
+
             </ul>
+
+
         </aside>
 
-        <!-- Article Grid -->
-        <div class="product-list">
+
+
+
+
+        <!-- Articles -->
+
+
+        <div class="article-list">
+
+
             @if (Model.Articles.Any())
             {
-                <div class="grid grid-3">
+
+
+                <div class="article-grid">
+
+
                     @foreach (var article in Model.Articles)
                     {
-                        <a asp-controller="Article" asp-action="Details" asp-route-slug="@article.Slug" class="portfolio-card card">
-                            <div class="portfolio-image">
+
+
+                        <a asp-controller="Article"
+                           asp-action="Details"
+                           asp-route-slug="@article.Slug"
+                           class="article-card">
+
+
+                            <div class="article-image">
+
+
                                 @if (!string.IsNullOrEmpty(article.CoverImageUrl))
                                 {
-                                    <img src="@article.CoverImageUrl" alt="@article.Title" />
+
+                                    <img src="@article.CoverImageUrl"
+                                         alt="@article.Title" />
+
                                 }
                                 else
                                 {
-                                    <div class="portfolio-no-image">بدون تصویر</div>
+
+                                    <div class="article-empty-image">
+
+                                        <i class="bi bi-image"></i>
+
+                                    </div>
+
                                 }
+
+
+                                <div class="article-category">
+
+                                    @article.ArticleCategoryName
+
+                                </div>
+
+
                             </div>
 
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">@article.ArticleCategoryName</span>
-                                <h3>@article.Title</h3>
-                                <p>@article.Summary</p>
-                                <div class="article-date">@article.PublishedAt.ToString("yyyy/MM/dd")</div>
+
+
+
+                            <div class="article-content">
+
+
+                                <h3>
+
+                                    @article.Title
+
+                                </h3>
+
+
+
+                                <p>
+
+                                    @article.Summary
+
+                                </p>
+
+
+
+
+                                <div class="article-meta">
+
+
+                                    <span>
+
+                                        <i class="bi bi-calendar3"></i>
+
+                                        @article.PublishedAt.ToString("yyyy/MM/dd")
+
+                                    </span>
+
+
+                                </div>
+
+
+
                             </div>
+
+
+
                         </a>
+
+
                     }
+
+
                 </div>
+
+
             }
+
             else
             {
-                <p class="text-center text-muted">مقاله‌ای در این دسته‌بندی یافت نشد.</p>
+
+
+                <div class="article-empty">
+
+
+                    <i class="bi bi-journal-x"></i>
+
+
+                    <h3>
+                        مقاله‌ای پیدا نشد
+                    </h3>
+
+
+                    <p>
+                        در این دسته‌بندی هنوز مقاله‌ای منتشر نشده است.
+                    </p>
+
+
+                </div>
+
+
             }
+
+
         </div>
 
+
     </div>
+
+
 </section>
