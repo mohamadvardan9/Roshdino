@@ -11,71 +11,283 @@
     }
 }
 
-<section class="section product-details">
+@* @{
+    ViewData["Title"] = Model.Title;
+
+    var mainImage =
+        Model.Images.FirstOrDefault(i => i.IsMain)
+        ?? Model.Images.FirstOrDefault();
+} *@
+
+<section class="product-detail-hero">
+
+    <div class="product-detail-bg product-detail-bg-one"></div>
+    <div class="product-detail-bg product-detail-bg-two"></div>
+
     <div class="container">
 
-        <div class="breadcrumb">
-            <a asp-controller="Home" asp-action="Index">خانه</a> /
-            <a asp-controller="Product" asp-action="Index">محصولات</a> /
-            <span>@Model.Title</span>
+        <!-- Breadcrumb -->
+
+        <div class="product-breadcrumb">
+
+            <a asp-controller="Home"
+               asp-action="Index">
+                خانه
+            </a>
+
+            <i class="bi bi-chevron-left"></i>
+
+            <a asp-controller="Product"
+               asp-action="Index">
+                محصولات
+            </a>
+
+            <i class="bi bi-chevron-left"></i>
+
+            <span>
+                @Model.Title
+            </span>
+
         </div>
 
-        <div class="product-details-inner">
 
-            <!-- Gallery -->
+        <!-- Product -->
+
+        <div class="product-detail-grid">
+
+
+            <!-- =========================
+                 Gallery
+            ========================== -->
+
             <div class="product-gallery">
+
+
                 <div class="product-gallery-main">
+
                     @if (mainImage != null)
                     {
-                        <img id="main-product-image" src="@mainImage.ImageUrl" alt="@Model.Title" />
+                        <img id="main-product-image"
+                             src="@mainImage.ImageUrl"
+                             alt="@Model.Title" />
                     }
                     else
                     {
-                        <div class="portfolio-no-image">بدون تصویر</div>
+                        <div class="product-gallery-empty">
+
+                            <i class="bi bi-image"></i>
+
+                            <span>
+                                بدون تصویر
+                            </span>
+
+                        </div>
                     }
+
                 </div>
+
+
 
                 @if (Model.Images.Count > 1)
                 {
                     <div class="product-gallery-thumbs">
+
                         @foreach (var image in Model.Images)
                         {
-                            <img src="@image.ImageUrl" alt="@Model.Title"
-                                 class="product-thumb @(image.IsMain ? "active" : "")"
-                                 onclick="document.getElementById('main-product-image').src = this.src;
-                            document.querySelectorAll('.product-thumb').forEach(t=> t.classList.remove('active'));
-                            this.classList.add('active');" />
+                            <button type="button"
+                                    class="product-thumb @(image.IsMain ? "active" : "")"
+                                    onclick="changeProductImage(this)">
+
+                                <img src="@image.ImageUrl"
+                                     alt="@Model.Title" />
+
+                            </button>
                         }
+
                     </div>
                 }
+
+
             </div>
 
-            <!-- Info -->
+
+
+            <!-- =========================
+                 Product Info
+            ========================== -->
+
             <div class="product-info">
-                <span class="portfolio-category">@Model.ProductCategoryNAme</span>
-                <h1>@Model.Title</h1>
+
+
+                <span class="product-detail-category">
+
+                    <i class="bi bi-grid"></i>
+
+                    @Model.ProductCategoryNAme
+
+                </span>
+
+
+
+                <h1>
+                    @Model.Title
+                </h1>
+
+
+
+                <p class="product-short-desc">
+
+                    @Model.ShortDescription
+
+                </p>
+
+
 
                 @if (Model.Price.HasValue)
                 {
-                    <div class="product-details-price">@Model.Price.Value.ToString("N0") تومان</div>
+                    <div class="product-detail-price">
+
+                        <span class="price-label">
+                            قیمت
+                        </span>
+
+                        <strong>
+                            @Model.Price.Value.ToString("N0")
+                        </strong>
+
+                        <span class="price-currency">
+                            تومان
+                        </span>
+
+                    </div>
                 }
 
-                <p class="product-short-desc">@Model.ShortDescription</p>
 
-                <a asp-controller="Contact" asp-action="Index" class="btn btn-primary">
-                    درخواست مشاوره برای این محصول
-                </a>
+
+                <div class="product-detail-divider"></div>
+
+
+
+                <div class="product-detail-actions">
+
+                    <a asp-controller="Contact"
+                       asp-action="Index"
+                       class="product-primary-btn">
+
+                        <span>
+                            درخواست مشاوره
+                        </span>
+
+                        <i class="bi bi-arrow-left"></i>
+
+                    </a>
+
+
+                    <a asp-controller="Product"
+                       asp-action="Index"
+                       class="product-back-btn">
+
+                        <i class="bi bi-grid"></i>
+
+                        مشاهده محصولات
+
+                    </a>
+
+                </div>
+
+
+
+                <div class="product-trust">
+
+                    <div>
+                        <i class="bi bi-shield-check"></i>
+                        <span>مشاوره تخصصی</span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-headset"></i>
+                        <span>پشتیبانی</span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-lightning-charge"></i>
+                        <span>اجرای سریع</span>
+                    </div>
+
+                </div>
+
+
             </div>
 
-        </div>
-
-        <!-- Full Description -->
-        <div class="product-full-desc">
-            <h3>توضیحات کامل</h3>
-            <div class="product-description-content">
-                @Html.Raw(Model.Description)
-            </div>
         </div>
 
     </div>
+
 </section>
+
+
+
+<!-- =========================
+     Description
+========================== -->
+
+<section class="section product-description-section">
+
+    <div class="container">
+
+        <div class="product-description-card">
+
+            <div class="product-description-header">
+
+                <span class="description-tag">
+
+                    <i class="bi bi-file-text"></i>
+
+                    درباره این محصول
+
+                </span>
+
+                <h2>
+                    توضیحات کامل
+                </h2>
+
+            </div>
+
+
+            <div class="product-description-content">
+
+                @Html.Raw(Model.Description)
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+        function changeProductImage(thumb) {
+            
+        const mainImage =
+            document.getElementById("main-product-image");
+
+        if (!mainImage) return;
+
+        mainImage.src =
+            thumb.querySelector("img").src;
+
+
+        document
+            .querySelectorAll(".product-thumb")
+            .forEach(item => {
+
+                item.classList.remove("active");
+
+            });
+
+
+        thumb.classList.add("active");
+    }
+</script>
