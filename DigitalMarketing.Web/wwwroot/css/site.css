@@ -4311,53 +4311,346 @@ ul {
             font-size: 1.125rem;
         }
 
-    /* ===================== Product List Page ===================== */
-    .product-page-inner {
-        display: grid;
-        grid-template-columns: 240px 1fr;
-        gap: 3rem;
+
+
+
+
+
+/* ========================================================= */
+
+/* ========================================================= */
+
+
+
+
+
+/* ===================== Product List Page ===================== */
+
+
+.product-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 150px 0 100px;
+    background: linear-gradient( 135deg, #ffffff, #faf7ff );
+}
+
+
+
+.product-tag {
+    display: inline-flex;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    background: rgba(139,92,246,.1);
+    color: #7c3aed;
+    font-weight: 800;
+    font-size: .85rem;
+}
+
+
+
+.product-hero h1 {
+    margin-top: 25px;
+    font-size: clamp(2.3rem,5vw,3.8rem);
+    font-weight: 950;
+    color: #111827;
+}
+
+
+
+.product-hero h1 {
+    line-height: 1.5;
+}
+
+
+
+.product-hero p {
+    max-width: 650px;
+    margin: 20px auto;
+    color: #6b7280;
+    line-height: 2;
+}
+
+
+
+
+/*  Layout  */
+
+
+.product-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 35px;
+    align-items: start;
+}
+
+
+
+
+
+/*  Sidebar  */
+
+
+.product-sidebar {
+    padding: 25px;
+    border-radius: 28px;
+    background: white;
+    border: 1px solid #eee;
+    box-shadow: 0 20px 60px rgba(0,0,0,.06);
+    position: sticky;
+    top: 110px;
+}
+
+
+
+.sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+
+
+    .sidebar-title i {
+        color: #8b5cf6;
     }
 
-    .product-sidebar h4 {
-        font-weight: 700;
-        margin-bottom: 1rem;
+
+
+.product-category-list {
+    list-style: none;
+    padding: 0;
+}
+
+
+
+    .product-category-list li {
+        margin-bottom: 10px;
     }
 
-    .category-filter li {
-        margin-bottom: 0.5rem;
+
+
+    .product-category-list a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 16px;
+        border-radius: 15px;
+        text-decoration: none;
+        color: #4b5563;
+        transition: .3s;
     }
 
-    .category-filter a {
-        display: block;
-        padding: 0.6rem 1rem;
-        border-radius: var(--radius-md);
-        color: var(--color-text-muted);
-        transition: var(--transition);
-    }
 
-        .category-filter a:hover {
-            background: var(--color-bg-alt);
+
+        .product-category-list li.active a,
+        .product-category-list a:hover {
+            background: linear-gradient( 135deg, #6366f1, #8b5cf6 );
+            color: white;
         }
 
-    .category-filter li.active a {
-        background: var(--color-primary);
-        color: #fff;
+
+
+
+
+
+
+/*  Product Grid  */
+
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 25px;
+}
+
+
+
+
+.product-card {
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #eee;
+    transition: .4s;
+}
+
+
+
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 70px rgba(99,102,241,.15);
     }
 
-    .product-price {
-        margin-top: 0.75rem;
-        font-weight: 700;
-        color: var(--color-primary);
+
+
+
+.product-image {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: .5s;
     }
 
-    @media (max-width: 768px) {
-        .product-page-inner {
-            grid-template-columns: 1fr;
-        }
+
+
+.product-card:hover img {
+    transform: scale(1.08);
+}
+
+
+
+
+.product-category {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    color: #7c3aed;
+    padding: 7px 15px;
+    border-radius: 50px;
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+
+
+.product-content {
+    padding: 22px;
+}
+
+
+
+    .product-content h3 {
+        font-size: 1.15rem;
+        font-weight: 900;
+        color: #111827;
     }
+
+
+
+    .product-content p {
+        color: #6b7280;
+        font-size: .9rem;
+        line-height: 2;
+    }
+
+
+
+
+
+.product-price {
+    margin-top: 20px;
+    padding: 12px 15px;
+    border-radius: 15px;
+    background: rgba(139,92,246,.08);
+    color: #7c3aed;
+    font-weight: 900;
+}
+
+
+
+    .product-price span {
+        font-size: .8rem;
+    }
+
+
+
+
+
+
+.product-no-image,
+.product-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    color: #9ca3af;
+}
+
+
+
+
+.product-empty {
+    height: 300px;
+}
+
+
+
+    .product-empty i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+
+
+
+/*  Responsive  */
+
+
+@media(max-width:1000px) {
+
+
+    .product-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+
+    .product-sidebar {
+        position: static;
+    }
+
+
+
+    .product-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+
+
+@media(max-width:600px) {
+
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* ========================================================= */
+
+/* ========================================================= */
+
+
+
+
+
 
     /* ===================== Breadcrumb ===================== */
-    .breadcrumb {
+/*    .breadcrumb {
         margin-bottom: 2rem;
         font-size: 0.875rem;
         color: var(--color-text-light);
@@ -4369,9 +4662,14 @@ ul {
 
             .breadcrumb a:hover {
                 color: var(--color-primary);
-            }
+            }*/
 
-    /* ===================== Product Details ===================== */
+
+
+
+/* ===================== Product Details ===================== */
+
+
     .product-details-inner {
         display: grid;
         grid-template-columns: 1fr 1fr;

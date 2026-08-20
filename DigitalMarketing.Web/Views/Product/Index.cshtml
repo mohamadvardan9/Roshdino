@@ -6,73 +6,291 @@
     ViewData["Description"] = "مجموعه‌ای از بهترین محصولات و خدماتی که ارائه می‌دیم";
 }
 
-<section class="page-header">
+<section class="product-hero">
+
+
+    <div class="product-bg product-bg-one"></div>
+    <div class="product-bg product-bg-two"></div>
+
+
+
     <div class="container text-center">
-        <h1>محصولات و خدمات</h1>
-        <p>مجموعه‌ای از بهترین محصولات و خدماتی که ارائه می‌دیم</p>
+
+
+        <span class="product-tag">
+
+            <i class="bi bi-grid"></i>
+
+            محصولات Roshdino
+
+        </span>
+
+
+
+        <h1>
+
+            راهکارهای دیجیتال برای رشد کسب‌وکار شما
+
+        </h1>
+
+
+        <p>
+
+            مجموعه‌ای از خدمات و محصولات طراحی شده برای توسعه برند شما در فضای آنلاین
+
+        </p>
+
+
     </div>
+
+
 </section>
 
-<section class="section">
-    <div class="container product-page-inner">
 
-        <!-- Sidebar: Category Filter -->
+
+
+<section class="section">
+
+
+    <div class="container product-layout">
+
+
+
+        <!-- Category -->
+
         <aside class="product-sidebar">
-            <h4>دسته‌بندی‌ها</h4>
-            <ul class="category-filter">
+
+
+            <div class="sidebar-title">
+
+                <i class="bi bi-filter"></i>
+
+                <h3>
+                    دسته‌بندی‌ها
+                </h3>
+
+
+            </div>
+
+
+
+            <ul class="product-category-list">
+
+
                 <li class="@(Model.SelectedCategoryId == null ? "active" : "")">
-                    <a asp-controller="Product" asp-action="Index">همه محصولات</a>
+
+
+                    <a asp-controller="Product"
+                       asp-action="Index">
+
+
+                        <i class="bi bi-grid-fill"></i>
+
+                        همه محصولات
+
+
+                    </a>
+
+
                 </li>
+
+
+
                 @foreach (var category in Model.Categories)
                 {
+
+
                     <li class="@(Model.SelectedCategoryId == category.Id ? "active" : "")">
-                        <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@category.Id">
+
+
+                        <a asp-controller="Product"
+                           asp-action="Index"
+                           asp-route-categoryId="@category.Id">
+
+
+                            <i class="bi bi-folder"></i>
+
                             @category.Name
+
+
                         </a>
+
+
                     </li>
+
+
                 }
+
+
             </ul>
+
+
         </aside>
 
-        <!-- Product Grid -->
+
+
+
+
+
+
+        <!-- Products -->
+
+
         <div class="product-list">
+
+
             @if (Model.Products.Any())
             {
-                <div class="grid grid-3">
+
+
+                <div class="product-grid">
+
+
                     @foreach (var product in Model.Products)
                     {
-                        var mainImage = product.Images.FirstOrDefault(i => i.IsMain) ?? product.Images.FirstOrDefault();
 
-                        <a asp-controller="Product" asp-action="Details" asp-route-slug="@product.Slug" class="portfolio-card card">
-                            <div class="portfolio-image">
+
+                        var mainImage =
+                        product.Images.FirstOrDefault(i => i.IsMain)
+                        ??
+                        product.Images.FirstOrDefault();
+
+
+
+                        <a asp-controller="Product"
+                           asp-action="Details"
+                           asp-route-slug="@product.Slug"
+                           class="product-card">
+
+
+
+                            <div class="product-image">
+
+
                                 @if (mainImage != null)
                                 {
-                                    <img src="@mainImage.ImageUrl" alt="@product.Title" />
+
+                                    <img src="@mainImage.ImageUrl"
+                                         alt="@product.Title" />
+
                                 }
                                 else
                                 {
-                                    <div class="portfolio-no-image">بدون تصویر</div>
+
+                                    <div class="product-no-image">
+
+                                        <i class="bi bi-image"></i>
+
+                                    </div>
+
                                 }
+
+
+
+                                <span class="product-category">
+
+
+                                    @product.ProductCategoryNAme
+
+
+                                </span>
+
+
+
                             </div>
 
-                            <div class="portfolio-content">
-                                <span class="portfolio-category">@product.ProductCategoryNAme</span>
-                                <h3>@product.Title</h3>
-                                <p>@product.ShortDescription</p>
+
+
+
+
+
+                            <div class="product-content">
+
+
+
+                                <h3>
+
+                                    @product.Title
+
+                                </h3>
+
+
+
+
+                                <p>
+
+                                    @product.ShortDescription
+
+                                </p>
+
+
+
+
                                 @if (product.Price.HasValue)
                                 {
-                                    <div class="product-price">@product.Price.Value.ToString("N0") تومان</div>
+
+                                    <div class="product-price">
+
+
+                                        @product.Price.Value.ToString("N0")
+
+                                        <span>
+                                            تومان
+                                        </span>
+
+
+                                    </div>
+
+
                                 }
+
+
+
                             </div>
+
+
+
                         </a>
+
+
                     }
+
+
                 </div>
+
+
             }
             else
             {
-                <p class="text-center text-muted">محصولی در این دسته‌بندی یافت نشد.</p>
+
+
+                <div class="product-empty">
+
+
+                    <i class="bi bi-box-seam"></i>
+
+
+                    <h3>
+                        محصولی وجود ندارد
+                    </h3>
+
+
+                    <p>
+                        در این دسته‌بندی محصولی ثبت نشده است.
+                    </p>
+
+
+                </div>
+
+
             }
+
+
+
         </div>
 
+
     </div>
+
+
 </section>
