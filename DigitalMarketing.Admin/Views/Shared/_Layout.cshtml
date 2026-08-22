@@ -303,26 +303,56 @@
                 </div>
             </div>
 
-                <!-- =========================
+
+            <!-- =========================
+                Change Password
+            ========================= -->
+
+            <a asp-controller="Account"
+               asp-action="ChangePassword"
+               class="support-boxes password-box">
+
+                <div class="support-icon password-icon">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+
+                <div class="support-content">
+                    <span class="support-title">
+                        تغییر رمز عبور
+                    </span>
+
+                    <small class="support-subtitle">
+                        افزایش امنیت حساب
+                    </small>
+                </div>
+
+                <div class="support-arrow">
+                    <i class="bi bi-chevron-left"></i>
+                </div>
+
+            </a>
+
+
+            <!-- =========================
                      LOGOUT
-                ========================== -->
+            ========================== -->
 
-                <div class="sidebar-divider"></div>
+            <div class="sidebar-divider"></div>
 
-                <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form">
-                    @Html.AntiForgeryToken()
+            <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form">
+                @Html.AntiForgeryToken()
 
-                    <button type="submit" class="logout-item">
+                <button type="submit" class="logout-item">
 
-                        <div class="logout-left">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>خروج از حساب</span>
-                        </div>
+                    <div class="logout-left">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>خروج از حساب</span>
+                    </div>
 
-                        <i class="bi bi-chevron-left"></i>
+                    <i class="bi bi-chevron-left"></i>
 
-                    </button>
-                </form>
+                </button>
+            </form>
 
         </aside>
 

@@ -81,5 +81,48 @@ namespace DigitalMarketing.Admin.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
+
+
+
+
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordDto());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+        {
+            // یوزر آیدی رو از Claim کاربر لاگین‌شده می‌گیریم، نه از فرم
+            // این جلوی این رو می‌گیره که کسی بخواد پسورد یوزر دیگه‌ای رو با دستکاری فرم عوض کنه
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+                return RedirectToAction(nameof(Login));
+
+
+
+            dto.UserId = userId;
+
+            var result = await _authService.ChangePasswordAsync(dto);
+            
+            if(!result.Success)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error);
+
+                return View(dto);
+            }
+
+
+
+            TempData["Success"] = "رمز عبور با موفقیت تغییر یافت.";
+            return RedirectToAction(nameof(ChangePassword));
+
+        }
+
     }
 }

@@ -59,7 +59,7 @@ namespace DigitalMarketing.Services.DigitalMarketing.Services.Implementations
             if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PassHash))
                 return ServiceResult.Fail("رمز فعلی اشتباه است");
 
-            user.PassHash = BCrypt.Net.BCrypt.HashPassword(dto.CurrentPassword);
+            user.PassHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
 
 
             _repository.Update(user);
