@@ -1,3 +1,38 @@
+
+# Build results
 bin/
 obj/
+
+
+# Visual Studio
 .vs/
+*.user
+*.suo
+
+
+# Logs
+logs/
+
+
+# User Secrets (اینا از قبل بیرون از پروژه‌ان، ولی برای احتیاط)
+secrets.json
+
+
+# Uploads (اگه یه‌وقت داخل wwwroot افتاد)
+wwwroot/uploads/
+
+
+# appsettings محیطی که ممکنه اطلاعات حساس داشته باشن
+# (فقط اگه پسورد واقعی توشون گذاشتی، نه اگه از User Secrets/Env Variable استفاده می‌کنی)
+# appsettings.Production.json
+
+
+# NuGet
+*.nupkg
+packages/
+
+
+
+# macOS/Windows سیستم فایل
+.DS_Store
+Thumbs.db

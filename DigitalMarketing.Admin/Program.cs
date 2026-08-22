@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Reflection;
 
 
@@ -25,6 +26,27 @@ using System.Reflection;
 ////////////////////////////*/
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+// <<<   Serilog Configuration   >>> 
+
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .WriteTo.File(
+            path: "logs/log-.txt",
+            rollingInterval: RollingInterval.Day,
+            retainedFileCountLimit: 30,
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}");
+
+    if (context.HostingEnvironment.IsDevelopment())
+    {
+        configuration.WriteTo.Console();
+    }
+});
+
+
 
 
 // <<<   Database Options   >>> //
@@ -153,6 +175,9 @@ builder.Services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
 var app = builder.Build();
 
+// <<< Serilog >>> //
+
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
