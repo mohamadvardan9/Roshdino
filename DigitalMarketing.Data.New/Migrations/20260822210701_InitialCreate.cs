@@ -12,6 +12,24 @@ namespace DigitalMarketing.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AdminUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PassHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastLoginAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ArticleCategories",
                 columns: table => new
                 {
@@ -26,6 +44,26 @@ namespace DigitalMarketing.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ArticleCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContactMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactMessages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,6 +165,12 @@ namespace DigitalMarketing.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AdminUsers_UserName",
+                table: "AdminUsers",
+                column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ArticleCategories_Slug",
                 table: "ArticleCategories",
                 column: "Slug",
@@ -170,7 +214,13 @@ namespace DigitalMarketing.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AdminUsers");
+
+            migrationBuilder.DropTable(
                 name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "ContactMessages");
 
             migrationBuilder.DropTable(
                 name: "ProductImages");
