@@ -188,10 +188,9 @@
                             <div class="edit-editor-container">
 
                                 <textarea asp-for="Content"
-                                          class="edit-content-textarea"
-                                          placeholder="محتوای مقاله را وارد کنید..."
-                                          data-val="true"
-                                          data-val-required="توضیحات کامل مقاله الزامی است"></textarea>
+                                          id="ContentEditor"
+                                          class="edit-content-textarea">
+                                </textarea>
 
                             </div>
 
@@ -518,7 +517,19 @@
 
     <partial name="_ValidationScriptsPartial" />
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+
     <script>
+
+
+        ClassicEditor
+        .create(document.querySelector('#ContentEditor'))
+        .catch(error => {
+        console.error(error);
+        });
+
+
 
         const coverInput = document.getElementById("newCoverImage");
         const coverPreview = document.getElementById("coverPreview");
