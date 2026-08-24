@@ -218,6 +218,10 @@
                                 آخرین آپدیت
                             </th>
 
+                            <th>
+                                ساخته شده
+                            </th>
+
                             <th class="actions-column">
                                 عملیات
                             </th>
@@ -287,6 +291,17 @@
                                             @category.UpdatedAt.Value.ToString("yyyy/MM/dd")
                                         </span>
                                     }
+
+                                </td>
+
+
+                                <!-- Create Date -->
+
+                                <td data-label="ساخته شده">
+
+                                    <span class="updated-date">
+                                        @category.CreatedAt.ToString("yyyy/MM/dd")
+                                    </span>
 
                                 </td>
 

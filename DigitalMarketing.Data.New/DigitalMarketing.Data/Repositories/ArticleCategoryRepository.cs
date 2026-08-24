@@ -18,7 +18,7 @@ namespace DigitalMarketing.DigitalMarketing.Data.Repositories
 
         public async Task<List<ArticleCategory>> GetAllAsync()
             => await _dbContext.ArticleCategories
-            .OrderBy(x => x.Name)
+            .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
 
         public async Task<ArticleCategory?> GetByIdAsync(int id)
