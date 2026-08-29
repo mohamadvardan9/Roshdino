@@ -9,6 +9,6 @@ namespace DigitalMarketing.Web.Models
         public List<ProductCategoryDto> Categories { get; set; } = new();
 
         // برای نمایش اینکه الان کدوم دسته‌بندی فیلتر شده (برای هایلایت تو یو آی)تمام ;)
-        public int? SelectedCategoryId { get; set; }
+        public string? SelectedCategorySlug { get; set; }
     }
 }

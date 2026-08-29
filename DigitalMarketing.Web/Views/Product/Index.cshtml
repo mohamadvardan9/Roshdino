@@ -77,7 +77,7 @@
             <ul class="product-category-list">
 
 
-                <li class="@(Model.SelectedCategoryId == null ? "active" : "")">
+                <li class="@(Model.SelectedCategorySlug == null ? "active" : "")">
 
 
                     <a asp-controller="Product"
@@ -100,12 +100,12 @@
                 {
 
 
-                    <li class="@(Model.SelectedCategoryId == category.Id ? "active" : "")">
+                    <li class="@(Model.SelectedCategorySlug == category.Slug ? "active" : "")">
 
 
                         <a asp-controller="Product"
-                           asp-action="Index"
-                           asp-route-categoryId="@category.Id">
+                           asp-action="Category"
+                           asp-route-slug="@category.Slug">
 
 
                             <i class="bi bi-folder"></i>

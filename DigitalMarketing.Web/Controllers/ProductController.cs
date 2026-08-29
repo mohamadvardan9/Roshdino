@@ -1,4 +1,5 @@
-﻿using DigitalMarketing.DigitalMarketing.Services.Interfaces;
+﻿using DigitalMarketing.DigitalMarketing.Services.Implementations;
+using DigitalMarketing.DigitalMarketing.Services.Interfaces;
 using DigitalMarketing.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,25 +18,71 @@ namespace DigitalMarketing.Web.Controllers
 
         // GET: /products
         //GET: /products?categoryId=3
-        [Route("products")]
-        public async Task <IActionResult> Index(int? categoryId)
-        {
-            var products = categoryId.HasValue
-                ? await _productService.GetByCategoryAsync(categoryId.Value)
-                : await _productService.GetPublishedAsync();
+        //[Route("products")]
+        //public async Task <IActionResult> Index(int? categoryId)
+        //{
+        //    var products = categoryId.HasValue
+        //        ? await _productService.GetByCategoryAsync(categoryId.Value)
+        //        : await _productService.GetPublishedAsync();
 
-            var categoroes = await _productCategoryService.GetAllAsync();
+        //    var categoroes = await _productCategoryService.GetAllAsync();
+
+        //    var viewModel = new ProductListViewModel
+        //    {
+        //        Products = products,
+        //        Categories = categoroes,
+        //        SelectedCategoryId = categoryId
+        //    };
+
+
+        //    return View(viewModel);
+        //}
+
+
+        // GET: /prroducts
+        [Route("products")]
+        public async Task<IActionResult> Index()
+        {
+            var products = await _productService.GetPublishedAsync();
+            var categories = await _productCategoryService.GetAllAsync();
 
             var viewModel = new ProductListViewModel
             {
                 Products = products,
-                Categories = categoroes,
-                SelectedCategoryId = categoryId
+                Categories = categories,
+                SelectedCategorySlug = null
             };
 
 
             return View(viewModel);
         }
+
+
+
+
+        // GET: /products/category/{slug}
+        [Route("products/category/{slug}")]
+        public async Task<IActionResult> Category(string slug)
+        {
+            var category = await _productCategoryService.GetBySlugAsync(slug);
+            if (category == null)
+                return NotFound();
+
+            var products = await _productService.GetByCategoryAsync(category.Id);
+            var categories = await _productCategoryService.GetAllAsync();
+
+            var viewModel = new ProductListViewModel
+            {
+                Products = products,
+                Categories = categories,
+                SelectedCategorySlug = slug
+            };
+
+
+            return View("Index", viewModel);
+        }
+
+
 
 
 
