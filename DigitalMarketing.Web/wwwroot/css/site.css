@@ -4437,6 +4437,8 @@ ul {
         text-decoration: none;
         color: #4b5563;
         transition: .3s;
+        white-space:nowrap;
+        overflow: hidden;
     }
 
 
@@ -4448,6 +4450,13 @@ ul {
         }
 
 
+        .product-category-list a span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
 
 
 
