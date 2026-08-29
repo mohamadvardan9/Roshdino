@@ -16,27 +16,50 @@ namespace DigitalMarketing.Web.Controllers
 
 
 
-        // GET: /articles
-        // GET: /articles?categoryId=2
-        [Route("articles")]
-        public async Task<IActionResult> Index(int? categoryId)
-        {
-            // باید خوانده شود
-            var articles = categoryId.HasValue
-                ? await _articleService.GetByCategoryAsync(categoryId.Value)
-                : await _articleService.GetPublishedAsync();
 
+
+        // GET: /articles
+        [Route("articles")]
+        public async Task<IActionResult> Index()
+        {
+            var articles = await _articleService.GetPublishedAsync();
             var categories = await _articleCategoryService.GetAllAsync();
 
             var viewModel = new ArticleListViewModel
             {
                 Articles = articles,
                 Categories = categories,
-                SelectedCategoryId = categoryId
+                SelectedCategorySlug = null
             };
 
             return View(viewModel);
         }
+
+
+
+
+        // GET: / articles/category/{slug}
+        [Route("articles/category/{slug}")]
+        public async Task<IActionResult> Category(string slug)
+        {
+            var category = await _articleCategoryService.GetBySlugAsync(slug);
+
+            if (category == null)
+                return NotFound();
+
+            var articles = await _articleService.GetByCategoryAsync(category.Id);
+            var categories = await _articleCategoryService.GetAllAsync();
+
+            var viewModel = new ArticleListViewModel
+            {
+                Articles = articles,
+                Categories = categories,
+                SelectedCategorySlug = slug
+            };
+
+            return View("Index", viewModel); // از همون View قبلی (Index) استفاده می‌کنیم
+        }
+
 
 
 

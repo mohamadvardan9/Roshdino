@@ -7,6 +7,6 @@ namespace DigitalMarketing.Web.Models
     {
         public List<ArticleDto> Articles { get; set; } = new();
         public List<ArticleCategoryDto> Categories { get; set; } = new();
-        public int? SelectedCategoryId { get; set; }
+        public string? SelectedCategorySlug { get; set; }
     }
 }
