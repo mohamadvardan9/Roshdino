@@ -16,29 +16,6 @@ namespace DigitalMarketing.Web.Controllers
         }
 
 
-        // GET: /products
-        //GET: /products?categoryId=3
-        //[Route("products")]
-        //public async Task <IActionResult> Index(int? categoryId)
-        //{
-        //    var products = categoryId.HasValue
-        //        ? await _productService.GetByCategoryAsync(categoryId.Value)
-        //        : await _productService.GetPublishedAsync();
-
-        //    var categoroes = await _productCategoryService.GetAllAsync();
-
-        //    var viewModel = new ProductListViewModel
-        //    {
-        //        Products = products,
-        //        Categories = categoroes,
-        //        SelectedCategoryId = categoryId
-        //    };
-
-
-        //    return View(viewModel);
-        //}
-
-
         // GET: /prroducts
         [Route("products")]
         public async Task<IActionResult> Index()
