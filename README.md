@@ -32,6 +32,37 @@ The public website is focused on content presentation, while the Admin applicati
 
 ---
 
+
+## 📸 Screenshots
+
+### Public Website
+
+#### Homepage
+
+![Roshdino Homepage](docs/screenshots/home.png)
+
+#### Services
+
+![Roshdino Services](docs/screenshots/services.png)
+
+#### Articles
+
+![Roshdino Articles](docs/screenshots/articles.png)
+
+### Admin Panel
+
+#### Dashboard
+
+![Roshdino Admin Dashboard](docs/screenshots/admin-dashboard.png)
+
+#### Content Management
+
+![Roshdino Admin Content Management](docs/screenshots/admin-content.png)
+
+
+---
+
+
 ## ✨ Features
 
 ### 🌐 Public Website
