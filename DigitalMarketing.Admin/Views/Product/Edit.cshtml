@@ -215,7 +215,9 @@
                                       rows="9"
                                       placeholder="توضیحات کامل محصول..."
                                       data-val="true"
-                                      data-val-required="توضیحات محصول الزامی است"></textarea>
+                                      data-val-required="توضیحات محصول الزامی است"
+                                      id="DescriptionEditor">
+                            </textarea>
 
 
                             <span asp-validation-for="Description"
@@ -621,8 +623,20 @@
 
     <partial name="_ValidationScriptsPartial" />
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
 
     <script>
+
+
+        ClassicEditor
+        .create(document.querySelector('#DescriptionEditor'))
+        .catch(error => {
+        console.error(error);
+        });
+
+
+
 
         const imageInput =
             document.getElementById("newProductImages");
