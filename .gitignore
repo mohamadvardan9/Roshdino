@@ -4,26 +4,51 @@ bin/
 obj/
 
 
+# Rider / VS Code
+.idea/
+.vscode/
+
+
 # Visual Studio
 .vs/
 *.user
 *.suo
 
 
+# Visual Studio cache
+*.cache
+*.dbmdl
+
+
 # Logs
 logs/
 
 
-# User Secrets (اینا از قبل بیرون از پروژه‌ان، ولی برای احتیاط)
+# Coverage reports
+coverage/
+coverage-report/
+
+
+# EF Core local database
+*.mdf
+*.ldf
+
+
+# Publish output
+publish/
+
+
+# DotNet
+artifacts/
+
+
+# User Secrets
 secrets.json
 
-
-# Uploads (اگه یه‌وقت داخل wwwroot افتاد)
+# Uploads
 wwwroot/uploads/
 
-
-# appsettings محیطی که ممکنه اطلاعات حساس داشته باشن
-# (فقط اگه پسورد واقعی توشون گذاشتی، نه اگه از User Secrets/Env Variable استفاده می‌کنی)
+# appsettings
 # appsettings.Production.json
 
 
@@ -32,7 +57,6 @@ wwwroot/uploads/
 packages/
 
 
-
-# macOS/Windows سیستم فایل
+# macOS/Windows system files
 .DS_Store
 Thumbs.db
